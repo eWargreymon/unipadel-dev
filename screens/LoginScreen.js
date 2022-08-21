@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image
+  Image,
 } from "react-native";
 
 import React, { useState, useEffect } from "react";
@@ -13,6 +13,7 @@ import { auth } from "../firebase";
 import { colores } from "../colors";
 
 import { useNavigation } from "@react-navigation/core";
+import Triangles from "../components/triangles";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -48,17 +49,22 @@ const LoginScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.imageContainer}>
-        <Image style={{resizeMode: "contain", width: 200, height: 200}} source={require("../assets/images/logo/logo1.png")} />
+        <Image
+          style={{ resizeMode: "contain", width: 150, height: 150 }}
+          source={require("../assets/images/logo/logo1.png")}
+        />
       </View>
       <View style={styles.inputContainer}>
+        <Text style={styles.label}>Usuario</Text>
         <TextInput
-          placeholder="Email"
+          placeholder="Correo de acceso..."
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
+        <Text style={styles.label}>Contraseña</Text>
         <TextInput
-          placeholder="Password"
+          placeholder="Contraseña de acceso..."
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
@@ -66,18 +72,32 @@ const LoginScreen = () => {
         />
       </View>
 
-      <View style={styles.linksContainer}>
-        <Text style={styles.link} onPress={() => {navigation.replace("Register")}}>
-          ¿No tienes cuenta? Regístrate gratis
-        </Text>
-        <Text style={styles.link} onPress={() => {navigation.replace("Home")}}>Continuar como invitado</Text>
-      </View>
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Acceder</Text>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.linksContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.replace("Register");
+          }}
+        >
+          <Text style={styles.link}>¿No tienes cuenta? ¡Únete gratis!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.replace("Home");
+          }}
+        >
+          <Text style={[styles.link, { textAlign: "right" }]}>
+            Continuar como invitado
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <Triangles></Triangles>
     </KeyboardAvoidingView>
   );
 };
@@ -87,9 +107,10 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#fff",
+    paddingTop: 50,
   },
   inputContainer: {
     width: "80%",
@@ -103,12 +124,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "lightgrey",
   },
+  label: {
+    color: colores.darkblue,
+    fontWeight: "bold",
+    fontSize: 20,
+    marginTop: 10,
+  },
   linksContainer: {
     marginTop: 20,
     width: "80%",
+    alignItems: "center"
   },
   link: {
-    textAlign: "right",
     color: colores.darkblue,
     fontWeight: "bold",
     marginTop: 5,

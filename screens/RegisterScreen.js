@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image
+  Image,
 } from "react-native";
 
 import React, { useState, useEffect } from "react";
@@ -13,6 +13,7 @@ import { auth } from "../firebase";
 import { colores } from "../colors";
 
 import { useNavigation } from "@react-navigation/core";
+import Triangles from "../components/triangles";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ const RegisterScreen = () => {
 
     return unsubscribe;
   }, []);
-  
+
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -48,17 +49,22 @@ const RegisterScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.imageContainer}>
-        <Image style={{resizeMode: "contain", width: 200, height: 200}} source={require("../assets/images/logo/logo1.png")} />
+        <Image
+          style={{ resizeMode: "contain", width: 150, height: 150 }}
+          source={require("../assets/images/logo/logo1.png")}
+        />
       </View>
       <View style={styles.inputContainer}>
+        <Text style={styles.label}>Usuario</Text>
         <TextInput
-          placeholder="Email"
+          placeholder="Correo de acceso..."
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
+        <Text style={styles.label}>Contraseña</Text>
         <TextInput
-          placeholder="Password"
+          placeholder="Contraseña de acceso..."
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
@@ -66,20 +72,23 @@ const RegisterScreen = () => {
         />
       </View>
 
-      <View style={styles.linksContainer}>
-        <Text style={styles.link} onPress={() => {navigation.replace("Login")}}>
-          Volver al login
-        </Text>
-      </View>
-
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={styles.button}
-        >
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
           <Text style={styles.buttonText}>Unirse</Text>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.linksContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.replace("Login");
+          }}
+        >
+          <Text style={styles.link}>Volver al login</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Triangles></Triangles>
     </KeyboardAvoidingView>
   );
 };
@@ -89,9 +98,10 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#fff",
+    paddingTop: 50,
   },
   inputContainer: {
     width: "80%",
@@ -105,12 +115,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "lightgrey",
   },
+  label: {
+    color: colores.darkblue,
+    fontWeight: "bold",
+    fontSize: 20,
+    marginTop: 10,
+  },
   linksContainer: {
     marginTop: 20,
     width: "80%",
+    alignItems: "center",
   },
   link: {
-    textAlign: "right",
     color: colores.darkblue,
     fontWeight: "bold",
     marginTop: 5,
@@ -132,5 +148,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
-  }
+  },
 });
