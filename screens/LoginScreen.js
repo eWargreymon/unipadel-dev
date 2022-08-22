@@ -6,11 +6,14 @@ import {
   TouchableOpacity,
   View,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
+import axios from "axios";
 
 import { useNavigation } from "@react-navigation/core";
 import Triangles from "../components/triangles";
@@ -22,9 +25,17 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        navigation.replace("Home");
+        const res = await axios
+          .get("http://192.168.0.30:8000/api/getUser/" + user.email)
+          .then((result) => {
+            if (result.data.data.tipo) {
+              navigation.replace("OrganizerHome");
+            } else {
+              navigation.replace("PlayerHome");
+            }
+          });
       }
     });
 
@@ -34,71 +45,69 @@ const LoginScreen = () => {
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Logged with " + user.email);
-      })
       .catch((err) => {
         alert(err.message);
       });
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View style={styles.imageContainer}>
-        <Image
-          style={{ resizeMode: "contain", width: 150, height: 150 }}
-          source={require("../assets/images/logo/logo1.png")}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Usuario</Text>
-        <TextInput
-          placeholder="Correo de acceso..."
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <Text style={styles.label}>Contraseña</Text>
-        <TextInput
-          placeholder="Contraseña de acceso..."
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry={true}
-          style={styles.input}
-        />
-      </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ resizeMode: "contain", width: 150, height: 150 }}
+            source={require("../assets/images/logo/logo1.png")}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Usuario</Text>
+          <TextInput
+            placeholder="Correo de acceso..."
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={styles.input}
+          />
+          <Text style={styles.label}>Contraseña</Text>
+          <TextInput
+            placeholder="Contraseña de acceso..."
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry={true}
+            style={styles.input}
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Acceder</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Acceder</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.linksContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.replace("Register");
-          }}
-        >
-          <Text style={styles.link}>¿No tienes cuenta? ¡Únete gratis!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.replace("Home");
-          }}
-        >
-          <Text style={[styles.link, { textAlign: "right" }]}>
-            Continuar como invitado
-          </Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.linksContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.replace("Register");
+            }}
+          >
+            <Text style={styles.link}>¿No tienes cuenta? ¡Únete gratis!</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.replace("Home");
+            }}
+          >
+            <Text style={[styles.link, { textAlign: "right" }]}>
+              Continuar como invitado
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-      <Triangles></Triangles>
-    </KeyboardAvoidingView>
+        <Triangles></Triangles>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
   linksContainer: {
     marginTop: 20,
     width: "80%",
-    alignItems: "center"
+    alignItems: "center",
   },
   link: {
     color: colores.darkblue,
