@@ -1,24 +1,22 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import SupNavbar from "../../components/supNavbar";
 
-const PlayerHomeScreen = () => {
-
+const PartidosScreen = () => {
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
-      <Text>JUGADOR</Text>
+      <Text>PartidosScreen</Text>
     </View>
   );
 };
 
-export default PlayerHomeScreen;
+export default PartidosScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white"
-  }
+  },
 });
