@@ -24,22 +24,28 @@ const LoginScreen = () => {
 
   const navigation = useNavigation();
 
+  const attemptLogin = async (email) => {
+    return await axios.get("http://192.168.0.30:8000/api/getUser/" + email);
+  }
+
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const detectUser = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        const res = await axios
-          .get("http://192.168.0.30:8000/api/getUser/" + user.email)
-          .then((result) => {
-            if (result.data.data.tipo) {
-              navigation.replace("OrganizerHome");
-            } else {
-              navigation.replace("PlayerHome");
-            }
-          });
+        const res = await attemptLogin(user.email);
+        if(res.data.data != null){
+          if (res.data.data.tipo) {
+            navigation.replace("OrganizerHome");
+          } else {
+            navigation.replace("PlayerHome");
+          }
+        } else {
+          // PENDIENTE DESARROLLAR
+          // Código para mostrar aviso de que hay un problema con su usuario
+        }
       }
     });
 
-    return unsubscribe;
+    return detectUser;
   }, []);
 
   const handleLogin = () => {
