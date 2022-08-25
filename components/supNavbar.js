@@ -19,7 +19,7 @@ const SupNavbar = () => {
           source={require("../assets/images/logo/logo2.png")}
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.push("ProfileScreen")}>
+      <TouchableOpacity onPress={() => navigation.push("Profile")}>
         <Image
           style={{ resizeMode: "contain", height: 25 }}
           source={require("../assets/images/icons/user.png")}

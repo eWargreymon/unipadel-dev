@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PlayerHomeScreen from './screens/player/PlayerHomeScreen';
 import OrganizerHomeScreen from './screens/organizer/OrganizerHomeScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and will be removed in a future release']);
@@ -15,12 +16,13 @@ LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and w
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen options={{headerShown: false }} name="Login" component={LoginScreen}></Stack.Screen>
-        <Stack.Screen options={{headerShown: false }} name="Register" component={RegisterScreen}></Stack.Screen>
+      <Stack.Navigator screenOptions={{headerShown: false, contentStyle: {backgroundColor: 'white'}}}>
+        <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+        <Stack.Screen name="Register" component={RegisterScreen}></Stack.Screen>
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
         <Stack.Screen name="PlayerHome" component={PlayerHomeScreen}></Stack.Screen>
         <Stack.Screen name="OrganizerHome" component={OrganizerHomeScreen}></Stack.Screen>
+        <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

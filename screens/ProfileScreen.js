@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import SupNavbar from '../components/supNavbar'
-import BotNavbar from '../components/botNavbar';
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 
@@ -24,7 +23,6 @@ const ProfileScreen = () => {
       <TouchableOpacity style={styles.button} onPress={handleLogOut}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
-      <BotNavbar></BotNavbar>
     </View>
   )
 }
