@@ -1,27 +1,60 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  FlatList,
+  RefreshControl,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { colores } from "../colors";
+
+import SupNavbar from "../components/supNavbar";
+import { getTorneos } from "./api";
+import { useIsFocused } from "@react-navigation/native";
+import Torneo from "../components/Torneo";
 
 const HomeScreen = () => {
-
-  const navigation = useNavigation();
-
-  const handleLogOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login");
-      })
-      .catch((err) => alert(err.message));
+  const renderItem = ({ item }) => {
+    return <Torneo torneo={item}></Torneo>;
   };
+
+  const [torneos, setTorneos] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const isFocusing = useIsFocused();
+
+  const loadTorneos = async () => {
+    const data = await getTorneos();
+    setTorneos(data);
+  };
+
+  const onRefresh = React.useCallback(async () => {
+    setRefresh(true);
+    await loadTorneos();
+    setRefresh(false);
+  });
+
+  useEffect(() => {
+    console.log("iosndoisnd");
+    loadTorneos();
+    // console.log(torneos);
+  }, [isFocusing]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Email: {auth.currentUser?.email}</Text>
-      <TouchableOpacity style={styles.button} onPress={handleLogOut}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
+      <SupNavbar></SupNavbar>
+      <Text style={styles.title}>PRÓXIMOS TORNEOS</Text>
+      <View style={styles.titleUnderline}></View>
+      <FlatList
+        data={torneos}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
+        style={styles.listado}
+        contentContainerStyle={{alignItems: 'center'}}
+      />
     </View>
   );
 };
@@ -31,20 +64,24 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
+    paddingTop: 100,
+    width: "100%"
   },
-  button: {
-    backgroundColor: "blue",
-    width: "60%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 10,
+  title: {
+    color: colores.darkblue,
+    fontSize: 20,
+    fontWeight: "bold",
   },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
+  titleUnderline: {
+    borderBottomWidth: 1,
+    borderBottomColor: colores.darkblue,
+    paddingBottom: 5,
+    width: "25%",
   },
+  listado:{
+    width: "100%",
+    marginTop: 5
+  }
 });
