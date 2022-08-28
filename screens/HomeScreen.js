@@ -1,7 +1,6 @@
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   FlatList,
   RefreshControl,
@@ -35,9 +34,7 @@ const HomeScreen = () => {
   });
 
   useEffect(() => {
-    console.log("iosndoisnd");
     loadTorneos();
-    // console.log(torneos);
   }, [isFocusing]);
 
   return (

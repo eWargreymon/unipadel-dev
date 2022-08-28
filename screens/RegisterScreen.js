@@ -12,11 +12,11 @@ import {
 
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
-import axios from "axios";
 
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import Triangles from "../components/triangles";
+import { attemptLogin, storeUserInfo } from "./api";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -25,10 +25,6 @@ const RegisterScreen = () => {
   const [tipo, setTipo] = useState(0);
 
   const navigation = useNavigation();
-
-  const attemptLogin = async (email) => {
-    return await axios.get("http://192.168.0.30:8000/api/getUser/" + email);
-  };
 
   useEffect(() => {
     // PENDIENTE DESARROLLAR
@@ -62,10 +58,7 @@ const RegisterScreen = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(async (userCredentials) => {
-        const res = await axios.post(
-          "http://192.168.0.30:8000/api/createUser",
-          datosRegistro
-        );
+        const res = await storeUserInfo(datosRegistro);
       })
       .catch((err) => {
         alert(err.message);

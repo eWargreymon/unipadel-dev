@@ -3,7 +3,6 @@ import React from "react";
 import { colores } from "../colors";
 
 const Torneo = ({ torneo }) => {
-  console.log(torneo);
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
       <Text style={styles.nombre}>{torneo.nombre}</Text>

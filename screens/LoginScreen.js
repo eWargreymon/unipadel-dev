@@ -13,20 +13,16 @@ import {
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
-import axios from "axios";
 
 import { useNavigation } from "@react-navigation/core";
 import Triangles from "../components/triangles";
+import { attemptLogin } from "./api";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
-
-  const attemptLogin = async (email) => {
-    return await axios.get("http://192.168.0.30:8000/api/getUser/" + email);
-  }
 
   useEffect(() => {
     const detectUser = auth.onAuthStateChanged(async (user) => {
@@ -102,7 +98,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.replace("Home");
+              navigation.push("Home");
             }}
           >
             <Text style={[styles.link, { textAlign: "right" }]}>
