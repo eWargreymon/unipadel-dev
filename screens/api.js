@@ -15,3 +15,10 @@ export const attemptLogin = async (email) => {
 export const storeUserInfo = async (datosRegistro) => {
     return await axios.post(`${api}createUser`, datosRegistro);
 }
+
+export const storeTorneoData = async (datosTorneo) => {
+    console.log(datosTorneo);
+    // const res = await axios.post(`${api}createTorneo`, datosTorneo);
+    // console.log(res);
+    return await axios.post(`${api}createTorneo`, datosTorneo);
+}
