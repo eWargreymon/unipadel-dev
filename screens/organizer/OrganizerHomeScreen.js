@@ -9,14 +9,21 @@ const OrganizerHomeScreen = () => {
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
-      <Text>ORGANIZADOR</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
           navigation.push("TorneoForm");
         }}
       >
-        <Text style={styles.buttonText}>CREAR COMPETICIÓN</Text>
+        <Text style={styles.buttonText}>Crear competición</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.push("ListadoTorneosOrganizador");
+        }}
+      >
+        <Text style={styles.buttonText}>Competiciones creadas</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,8 +41,8 @@ const styles = StyleSheet.create({
   button: {
     width: "90%",
     padding: 18,
+    marginVertical: 10,
     backgroundColor: "#f2f2f2",
-    // elevation: 5
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -43,12 +50,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-
     elevation: 4,
   },
   buttonText: {
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
+    textTransform: "uppercase",
   },
 });

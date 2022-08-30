@@ -8,6 +8,10 @@ export const getTorneos = async () => {
     return await res.json();
 }
 
+export const getTorneosOrg = async (email) => {
+    return await axios.get(`${api}getTorneosOrganizador/` + email);
+}
+
 export const attemptLogin = async (email) => {
     return await axios.get(`${api}getUser/` + email);
 }
@@ -18,7 +22,5 @@ export const storeUserInfo = async (datosRegistro) => {
 
 export const storeTorneoData = async (datosTorneo) => {
     console.log(datosTorneo);
-    // const res = await axios.post(`${api}createTorneo`, datosTorneo);
-    // console.log(res);
     return await axios.post(`${api}createTorneo`, datosTorneo);
 }

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { colores } from "../colors";
 
-const Torneo = ({ torneo }) => {
+const Torneo = ({ torneo, state }) => {
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
       <Text style={styles.nombre}>{torneo.nombre}</Text>
@@ -20,14 +20,23 @@ const Torneo = ({ torneo }) => {
       </Text>
       <View style={styles.botones}>
         {
-            torneo.activo == 1 &&
+            torneo.activo == 1 && state &&
             <TouchableOpacity style={styles.boton}>
               <Text style={styles.botonText}>Inscripción</Text>
             </TouchableOpacity>
         }
-        <TouchableOpacity style={[styles.boton, styles.boton2]}>
-          <Text style={[styles.botonText, styles.botonText2]}>Más info</Text>
-        </TouchableOpacity>
+        {
+          state &&
+          <TouchableOpacity style={[styles.boton, styles.boton2]}>
+            <Text style={[styles.botonText, styles.botonText2]}>Más info</Text>
+          </TouchableOpacity>
+        }
+        {
+          !state &&
+          <TouchableOpacity style={[styles.boton, styles.boton2]}>
+            <Text style={[styles.botonText, styles.botonText2]}>Gestionar</Text>
+          </TouchableOpacity>
+        }
       </View>
       <TouchableOpacity
         style={torneo.activo ? styles.estAbierto : styles.estCerrado}

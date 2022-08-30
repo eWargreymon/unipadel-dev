@@ -6,16 +6,17 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { colores } from "../colors";
+import { colores } from "../../colors";
+import { auth } from "../../firebase";
 
-import SupNavbar from "../components/supNavbar";
-import { getTorneos } from "./api";
+import SupNavbar from "../../components/supNavbar";
+import { getTorneosOrg } from "./../api";
 import { useIsFocused } from "@react-navigation/native";
-import Torneo from "../components/Torneo";
+import Torneo from "../../components/Torneo";
 
-const HomeScreen = () => {
+const TorneosOrganizadorScreen = () => {
   const renderItem = ({ item }) => {
-    return <Torneo torneo={item} state={true}></Torneo>;
+    return <Torneo torneo={item} state={false}/>;
   };
 
   const [torneos, setTorneos] = useState([]);
@@ -23,8 +24,8 @@ const HomeScreen = () => {
   const isFocusing = useIsFocused();
 
   const loadTorneos = async () => {
-    const data = await getTorneos();
-    setTorneos(data);
+    const data = await getTorneosOrg(auth.currentUser.email);
+    setTorneos(data.data);
   };
 
   const onRefresh = React.useCallback(async () => {
@@ -40,7 +41,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
-      <Text style={styles.title}>PRÓXIMOS TORNEOS</Text>
+      <Text style={styles.title}>Torneos creados</Text>
       <View style={styles.titleUnderline}></View>
       <FlatList
         data={torneos}
@@ -56,7 +57,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default TorneosOrganizadorScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     color: colores.darkblue,
     fontSize: 20,
     fontWeight: "bold",
+    textTransform: "uppercase",
   },
   titleUnderline: {
     borderBottomWidth: 1,
