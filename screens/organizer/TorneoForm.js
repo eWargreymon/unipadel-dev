@@ -6,6 +6,7 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -16,8 +17,12 @@ import Checkbox from "expo-checkbox";
 import SupNavbar from "../../components/supNavbar";
 import { colores } from "../../colors";
 import { storeTorneoData } from "../api";
+import { auth } from "../../firebase";
+import { useNavigation } from "@react-navigation/core";
 
 const TorneoForm = () => {
+  const navigation = useNavigation();
+  const [organizador, setOrganizador] = useState(auth.currentUser.email);
   const [nombre, setNombre] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [lugar, setLugar] = useState("");
@@ -46,6 +51,7 @@ const TorneoForm = () => {
     fecha_inicio: inicio.toString(),
     fecha_fin: fin.toString(),
     fecha_limite: limite.toString(),
+    organizador: organizador,
   };
 
   const onChangeI = (event, selectedDate) => {
@@ -79,11 +85,38 @@ const TorneoForm = () => {
     }
   };
 
+  // Función para hacer el guardado de la info en la base de datos y mostrar mensaje de aviso
   const handleStore = async () => {
-    console.log("11111");
-    const res = await storeTorneoData(datosTorneo);
-    console.log(res);
-  }
+    const res = await storeTorneoData(datosTorneo)
+      .then(() => {
+        Alert.alert(
+          "¡Torneo creado!",
+          "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
+          [
+            {
+              text: "¡OK!",
+              onPress: () => navigation.pop(),
+            },
+          ]
+        );
+      })
+      .catch(() => {
+        Alert.alert(
+          "Error en el guardado",
+          "Ha surgido un error y no se ha podido guardar la información. Por favor, revise la información y vuelva a intentarlo.",
+          [
+            {
+              text: "Vale",
+              style: "cancel",
+            },
+          ]
+        );
+      });
+  };
+
+  const goBack = () => {
+    navigation.pop();
+  };
 
   return (
     <SafeAreaView>
@@ -234,8 +267,13 @@ const TorneoForm = () => {
         </View>
 
         {/* ACTIVO */}
-        <View style={[styles.inputContainer, {flexDirection: 'row',  alignItems: 'center'}]}>
-          <Text style={[styles.label, {width: '85%'}]}>
+        <View
+          style={[
+            styles.inputContainer,
+            { flexDirection: "row", alignItems: "center" },
+          ]}
+        >
+          <Text style={[styles.label, { width: "85%" }]}>
             Activar torneo y hacerlo visible a los usuarios
           </Text>
           <Checkbox
@@ -249,7 +287,10 @@ const TorneoForm = () => {
           <TouchableOpacity style={styles.button} onPress={() => handleStore()}>
             <Text style={styles.buttonText}>Crear competición</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, {backgroundColor: "darkred"}]}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "darkred" }]}
+            onPress={() => goBack()}
+          >
             <Text style={styles.buttonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
@@ -307,12 +348,12 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 2,
     alignItems: "center",
-    marginVertical: 5
+    marginVertical: 5,
   },
   buttonText: {
     color: "white",
     fontWeight: "700",
     fontSize: 16,
     textTransform: "uppercase",
-  }
+  },
 });

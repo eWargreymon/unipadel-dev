@@ -51,7 +51,7 @@ const RegisterScreen = () => {
 
   const handleSignUp = async () => {
     const datosRegistro = {
-      email: email,
+      email: email.toLowerCase(),
       name: nombre,
       tipo: tipo,
     };
