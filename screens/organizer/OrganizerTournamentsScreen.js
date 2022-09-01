@@ -10,7 +10,7 @@ import { colores } from "../../colors";
 import { auth } from "../../firebase";
 
 import SupNavbar from "../../components/supNavbar";
-import { getTorneosOrg } from "./../api";
+import { getTorneosOrg } from "../../api";
 import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../../components/Torneo";
 

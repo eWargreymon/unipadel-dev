@@ -9,7 +9,7 @@ import React, { useState, useEffect } from "react";
 import { colores } from "../colors";
 
 import SupNavbar from "../components/supNavbar";
-import { getTorneos } from "./api";
+import { getTorneos } from "../api";
 import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../components/Torneo";
 

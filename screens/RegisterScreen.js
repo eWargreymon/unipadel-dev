@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/core";
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import Triangles from "../components/triangles";
-import { attemptLogin, storeUserInfo } from "./api";
+import { attemptLogin, storeUserInfo } from "../api";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");

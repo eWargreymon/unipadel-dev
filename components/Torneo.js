@@ -1,8 +1,62 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import React from "react";
+import { auth } from "../firebase";
 import { colores } from "../colors";
+import { useNavigation } from "@react-navigation/core";
+import { inscripcion } from "../api";
 
 const Torneo = ({ torneo, state }) => {
+  const navigation = useNavigation();
+
+  const handleInscripcion = async (torneo_id) => {
+    if (auth.currentUser) {
+      const user = auth.currentUser.email;
+      const res = await inscripcion({
+        torneo: torneo_id,
+        user: user,
+      })
+        .then(() => {
+          Alert.alert(
+            "¡Inscripción generada!",
+            "Se ha generado la inscripción para el torneo. Podrás ver desde tu perfil los torneos a los que te has inscrito. Recuerda que el organizador la validará.",
+            [
+              {
+                text: "¡OK!",
+                onPress: () => navigation.push("PlayerHome"),
+              },
+            ]
+          );
+        })
+        .catch((error) => {
+          Alert.alert(
+            "Error en la inscripción",
+            error.response.data.message,
+            [
+              {
+                text: "Vale",
+                style: "cancel",
+              },
+            ]
+          );
+        });
+    } else {
+      Alert.alert(
+        "¡No estás autenticado!",
+        "Para poder inscribirte en una competición, debes tener cuenta en Unipadel y tener la sesión iniciada",
+        [
+          {
+            text: "Acceso al login",
+            onPress: () => navigation.push("Login"),
+          },
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ]
+      );
+    }
+  };
+
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
       <Text style={styles.nombre}>{torneo.nombre}</Text>
@@ -15,28 +69,32 @@ const Torneo = ({ torneo, state }) => {
         Formato: {torneo.formato ? "Liga" : "Eliminatorias"}
       </Text>
       <Text style={styles.contentText}>
-        Nº participantes: {torneo.max_jugadores} jugadores /{" "}
-        {torneo.max_jugadores / 2} parejas
+        Nº participantes: {torneo.max_jugadores} parejas
       </Text>
       <View style={styles.botones}>
-        {
-            torneo.activo == 1 && state &&
-            <TouchableOpacity style={styles.boton}>
-              <Text style={styles.botonText}>Inscripción</Text>
-            </TouchableOpacity>
-        }
-        {
-          state &&
+        {torneo.activo == 1 && state && (
+          <TouchableOpacity
+            style={styles.boton}
+            onPress={() => handleInscripcion(torneo.id)}
+          >
+            <Text style={styles.botonText}>Inscripción</Text>
+          </TouchableOpacity>
+        )}
+        {state && (
           <TouchableOpacity style={[styles.boton, styles.boton2]}>
             <Text style={[styles.botonText, styles.botonText2]}>Más info</Text>
           </TouchableOpacity>
-        }
-        {
-          !state &&
-          <TouchableOpacity style={[styles.boton, styles.boton2]}>
+        )}
+        {!state && (
+          <TouchableOpacity
+            style={[styles.boton, styles.boton2]}
+            onPress={() =>
+              navigation.navigate("OrganizarTorneo", { id: torneo.id })
+            }
+          >
             <Text style={[styles.botonText, styles.botonText2]}>Gestionar</Text>
           </TouchableOpacity>
-        }
+        )}
       </View>
       <TouchableOpacity
         style={torneo.activo ? styles.estAbierto : styles.estCerrado}
@@ -60,8 +118,8 @@ const styles = StyleSheet.create({
     width: 400,
     maxWidth: "90%",
   },
-  backCerrado:{
-    backgroundColor: colores.lightblue
+  backCerrado: {
+    backgroundColor: colores.lightblue,
   },
   nombre: {
     textAlign: "center",
@@ -83,7 +141,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     width: "40%",
-    elevation: 5
+    elevation: 5,
   },
   botonText: {
     color: "white",
@@ -104,7 +162,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -15,
     left: -15,
-    elevation: 10
+    elevation: 10,
   },
   estCerrado: {
     backgroundColor: "darkred",
@@ -114,7 +172,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -15,
     left: -15,
-    elevation: 10
+    elevation: 10,
   },
   estText: {
     color: "white",

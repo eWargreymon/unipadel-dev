@@ -16,7 +16,7 @@ import { colores } from "../colors";
 
 import { useNavigation } from "@react-navigation/core";
 import Triangles from "../components/triangles";
-import { attemptLogin } from "./api";
+import { attemptLogin } from "../api";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");

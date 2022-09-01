@@ -16,7 +16,7 @@ import Checkbox from "expo-checkbox";
 
 import SupNavbar from "../../components/supNavbar";
 import { colores } from "../../colors";
-import { storeTorneoData } from "../api";
+import { storeTorneoData } from "../../api";
 import { auth } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 
@@ -176,7 +176,7 @@ const TorneoForm = () => {
 
         {/* Nº JUGADORES */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nº de jugadores</Text>
+          <Text style={styles.label}>Nº de parejas</Text>
           <TextInput
             placeholder="Cantidad de parejas que podrán inscribirse"
             value={jugadores}
