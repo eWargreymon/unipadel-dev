@@ -2,15 +2,18 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { colores } from "../colors";
 
-const Jugador = (jugador) => {
+const Jugador = ({jugador, addPlayer}) => {
+
   return (
     <View style={styles.jugador}>
       <View>
-        <Text style={styles.jugadorText}>{jugador.jugador.name}</Text>
+        <Text style={styles.jugadorText}>{jugador.name}</Text>
         <Text style={styles.jugadorText}>Alias</Text>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Añadir al grupo</Text>
+      <TouchableOpacity style={styles.button} onPress={addPlayer}>
+        <Text style={styles.buttonText}>
+          Añadir al grupo
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -28,18 +31,18 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   jugadorText: {
     fontWeight: "bold",
   },
-  button:{
-    backgroundColor: 'green',
+  button: {
+    backgroundColor: "green",
     padding: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
-  buttonText:{
+  buttonText: {
     color: "white",
     fontWeight: "bold",
-  }
+  },
 });

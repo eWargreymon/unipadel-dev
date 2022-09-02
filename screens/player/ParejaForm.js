@@ -20,20 +20,21 @@ import { useNavigation } from "@react-navigation/core";
 import Jugador from "../../components/Jugador";
 
 const ParejaForm = () => {
-//   const renderItem = ({ item }) => {
-//     return <Jugador jugador={item}></Jugador>;
-//   };
-
   const navigation = useNavigation();
 
   const [nombre, setNombre] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [jugadores, setJugadores] = useState([]);
+  
+  const jugadoresParejaActual = [];
+  const [jugadoresPareja, setJugadoresPareja] = useState([]);
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const onChangeSearch = async (query) => {
+    const data = await getJugadores(query);
+    setJugadores(data.data);
+  };
 
   const datosPareja = {
-    nombre: nombre,
+    nombre: nombre
   };
 
   const loadJugadores = async () => {
@@ -78,12 +79,21 @@ const ParejaForm = () => {
     loadJugadores();
   }, []);
 
+  function addPlayer(player) {
+      setJugadoresPareja([...jugadoresPareja, player.id]);
+  }
+
   return (
     <SafeAreaView>
       <SupNavbar></SupNavbar>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Crear Pareja</Text>
         <View style={styles.titleUnderline}></View>
+        <View>
+          <Text>Datos de la pareja</Text>
+          <Text>Nombre: {datosPareja.nombre}</Text>
+          <Text>Jugadores: {jugadoresPareja}</Text>
+        </View>
 
         {/* Comienzo de los inputs */}
         {/* NOMBRE */}
@@ -97,40 +107,31 @@ const ParejaForm = () => {
           />
         </View>
 
-        {/* <Searchbar
+        <Searchbar
           placeholder="Search"
           onChangeText={onChangeSearch}
-          value={searchQuery}
-        /> */}
+          value={jugadores}
+        />
 
         {/* JUGADORES */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Jugadores</Text>
-
-          {/* <FlatList
-            data={jugadores}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItem}
-            style={styles.listado}
-            contentContainerStyle={{  }}
-            scrollEnabled={false}
-          /> */}
-            {
-                jugadores.map((item, key)=> <Jugador jugador={item} key={item.id}/>)
-            }
+          {jugadores.map((item, key) => (
+            // <Jugador jugador={item} addPlayer={addPlayer(item)} key={item.id}/>
+            <View style={styles.jugador} key={item.id}>
+              <View>
+                <Text style={styles.jugadorText}>{item.name}</Text>
+                <Text style={styles.jugadorText}>Alias</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => addPlayer(item)}
+              >
+                <Text style={styles.buttonText}>Añadir al grupo</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
         </View>
-
-        {/* Nº JUGADORES */}
-        {/* <View style={styles.inputContainer}>
-            <Text style={styles.label}>Nº de parejas</Text>
-            <TextInput
-              placeholder="Cantidad de parejas que podrán inscribirse"
-              value={jugadores}
-              onChangeText={(text) => setJugadores(text)}
-              style={styles.input}
-              keyboardType="numeric"
-            />
-          </View> */}
 
         {/* <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={() => handleStore()}>
@@ -204,5 +205,28 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
     textTransform: "uppercase",
-  }
+  },
+  jugador: {
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: colores.lightyellow,
+    borderColor: colores.yellow,
+    padding: 20,
+    marginVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  jugadorText: {
+    fontWeight: "bold",
+  },
+  button: {
+    backgroundColor: "green",
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
 });
