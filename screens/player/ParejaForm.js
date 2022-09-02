@@ -25,7 +25,6 @@ const ParejaForm = () => {
   const [nombre, setNombre] = useState("");
   const [jugadores, setJugadores] = useState([]);
   
-  const jugadoresParejaActual = [];
   const [jugadoresPareja, setJugadoresPareja] = useState([]);
 
   const onChangeSearch = async (query) => {
@@ -34,7 +33,8 @@ const ParejaForm = () => {
   };
 
   const datosPareja = {
-    nombre: nombre
+    nombre: nombre,
+    jugadores: jugadoresPareja
   };
 
   const loadJugadores = async () => {
@@ -46,16 +46,16 @@ const ParejaForm = () => {
   const handleStore = async () => {
     const res = await createPareja(datosPareja)
       .then(() => {
-        Alert.alert(
-          "¡Torneo creado!",
-          "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
-          [
-            {
-              text: "¡OK!",
-              onPress: () => navigation.pop(),
-            },
-          ]
-        );
+        // Alert.alert(
+        //   "¡Torneo creado!",
+        //   "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
+        //   [
+        //     {
+        //       text: "¡OK!",
+        //       onPress: () => navigation.pop(),
+        //     },
+        //   ]
+        // );
       })
       .catch(() => {
         Alert.alert(
@@ -133,7 +133,7 @@ const ParejaForm = () => {
           ))}
         </View>
 
-        {/* <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={() => handleStore()}>
               <Text style={styles.buttonText}>Crear pareja</Text>
             </TouchableOpacity>
@@ -143,7 +143,7 @@ const ParejaForm = () => {
             >
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
       </ScrollView>
     </SafeAreaView>
   );
