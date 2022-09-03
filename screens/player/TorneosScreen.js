@@ -5,11 +5,17 @@ import SupNavbar from "../../components/supNavbar";
 import { colores } from "../../colors";
 import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../../components/Torneo";
-import { getTorneos } from "../../api";
+import { getTorneos, getParejas } from "../../api";
+import { auth } from "../../firebase";
 
 const TorneosScreen = () => {
   const renderItem = ({ item }) => {
-    return <Torneo torneo={item} state={true}></Torneo>;
+    return <Torneo torneo={item} state={true} parejas={parejas}></Torneo>;
+  };
+  const [parejas, setParejas] = useState([]);
+  const loadParejas = async () => {
+    const data = await getParejas(auth.currentUser.email);
+    setParejas(data);
   };
 
   const [torneos, setTorneos] = useState([]);
@@ -29,12 +35,13 @@ const TorneosScreen = () => {
 
   useEffect(() => {
     loadTorneos();
+    loadParejas();
   }, [isFocusing]);
 
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
-      <Text style={styles.title}>PRÓXIMOS TORNEOS</Text>
+      <Text style={styles.title}>TORNEOS</Text>
       <View style={styles.titleUnderline}></View>
       <FlatList
         data={torneos}

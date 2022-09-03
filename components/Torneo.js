@@ -1,19 +1,21 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Modal } from "react-native";
+import React, {useState} from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import { useNavigation } from "@react-navigation/core";
 import { inscripcion } from "../api";
+import SelectorPareja from "./SelectorPareja";
 
-const Torneo = ({ torneo, state }) => {
+const Torneo = ({ torneo, state, parejas }) => {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [torneoId, setTorneoId] = useState(0);
 
-  const handleInscripcion = async (torneo_id) => {
+  const handleInscripcion = async (parejaId) => {
     if (auth.currentUser) {
-      const user = auth.currentUser.email;
       const res = await inscripcion({
-        torneo: torneo_id,
-        user: user,
+        torneo: torneoId,
+        pareja: parejaId,
       })
         .then(() => {
           Alert.alert(
@@ -59,6 +61,7 @@ const Torneo = ({ torneo, state }) => {
 
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
+      <SelectorPareja modalVisible={modalVisible} setModalVisible={setModalVisible} parejas={parejas} handleInscripcion={handleInscripcion}></SelectorPareja>
       <Text style={styles.nombre}>{torneo.nombre}</Text>
       <Text style={[styles.contentText, { textAlign: "center" }]}>
         {torneo.fecha_inicio} al {torneo.fecha_fin}
@@ -75,7 +78,11 @@ const Torneo = ({ torneo, state }) => {
         {torneo.activo == 1 && state && (
           <TouchableOpacity
             style={styles.boton}
-            onPress={() => handleInscripcion(torneo.id)}
+            // onPress={() => handleInscripcion(torneo.id)}
+            onPress={() => {
+              setTorneoId(torneo.id)
+              setModalVisible(true)
+            }}
           >
             <Text style={styles.botonText}>Inscripción</Text>
           </TouchableOpacity>
