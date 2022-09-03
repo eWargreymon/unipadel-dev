@@ -43,6 +43,6 @@ export const getJugadores = async (query) => {
   if (query) {
     return await axios.get(`${api}getJugadores/` + query);
   } else {
-    return await axios.get(`${api}getJugadores/`);
+    return { "data": []};
   }
 };

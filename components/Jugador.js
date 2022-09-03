@@ -1,20 +1,31 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { colores } from "../colors";
 
-const Jugador = ({jugador, addPlayer}) => {
+const Jugador = ({ jugador, addPlayer }) => {
+  const [selected, setSelected] = useState(false);
 
   return (
-    <View style={styles.jugador}>
+    <View style={[styles.jugador, selected && styles.selected]}>
       <View>
         <Text style={styles.jugadorText}>{jugador.name}</Text>
         <Text style={styles.jugadorText}>Alias</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={addPlayer}>
-        <Text style={styles.buttonText}>
-          Añadir al grupo
-        </Text>
-      </TouchableOpacity>
+      {selected ? (
+        <TouchableOpacity style={styles.aviso}>
+          <Text style={styles.avisoText}>¡Añadido!</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            addPlayer(jugador);
+            setSelected(true);
+          }}
+        >
+          <Text style={styles.buttonText}>Añadir al grupo</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -27,11 +38,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: colores.lightyellow,
     borderColor: colores.yellow,
-    padding: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
     marginVertical: 10,
+    width: "100%",
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  selected: {
+    backgroundColor: colores.lightblue,
+    borderColor: colores.blue,
   },
   jugadorText: {
     fontWeight: "bold",
@@ -45,4 +62,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  aviso:{
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: colores.green,
+    borderRadius: 10,
+    padding: 5
+  },
+  avisoText:{
+    color: colores.green
+  }
 });

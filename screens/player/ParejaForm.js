@@ -24,7 +24,7 @@ const ParejaForm = () => {
 
   const [nombre, setNombre] = useState("");
   const [jugadores, setJugadores] = useState([]);
-  
+
   const [jugadoresPareja, setJugadoresPareja] = useState([]);
 
   const onChangeSearch = async (query) => {
@@ -34,28 +34,23 @@ const ParejaForm = () => {
 
   const datosPareja = {
     nombre: nombre,
-    jugadores: jugadoresPareja
-  };
-
-  const loadJugadores = async () => {
-    const data = await getJugadores();
-    setJugadores(data.data);
+    jugadores: jugadoresPareja,
   };
 
   // Función para hacer el guardado de la info en la base de datos y mostrar mensaje de aviso
   const handleStore = async () => {
     const res = await createPareja(datosPareja)
       .then(() => {
-        // Alert.alert(
-        //   "¡Torneo creado!",
-        //   "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
-        //   [
-        //     {
-        //       text: "¡OK!",
-        //       onPress: () => navigation.pop(),
-        //     },
-        //   ]
-        // );
+        Alert.alert(
+          "¡Pareja creada!",
+          "Se ha creado la pareja con los usuarios seleccionados",
+          [
+            {
+              text: "¡OK!",
+              onPress: () => navigation.pop(),
+            },
+          ]
+        );
       })
       .catch(() => {
         Alert.alert(
@@ -75,76 +70,78 @@ const ParejaForm = () => {
     navigation.pop();
   };
 
-  useEffect(() => {
-    loadJugadores();
-  }, []);
-
   function addPlayer(player) {
-      setJugadoresPareja([...jugadoresPareja, player.id]);
+    setJugadoresPareja([...jugadoresPareja, [player.id, player.name]]);
   }
+
+  const renderItem = ({ item }) => {
+    return <Jugador jugador={item} addPlayer={addPlayer}></Jugador>;
+  };
 
   return (
     <SafeAreaView>
       <SupNavbar></SupNavbar>
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>Crear Pareja</Text>
         <View style={styles.titleUnderline}></View>
-        <View>
-          <Text>Datos de la pareja</Text>
-          <Text>Nombre: {datosPareja.nombre}</Text>
-          <Text>Jugadores: {jugadoresPareja}</Text>
+        <View style={styles.jugadoresAdded}>
+          <Text style={[styles.jugadoresAddedText, {textAlign: 'center', fontSize: 20}]}>Jugadores añadidos
+          </Text>
+            {
+              jugadoresPareja.map((item) => (
+                <Text key={item[0]} style={styles.jugadoresAddedText}>·{item[1]}</Text>
+              )) 
+            }
         </View>
 
         {/* Comienzo de los inputs */}
-        {/* NOMBRE */}
+        {/* NOMBRE PAREJA */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nombre</Text>
+          <Text style={styles.label}>Nombre de la pareja</Text>
           <TextInput
-            placeholder="Nombre del torneo"
+            placeholder="Introduce un nombre para la pareja..."
             value={nombre}
             onChangeText={(text) => setNombre(text)}
             style={styles.input}
           />
         </View>
 
-        <Searchbar
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={jugadores}
-        />
-
-        {/* JUGADORES */}
+        {/* SEARCHBAR DE JUGADORES */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Jugadores</Text>
-          {jugadores.map((item, key) => (
-            // <Jugador jugador={item} addPlayer={addPlayer(item)} key={item.id}/>
-            <View style={styles.jugador} key={item.id}>
-              <View>
-                <Text style={styles.jugadorText}>{item.name}</Text>
-                <Text style={styles.jugadorText}>Alias</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => addPlayer(item)}
-              >
-                <Text style={styles.buttonText}>Añadir al grupo</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
+          <Text style={styles.label}>Buscador de jugadores</Text>
+          <Searchbar
+            placeholder="Introduce un nombre..."
+            onChangeText={onChangeSearch}
+            value={jugadores}
+            style={styles.searchbar}
+          />
+        </View>
+
+        {/* RESULTADOS DE BÚSQUEDA DEL SEARCHBAR */}
+        <View style={{width: "90%"}}>
+          <FlatList
+            data={jugadores}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            style={styles.listado}
+          />
         </View>
 
         <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => handleStore()}>
-              <Text style={styles.buttonText}>Crear pareja</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, { backgroundColor: "darkred" }]}
-              onPress={() => goBack()}
-            >
-              <Text style={styles.buttonText}>Cancelar</Text>
-            </TouchableOpacity>
-          </View>
-      </ScrollView>
+          <TouchableOpacity
+            style={styles.buttonSave}
+            onPress={() => handleStore()}
+          >
+            <Text style={styles.buttonSaveText}>Crear pareja</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonSave, { backgroundColor: "darkred" }]}
+            onPress={() => goBack()}
+          >
+            <Text style={styles.buttonSaveText}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -169,8 +166,18 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     width: "25%",
   },
+  jugadoresAdded:{
+    backgroundColor: "lightgrey",
+    padding: 10,
+    marginTop: 10,
+    width: "90%",
+  },
+  jugadoresAddedText:{
+    fontWeight: "bold",
+  },
   inputContainer: {
     width: "90%",
+    marginVertical: 5,
   },
   input: {
     backgroundColor: "white",
@@ -192,7 +199,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     width: "80%",
   },
-  button: {
+  buttonSave: {
     backgroundColor: colores.darkblue,
     width: "100%",
     padding: 15,
@@ -200,7 +207,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 5,
   },
-  buttonText: {
+  buttonSaveText: {
     color: "white",
     fontWeight: "700",
     fontSize: 16,
@@ -228,5 +235,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  searchbar: {
+    marginTop: 10,
+  },
+  listado: {
+    width: "100%",
+    marginTop: 5,
   },
 });
