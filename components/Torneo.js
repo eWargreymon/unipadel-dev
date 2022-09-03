@@ -78,7 +78,6 @@ const Torneo = ({ torneo, state, parejas }) => {
         {torneo.activo == 1 && state && (
           <TouchableOpacity
             style={styles.boton}
-            // onPress={() => handleInscripcion(torneo.id)}
             onPress={() => {
               setTorneoId(torneo.id)
               setModalVisible(true)

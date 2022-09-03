@@ -1,7 +1,13 @@
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
+import { colores } from "../colors";
 
-const SelectorPareja = ({ modalVisible, setModalVisible, parejas, handleInscripcion }) => {
+const SelectorPareja = ({
+  modalVisible,
+  setModalVisible,
+  parejas,
+  handleInscripcion,
+}) => {
   return (
     <View>
       <Modal
@@ -17,8 +23,11 @@ const SelectorPareja = ({ modalVisible, setModalVisible, parejas, handleInscripc
           <View style={styles.modalView}>
             {parejas.data.map((item, key) => (
               <View key={item.id}>
-                <TouchableOpacity onPress={() => handleInscripcion(item.id)}>
-                  <Text>{item.nombre}</Text>
+                <TouchableOpacity
+                  onPress={() => handleInscripcion(item.id)}
+                  style={styles.pareja}
+                >
+                  <Text style={styles.parejaText}>{item.nombre}</Text>
                 </TouchableOpacity>
               </View>
             ))}
@@ -26,7 +35,7 @@ const SelectorPareja = ({ modalVisible, setModalVisible, parejas, handleInscripc
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Cerrar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -42,14 +51,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   modalView: {
-    margin: 20,
+    padding: 30,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -60,23 +68,27 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: colores.yellow,
+    marginTop: 10,
   },
   textStyle: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     textAlign: "center",
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+  pareja: {
+    backgroundColor: "lightgrey",
+    padding: 20,
+    marginVertical: 10
   },
+  parejaText:{
+    fontWeight: "bold",
+    textAlign: "center",
+    textTransform: "uppercase",
+  }
 });
