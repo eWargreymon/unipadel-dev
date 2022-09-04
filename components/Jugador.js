@@ -1,9 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { colores } from "../colors";
 
-const Jugador = ({ jugador, addPlayer }) => {
+const Jugador = ({ jugador, addPlayer, jugadoresPareja }) => {
   const [selected, setSelected] = useState(false);
+
+  useEffect(() => {
+    jugadoresPareja.includes(jugador.id) && setSelected(true);
+  }, []);
 
   return (
     <View style={[styles.jugador, selected && styles.selected]}>
@@ -62,14 +66,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  aviso:{
+  aviso: {
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: colores.green,
     borderRadius: 10,
-    padding: 5
+    padding: 5,
   },
-  avisoText:{
-    color: colores.green
-  }
+  avisoText: {
+    color: colores.green,
+  },
 });

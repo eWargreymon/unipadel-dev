@@ -26,6 +26,7 @@ const ParejaForm = () => {
   const [jugadores, setJugadores] = useState([]);
 
   const [jugadoresPareja, setJugadoresPareja] = useState([]);
+  const [jugadoresParejaNombre, setJugadoresParejaNombre] = useState([]);
 
   const onChangeSearch = async (query) => {
     const data = await getJugadores(query);
@@ -71,11 +72,12 @@ const ParejaForm = () => {
   };
 
   function addPlayer(player) {
-    setJugadoresPareja([...jugadoresPareja, [player.id, player.name]]);
+    setJugadoresPareja([...jugadoresPareja, player.id]);
+    setJugadoresParejaNombre([...jugadoresParejaNombre, player.name]);
   }
 
   const renderItem = ({ item }) => {
-    return <Jugador jugador={item} addPlayer={addPlayer}></Jugador>;
+    return <Jugador jugador={item} jugadoresPareja={jugadoresPareja} addPlayer={addPlayer}></Jugador>;
   };
 
   return (
@@ -88,8 +90,8 @@ const ParejaForm = () => {
           <Text style={[styles.jugadoresAddedText, {textAlign: 'center', fontSize: 20}]}>Jugadores añadidos
           </Text>
             {
-              jugadoresPareja.map((item) => (
-                <Text key={item[0]} style={styles.jugadoresAddedText}>·{item[1]}</Text>
+              jugadoresParejaNombre.map((item) => (
+                <Text key={item} style={styles.jugadoresAddedText}>·{item}</Text>
               )) 
             }
         </View>
