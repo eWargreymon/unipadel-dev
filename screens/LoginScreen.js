@@ -69,7 +69,7 @@ const LoginScreen = () => {
           <TextInput
             placeholder="Correo de acceso..."
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setEmail(text.trim())}
             style={styles.input}
           />
           <Text style={styles.label}>Contraseña</Text>

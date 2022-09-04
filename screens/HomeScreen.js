@@ -24,7 +24,7 @@ const HomeScreen = () => {
 
   const loadTorneos = async () => {
     const data = await getTorneos();
-    setTorneos(data);
+    setTorneos(data.data);
   };
 
   const onRefresh = React.useCallback(async () => {

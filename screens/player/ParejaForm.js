@@ -240,7 +240,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   listado: {
+    maxHeight: 200,
     width: "100%",
-    marginTop: 5,
+    marginTop: 5
   },
 });

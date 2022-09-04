@@ -1,5 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert, Modal } from "react-native";
-import React, {useState} from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  Modal,
+} from "react-native";
+import React, { useState } from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import { useNavigation } from "@react-navigation/core";
@@ -30,16 +37,12 @@ const Torneo = ({ torneo, state, parejas }) => {
           );
         })
         .catch((error) => {
-          Alert.alert(
-            "Error en la inscripción",
-            error.response.data.message,
-            [
-              {
-                text: "Vale",
-                style: "cancel",
-              },
-            ]
-          );
+          Alert.alert("Error en la inscripción", error.response.data.message, [
+            {
+              text: "Vale",
+              style: "cancel",
+            },
+          ]);
         });
     } else {
       Alert.alert(
@@ -61,7 +64,14 @@ const Torneo = ({ torneo, state, parejas }) => {
 
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
-      <SelectorPareja modalVisible={modalVisible} setModalVisible={setModalVisible} parejas={parejas} handleInscripcion={handleInscripcion}></SelectorPareja>
+      {parejas && (
+        <SelectorPareja
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          parejas={parejas}
+          handleInscripcion={handleInscripcion}
+        ></SelectorPareja>
+      )}
       <Text style={styles.nombre}>{torneo.nombre}</Text>
       <Text style={[styles.contentText, { textAlign: "center" }]}>
         {torneo.fecha_inicio} al {torneo.fecha_fin}
@@ -72,15 +82,15 @@ const Torneo = ({ torneo, state, parejas }) => {
         Formato: {torneo.formato ? "Liga" : "Eliminatorias"}
       </Text>
       <Text style={styles.contentText}>
-        Nº participantes: {torneo.max_jugadores} parejas
+        Nº participantes: {torneo.max_parejas} parejas
       </Text>
       <View style={styles.botones}>
         {torneo.activo == 1 && state && (
           <TouchableOpacity
             style={styles.boton}
             onPress={() => {
-              setTorneoId(torneo.id)
-              setModalVisible(true)
+              setTorneoId(torneo.id);
+              setModalVisible(true);
             }}
           >
             <Text style={styles.botonText}>Inscripción</Text>
