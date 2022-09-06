@@ -3,6 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
 
+import {
+  CountProvider
+} from "./screens/context/ReferenceDataContext";
+
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 
@@ -26,42 +30,53 @@ LogBox.ignoreLogs([
 
 export default function App() {
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: "white" },
-          }}
-        >
-          <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-          ></Stack.Screen>
-          <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-          <Stack.Screen
-            name="PlayerHome"
-            component={PlayerNavigation}
-          ></Stack.Screen>
-          <Stack.Screen
-            name="OrganizerHome"
-            component={OrganizerNavigation}
-          ></Stack.Screen>
-          <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
-          <Stack.Screen name="TorneoForm" component={TorneoForm}></Stack.Screen>
-          <Stack.Screen
-            name="ListadoTorneosOrganizador"
-            component={TorneosOrganizadorScreen}
-          ></Stack.Screen>
-          <Stack.Screen
-            name="OrganizarTorneo"
-            component={OrganizarTorneoScreen}
-          ></Stack.Screen>
-          <Stack.Screen name="ParejaForm" component={ParejaForm}></Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <CountProvider>
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "white" },
+            }}
+          >
+            <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+            ></Stack.Screen>
+            <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+            <Stack.Screen
+              name="PlayerHome"
+              component={PlayerNavigation}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="OrganizerHome"
+              component={OrganizerNavigation}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="Profile"
+              component={ProfileScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="TorneoForm"
+              component={TorneoForm}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="ListadoTorneosOrganizador"
+              component={TorneosOrganizadorScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="OrganizarTorneo"
+              component={OrganizarTorneoScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="ParejaForm"
+              component={ParejaForm}
+            ></Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </CountProvider>
   );
 }
 

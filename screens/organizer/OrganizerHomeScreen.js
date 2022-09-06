@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
 import SupNavbar from "../../components/supNavbar";
+import UserBar from "../../components/UserBar";
 import { useNavigation } from "@react-navigation/core";
 
 const OrganizerHomeScreen = () => {
@@ -9,6 +10,7 @@ const OrganizerHomeScreen = () => {
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
+      <UserBar></UserBar>
       <TouchableOpacity
         style={styles.button}
         onPress={() => {

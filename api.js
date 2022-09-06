@@ -8,7 +8,6 @@ const api = "http://192.168.0.30/unipadel-api/api/";
 
 export const getTorneos = async (id) => {
   if (id) {
-    console.log("aaaa");
     return await axios.get(`${api}getTorneo/` + id);
   } else {
     return await axios.get(`${api}getTorneo`);

@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from "react-native";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
 
@@ -18,7 +18,10 @@ import { useNavigation } from "@react-navigation/core";
 import Triangles from "../components/triangles";
 import { attemptLogin } from "../api";
 
+import { CountContext } from "./context/ReferenceDataContext";
+
 const LoginScreen = () => {
+  const usuarioContext = useContext(CountContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,7 +31,8 @@ const LoginScreen = () => {
     const detectUser = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const res = await attemptLogin(user.email);
-        if(res.data.data != null){
+        if (res.data.data != null) {
+          usuarioContext.setUser(res.data.data);
           if (res.data.data.tipo) {
             navigation.replace("OrganizerHome");
           } else {
@@ -45,11 +49,9 @@ const LoginScreen = () => {
   }, []);
 
   const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((err) => {
-        alert(err.message);
-      });
+    auth.signInWithEmailAndPassword(email, password).catch((err) => {
+      alert(err.message);
+    });
   };
 
   return (

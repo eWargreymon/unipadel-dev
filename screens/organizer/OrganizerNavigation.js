@@ -8,7 +8,6 @@ import { colores } from "../../colors";
 
 const OrganizerNavigation = () => {
   const Tab = createBottomTabNavigator();
-
   return (
     <Tab.Navigator
       screenOptions={{
