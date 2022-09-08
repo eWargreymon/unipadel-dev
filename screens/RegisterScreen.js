@@ -23,6 +23,7 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [nombre, setNombre] = useState("");
   const [tipo, setTipo] = useState(0);
+  const [user, setUser] = useState("");
 
   const navigation = useNavigation();
 
@@ -47,7 +48,7 @@ const RegisterScreen = () => {
     });
 
     return detectUser;
-  }, []);
+  }, [user]);
 
   const handleSignUp = async () => {
     const datosRegistro = {
@@ -59,6 +60,7 @@ const RegisterScreen = () => {
       .createUserWithEmailAndPassword(email, password)
       .then(async (userCredentials) => {
         const res = await storeUserInfo(datosRegistro);
+        setUser(res);
       })
       .catch((err) => {
         alert(err.message);

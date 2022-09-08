@@ -1,13 +1,16 @@
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { colores } from "../colors";
+import { CountContext } from "../screens/context/ReferenceDataContext";
 
 const SelectorPareja = ({
   modalVisible,
   setModalVisible,
-  parejas,
   handleInscripcion,
 }) => {
+  
+  const usuarioContext = useContext(CountContext);
+
   return (
     <View>
       <Modal
@@ -21,7 +24,7 @@ const SelectorPareja = ({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {parejas.data.map((item, key) => (
+            {usuarioContext.parejas.map((item, key) => (
               <View key={item.id}>
                 <TouchableOpacity
                   onPress={() => handleInscripcion(item.id)}

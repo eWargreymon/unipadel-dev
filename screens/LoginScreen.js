@@ -16,7 +16,7 @@ import { colores } from "../colors";
 
 import { useNavigation } from "@react-navigation/core";
 import Triangles from "../components/triangles";
-import { attemptLogin } from "../api";
+import { attemptLogin, getParejas } from "../api";
 
 import { CountContext } from "./context/ReferenceDataContext";
 
@@ -24,6 +24,7 @@ const LoginScreen = () => {
   const usuarioContext = useContext(CountContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
 
   const navigation = useNavigation();
 
@@ -36,6 +37,8 @@ const LoginScreen = () => {
           if (res.data.data.tipo) {
             navigation.replace("OrganizerHome");
           } else {
+            const par = await getParejas(user.email);
+            usuarioContext.setParejas(par.data);
             navigation.replace("PlayerHome");
           }
         } else {
@@ -46,10 +49,14 @@ const LoginScreen = () => {
     });
 
     return detectUser;
-  }, []);
+  }, [user]);
 
   const handleLogin = () => {
-    auth.signInWithEmailAndPassword(email, password).catch((err) => {
+    auth.signInWithEmailAndPassword(email, password)
+    .then((res) => {
+      setUser(res);
+    })
+    .catch((err) => {
       alert(err.message);
     });
   };

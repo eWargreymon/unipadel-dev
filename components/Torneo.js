@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/core";
 import { inscripcion } from "../api";
 import SelectorPareja from "./SelectorPareja";
 
-const Torneo = ({ torneo, state, parejas }) => {
+const Torneo = ({ torneo, state }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [torneoId, setTorneoId] = useState(0);
@@ -64,11 +64,10 @@ const Torneo = ({ torneo, state, parejas }) => {
 
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
-      {parejas && (
+      {auth.currentUser && (
         <SelectorPareja
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          parejas={parejas}
           handleInscripcion={handleInscripcion}
         ></SelectorPareja>
       )}

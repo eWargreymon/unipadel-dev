@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, {useContext} from "react";
 import SupNavbar from "../../components/supNavbar";
 import { useNavigation } from "@react-navigation/native";
 

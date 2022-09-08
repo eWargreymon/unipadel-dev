@@ -1,42 +1,44 @@
 import { StyleSheet, Text, View, FlatList, RefreshControl } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SupNavbar from "../../components/supNavbar";
 
 import { colores } from "../../colors";
 import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../../components/Torneo";
 import { getTorneos, getParejas } from "../../api";
-import { auth } from "../../firebase";
+
+import { CountContext } from "../context/ReferenceDataContext";
 
 const TorneosScreen = () => {
-  const [parejas, setParejas] = useState([]);
+  const usercontext = useContext(CountContext);
   const [torneos, setTorneos] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const isFocusing = useIsFocused();
-
-  const loadParejas = async () => {
-    const data = await getParejas(auth.currentUser.email);
-    setParejas(data);
-  };
 
   const loadTorneos = async () => {
     const data = await getTorneos();
     setTorneos(data.data);
   };
 
+  const loadParejas = async () => {
+    let par = await getParejas(usercontext.user.email);
+    usercontext.setParejas(par.data);
+  }
+
   const onRefresh = React.useCallback(async () => {
     setRefresh(true);
     await loadTorneos();
+    await loadParejas();
     setRefresh(false);
   });
 
   useEffect( () => {
-     loadParejas();
      loadTorneos();
+     loadParejas();
   }, [isFocusing]);
 
   const renderItem = ({ item }) => {
-    return <Torneo torneo={item} state={true} parejas={parejas}></Torneo>;
+    return <Torneo torneo={item} state={true}></Torneo>;
   };
 
   return (
@@ -65,7 +67,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
-    // width: "100%",
   },
   title: {
     color: colores.darkblue,
