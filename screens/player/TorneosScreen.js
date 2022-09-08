@@ -63,11 +63,9 @@ export default TorneosScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 100,
-    width: "100%",
     backgroundColor: "white",
+    // width: "100%",
   },
   title: {
     color: colores.darkblue,

@@ -120,8 +120,8 @@ const TorneoForm = () => {
 
   return (
     <SafeAreaView>
-      <SupNavbar></SupNavbar>
       <ScrollView contentContainerStyle={styles.container}>
+        <SupNavbar></SupNavbar>
         <Text style={styles.title}>CREAR COMPETICIÓN</Text>
         <View style={styles.titleUnderline}></View>
 
@@ -305,8 +305,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 100,
     width: "100%",
+    backgroundColor: "white",
   },
   title: {
     color: colores.darkblue,

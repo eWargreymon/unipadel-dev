@@ -4,7 +4,7 @@ import axios from "axios";
 // const api = "http://192.168.0.30:8000/api/"
 // const api = "http://192.168.0.102/unipadel-api/api/"
 // const api = "http://192.168.1.118/unipadel-api/api/";
-const api = "http://192.168.0.30/unipadel-api/api/";
+const api = "http://192.168.0.25/unipadel-api/api/";
 
 export const getTorneos = async (id) => {
   if (id) {

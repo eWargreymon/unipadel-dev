@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "white",
-        backgroundColor: "green",
+        borderColor: "black",
+        backgroundColor: "#00ff00",
     },
     separador: {
         marginHorizontal: 5,

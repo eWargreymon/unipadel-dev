@@ -33,15 +33,17 @@ export default SupNavbar;
 
 const styles = StyleSheet.create({
   navbar: {
+    // position: "absolute",
+    // top: 0,
+    // marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    // flex: 1,
     height: 50,
     width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: "lightgrey",
     backgroundColor: "white",
-    position: "absolute",
-    top: 0,
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    flex: 1,
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

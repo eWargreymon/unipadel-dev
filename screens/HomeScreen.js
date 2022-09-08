@@ -40,7 +40,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
-      <Text style={styles.title}>PRÓXIMOS TORNEOS</Text>
+      <Text style={styles.title}>TORNEOS</Text>
       <View style={styles.titleUnderline}></View>
       <FlatList
         data={torneos}
@@ -61,10 +61,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 100,
-    width: "100%"
   },
   title: {
     color: colores.darkblue,

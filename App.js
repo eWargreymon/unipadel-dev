@@ -1,11 +1,9 @@
-import { StyleSheet, LogBox } from "react-native";
+import { StyleSheet, LogBox, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
 
-import {
-  CountProvider
-} from "./screens/context/ReferenceDataContext";
+import { CountProvider } from "./screens/context/ReferenceDataContext";
 
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -33,6 +31,7 @@ export default function App() {
     <CountProvider>
       <PaperProvider>
         <NavigationContainer>
+          <StatusBar barStyle={"dark-content"} backgroundColor={"white"}/>
           <Stack.Navigator
             screenOptions={{
               headerShown: false,

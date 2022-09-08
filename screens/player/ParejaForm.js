@@ -152,9 +152,7 @@ export default ParejaForm;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 100,
     width: "100%",
   },
   title: {
