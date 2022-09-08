@@ -1,13 +1,7 @@
-import {
-  StyleSheet,
-  View,
-  Platform,
-  StatusBar,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/core";
+import { auth } from "../firebase";
 
 const SupNavbar = () => {
   const navigation = useNavigation();
@@ -19,12 +13,14 @@ const SupNavbar = () => {
           source={require("../assets/images/logo/logo2.png")}
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.push("Profile")}>
-        <Image
-          style={{ resizeMode: "contain", height: 25 }}
-          source={require("../assets/images/icons/user.png")}
-        />
-      </TouchableOpacity>
+      {auth.currentUser && (
+        <TouchableOpacity onPress={() => navigation.push("Profile")}>
+          <Image
+            style={{ resizeMode: "contain", height: 25 }}
+            source={require("../assets/images/icons/user.png")}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -48,6 +44,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 10,
-    zIndex: 1
+    zIndex: 1,
   },
 });

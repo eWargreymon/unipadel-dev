@@ -17,7 +17,7 @@ import OrganizerNavigation from "./screens/organizer/OrganizerNavigation";
 
 import TorneoForm from "./screens/organizer/TorneoForm";
 import TorneosOrganizadorScreen from "./screens/organizer/OrganizerTournamentsScreen";
-import OrganizarTorneoScreen from "./screens/organizer/OrganizarTorneoScreen";
+import GestionarTorneoScreen from "./screens/organizer/GestionarTorneoScreen";
 
 import ParejaForm from "./screens/player/ParejaForm";
 
@@ -65,8 +65,8 @@ export default function App() {
               component={TorneosOrganizadorScreen}
             ></Stack.Screen>
             <Stack.Screen
-              name="OrganizarTorneo"
-              component={OrganizarTorneoScreen}
+              name="GestionarTorneo"
+              component={GestionarTorneoScreen}
             ></Stack.Screen>
             <Stack.Screen
               name="ParejaForm"

@@ -105,7 +105,7 @@ const Torneo = ({ torneo, state, parejas }) => {
           <TouchableOpacity
             style={[styles.boton, styles.boton2]}
             onPress={() =>
-              navigation.navigate("OrganizarTorneo", { id: torneo.id })
+              navigation.navigate("GestionarTorneo", { id: torneo.id })
             }
           >
             <Text style={[styles.botonText, styles.botonText2]}>Gestionar</Text>

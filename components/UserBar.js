@@ -1,21 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState, useEffect, useContext } from "react";
-import { auth } from "../firebase";
-import { attemptLogin } from "../api";
+import React, { useContext } from "react";
 import { CountContext } from "../screens/context/ReferenceDataContext";
 
 const UserBar = () => {
   const usuarioContext = useContext(CountContext);
-  const [user, setUser] = useState("");
-
-  const getUser = async () => {
-    const res = await attemptLogin(auth.currentUser.email);
-    setUser(res);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   return (
     <View style={styles.userBar}>
@@ -31,7 +19,7 @@ export default UserBar;
 
 const styles = StyleSheet.create({
     userBar : {
-        width: "90%",
+        width: "95%",
         backgroundColor: "lightgrey",
         borderRadius: 5,
         padding: 5,
