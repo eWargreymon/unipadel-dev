@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     width: "95%",
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 15
   },
   torneoBarBack: {
     width: "69%",

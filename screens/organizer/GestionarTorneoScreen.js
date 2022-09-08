@@ -6,6 +6,7 @@ import SupNavbar from "../../components/supNavbar";
 import { getTorneos } from "../../api";
 import { useNavigation } from "@react-navigation/core";
 import { colores } from "../../colors";
+import { render } from "react-dom";
 
 const GestionarTorneoScreen = ({ route }) => {
   const id = route.params.id;
@@ -32,15 +33,61 @@ const GestionarTorneoScreen = ({ route }) => {
         nombre={torneo.nombre}
         en_juego={torneo.en_juego}
       ></TournamentBar>
-      <View style={styles.timer}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={{ resizeMode: "contain", width: 60, height: 60 }}
-            source={require("../../assets/images/icons/timer.png")}
-          />
+      {torneo.en_juego ? (
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+            <Text style={styles.calendarText}>Gestionar partidos</Text>
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: 50, height: 50 }}
+                source={require("../../assets/images/icons/parejas.png")}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+            <Text style={styles.calendarText}>Resultados / Clasificación</Text>
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: 50, height: 50 }}
+                source={require("../../assets/images/icons/trofeo.png")}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+            <Text style={styles.calendarText}>Gestionar Calendario</Text>
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: 50, height: 50 }}
+                source={require("../../assets/images/icons/calendar.png")}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.timerText}>Empieza en: {dias} días</Text>
-      </View>
+      ) : (
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <View style={styles.timer}>
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: 60, height: 60 }}
+                source={require("../../assets/images/icons/timer.png")}
+              />
+            </View>
+            <Text style={styles.timerText}>Empieza en: {dias} días</Text>
+          </View>
+
+          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+            <Text style={styles.calendarText}>Generar Calendario</Text>
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: 50, height: 50 }}
+                source={require("../../assets/images/icons/calendar.png")}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.gestionarContainer}>
         <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}>
           <Text style={styles.gestionarText}>Gestionar recursos</Text>
@@ -52,7 +99,7 @@ const GestionarTorneoScreen = ({ route }) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}>
-          <Text style={styles.gestionarText}>Gestionar recursos</Text>
+          <Text style={styles.gestionarText}>Jugadores inscritos</Text>
           <View style={styles.imageContainer}>
             <Image
               style={{ resizeMode: "contain", width: 60, height: 60 }}
@@ -61,17 +108,14 @@ const GestionarTorneoScreen = ({ route }) => {
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
-        <Text style={styles.calendarText}>Generar Calendario</Text>
-        <View style={styles.imageContainer}>
-          <Image
-            style={{ resizeMode: "contain", width: 60, height: 60 }}
-            source={require("../../assets/images/icons/calendar.png")}
-          />
-        </View>
-      </TouchableOpacity>
       <TouchableOpacity style={[styles.button, styles.shadow]}>
         <Text style={styles.text}>Editar datos competición</Text>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ resizeMode: "contain", width: 50, height: 50 }}
+            source={require("../../assets/images/icons/settings.png")}
+          />
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -85,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   timer: {
-    marginVertical: 15,
+    marginBottom: 15,
     backgroundColor: colores.darkblue,
     padding: 10,
     width: "90%",
@@ -103,9 +147,10 @@ const styles = StyleSheet.create({
     width: "90%",
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 15,
   },
   gestionarButton: {
-    width: "45%",
+    width: "47%",
     padding: 20,
     backgroundColor: colores.lightyellow,
     alignItems: "center",
@@ -118,7 +163,7 @@ const styles = StyleSheet.create({
   },
   calendarContainer: {
     width: "90%",
-    marginVertical: 20,
+    marginBottom: 15,
     backgroundColor: colores.lightblue,
     flexDirection: "row",
     alignItems: "center",
@@ -132,15 +177,19 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "90%",
-    paddingVertical: 25,
-    backgroundColor: "white"
+    padding: 15,
+    backgroundColor: "white",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
   },
   text: {
-    textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
+    marginRight: 15,
   },
-  shadow:{
+  shadow: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -149,5 +198,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  }
+  },
 });
