@@ -18,10 +18,11 @@ import { useNavigation } from "@react-navigation/core";
 import Triangles from "../components/triangles";
 import { attemptLogin, getParejas } from "../api";
 
-import { CountContext } from "./context/ReferenceDataContext";
+import { UserContext } from "../context/UserDataContext";
+
 
 const LoginScreen = () => {
-  const usuarioContext = useContext(CountContext);
+  const usuarioContext = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");

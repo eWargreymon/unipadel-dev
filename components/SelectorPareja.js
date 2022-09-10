@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
 import { colores } from "../colors";
-import { CountContext } from "../screens/context/ReferenceDataContext";
+import { UserContext } from "../context/UserDataContext";
 
 const SelectorPareja = ({
   modalVisible,
@@ -9,7 +9,7 @@ const SelectorPareja = ({
   handleInscripcion,
 }) => {
   
-  const usuarioContext = useContext(CountContext);
+  const usuarioContext = useContext(UserContext);
 
   return (
     <View>

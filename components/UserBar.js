@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext } from "react";
-import { CountContext } from "../screens/context/ReferenceDataContext";
+import { UserContext } from "../context/UserDataContext";
 
 const UserBar = () => {
-  const usuarioContext = useContext(CountContext);
+  const usuarioContext = useContext(UserContext);
 
   return (
     <View style={styles.userBar}>

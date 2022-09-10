@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
 
-import { CountProvider } from "./screens/context/ReferenceDataContext";
+import { UserProvider } from "./context/UserDataContext";
 
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -28,7 +28,7 @@ LogBox.ignoreLogs([
 
 export default function App() {
   return (
-    <CountProvider>
+    <UserProvider>
       <PaperProvider>
         <NavigationContainer>
           <StatusBar barStyle={"dark-content"} backgroundColor={"white"}/>
@@ -75,7 +75,7 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
-    </CountProvider>
+    </UserProvider>
   );
 }
 

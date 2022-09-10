@@ -1,16 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 import SupNavbar from '../components/supNavbar'
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 
+import { UserContext } from '../context/UserDataContext';
+
 const ProfileScreen = () => {
+  const usercontext = useContext(UserContext);
   const navigation = useNavigation();
   
   const handleLogOut = () => {
     auth
       .signOut()
       .then(() => {
+        usercontext.reset();
         navigation.replace("Login");
       })
       .catch((err) => alert(err.message));

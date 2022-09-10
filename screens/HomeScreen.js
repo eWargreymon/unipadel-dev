@@ -5,7 +5,7 @@ import {
   FlatList,
   RefreshControl,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { colores } from "../colors";
 
 import SupNavbar from "../components/supNavbar";
@@ -14,6 +14,7 @@ import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../components/Torneo";
 
 const HomeScreen = () => {
+
   const renderItem = ({ item }) => {
     return <Torneo torneo={item} state={true}></Torneo>;
   };

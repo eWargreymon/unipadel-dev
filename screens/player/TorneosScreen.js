@@ -7,10 +7,10 @@ import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../../components/Torneo";
 import { getTorneos, getParejas } from "../../api";
 
-import { CountContext } from "../context/ReferenceDataContext";
+import { UserContext } from "../../context/UserDataContext";
 
 const TorneosScreen = () => {
-  const usercontext = useContext(CountContext);
+  const usercontext = useContext(UserContext);
   const [torneos, setTorneos] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const isFocusing = useIsFocused();

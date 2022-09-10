@@ -10,15 +10,17 @@ import {
   Keyboard,
 } from "react-native";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigation } from "@react-navigation/core";
 
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import Triangles from "../components/triangles";
-import { attemptLogin, storeUserInfo } from "../api";
+import { attemptLogin, storeUserInfo, getParejas } from "../api";
+import { UserContext } from "../context/UserDataContext";
 
 const RegisterScreen = () => {
+  const usuarioContext = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nombre, setNombre] = useState("");
@@ -35,9 +37,12 @@ const RegisterScreen = () => {
       if (user) {
         const res = await attemptLogin(user.email);
         if (res.data.data != null) {
+          usuarioContext.setUser(res.data.data);
           if (res.data.data.tipo) {
             navigation.replace("OrganizerHome");
           } else {
+            const par = await getParejas(user.email);
+            usuarioContext.setParejas(par.data);
             navigation.replace("PlayerHome");
           }
         } else {
