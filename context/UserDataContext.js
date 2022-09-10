@@ -4,11 +4,11 @@ const UserContext = createContext();
 
 function UserProvider({children}) {
   const [user, setUser] = useState("");
-  const [parejas, setParejas] = useState("");
+  const [parejas, setParejas] = useState([]);
 
   function reset(){
     setUser("");
-    setParejas("");
+    setParejas([]);
   }
   
   const value = {user, setUser, parejas, setParejas, reset}

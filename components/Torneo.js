@@ -6,14 +6,17 @@ import {
   Alert,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import { useNavigation } from "@react-navigation/core";
 import { inscripcion } from "../api";
 import SelectorPareja from "./SelectorPareja";
 
+import { UserContext } from "../context/UserDataContext";
+
 const Torneo = ({ torneo, state }) => {
+  const user = useContext(UserContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [torneoId, setTorneoId] = useState(0);
@@ -64,7 +67,7 @@ const Torneo = ({ torneo, state }) => {
 
   return (
     <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
-      {auth.currentUser && (
+      {auth.currentUser && user.user.tipo == 0 && (
         <SelectorPareja
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
