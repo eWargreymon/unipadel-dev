@@ -18,6 +18,8 @@ import OrganizerNavigation from "./screens/organizer/OrganizerNavigation";
 import TorneoForm from "./screens/organizer/TorneoForm";
 import TorneosOrganizadorScreen from "./screens/organizer/OrganizerTournamentsScreen";
 import GestionarTorneoScreen from "./screens/organizer/GestionarTorneoScreen";
+import GestionarRecursosScreen from "./screens/organizer/GestionarRecursosScreen";
+import GestionarInscripcionesScreen from "./screens/organizer/GestionarInscripciones";
 
 import ParejaForm from "./screens/player/ParejaForm";
 
@@ -67,6 +69,14 @@ export default function App() {
             <Stack.Screen
               name="GestionarTorneo"
               component={GestionarTorneoScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="GestionarRecursos"
+              component={GestionarRecursosScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="GestionarInscripciones"
+              component={GestionarInscripcionesScreen}
             ></Stack.Screen>
             <Stack.Screen
               name="ParejaForm"

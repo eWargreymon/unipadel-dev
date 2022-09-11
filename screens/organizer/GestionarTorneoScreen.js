@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
-import TournamentBar from "../../components/TournamentBar";
+import { useNavigation } from "@react-navigation/core";
 
+import TournamentBar from "../../components/TournamentBar";
 import SupNavbar from "../../components/supNavbar";
 import { getTorneos } from "../../api";
-import { useNavigation } from "@react-navigation/core";
 import { colores } from "../../colors";
-import { render } from "react-dom";
 
 const GestionarTorneoScreen = ({ route }) => {
   const id = route.params.id;
+  const navigation = useNavigation();
 
   const [torneo, setTorneo] = useState("");
   const [dias, setDias] = useState("");
@@ -89,7 +89,12 @@ const GestionarTorneoScreen = ({ route }) => {
         </View>
       )}
       <View style={styles.gestionarContainer}>
-        <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}>
+        <TouchableOpacity
+          style={[styles.gestionarButton, styles.shadow]}
+          onPress={() =>
+            navigation.navigate("GestionarRecursos", { torneo: torneo })
+          }
+        >
           <Text style={styles.gestionarText}>Gestionar recursos</Text>
           <View style={styles.imageContainer}>
             <Image
@@ -98,7 +103,10 @@ const GestionarTorneoScreen = ({ route }) => {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}>
+        <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}
+          onPress={() =>
+            navigation.navigate("GestionarInscripciones", { torneo: torneo })
+          }>
           <Text style={styles.gestionarText}>Jugadores inscritos</Text>
           <View style={styles.imageContainer}>
             <Image

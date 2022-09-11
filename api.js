@@ -49,3 +49,9 @@ export const getJugadores = async (query) => {
     return { data: [] };
   }
 };
+
+export const getInscripciones = async (torneo) => {
+  // let data = await axios.get(`${api}getInscripciones/` + torneo);
+  // console.log(data.data);
+  return await axios.get(`${api}getInscripciones/` + torneo);
+}
