@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import OrganizerHomeScreen from "./OrganizerHomeScreen";
 
+import RecursoForm from "./RecursoForm";
+
 import { colores } from "../../colors";
 
 const OrganizerNavigation = () => {
@@ -14,6 +16,10 @@ const OrganizerNavigation = () => {
         headerShown: false
       }}
     >
+    <Tab.Screen
+      name="RecursoForm"
+      component={RecursoForm}
+    ></Tab.Screen>
     <Tab.Screen
       name="INICIO"
       component={OrganizerHomeScreen}

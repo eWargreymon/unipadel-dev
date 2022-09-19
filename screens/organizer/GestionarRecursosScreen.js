@@ -7,6 +7,7 @@ import {
   Image,
 } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/core";
 
 import SupNavbar from "../../components/supNavbar";
 import TournamentBar from "../../components/TournamentBar";
@@ -14,6 +15,7 @@ import { colores } from "../../colors";
 
 const GestionarRecursosScreen = ({ route }) => {
   const torneo = route.params.torneo;
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -32,7 +34,12 @@ const GestionarRecursosScreen = ({ route }) => {
         <ScrollView></ScrollView>
       </View>
       <View style={styles.spacer}></View>
-      <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}>
+      <TouchableOpacity
+        style={[styles.gestionarButton, styles.shadow]}
+        onPress={() => {
+          navigation.navigate("RecursoForm");
+        }}
+      >
         <View style={styles.imageContainer}>
           <Image
             style={{ resizeMode: "contain", width: 50, height: 50 }}

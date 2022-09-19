@@ -16,6 +16,7 @@ import PlayerNavigation from "./screens/player/PlayerNavigation";
 import OrganizerNavigation from "./screens/organizer/OrganizerNavigation";
 
 import TorneoForm from "./screens/organizer/TorneoForm";
+import RecursoForm from "./screens/organizer/RecursoForm";
 import TorneosOrganizadorScreen from "./screens/organizer/OrganizerTournamentsScreen";
 import GestionarTorneoScreen from "./screens/organizer/GestionarTorneoScreen";
 import GestionarRecursosScreen from "./screens/organizer/GestionarRecursosScreen";
@@ -82,6 +83,10 @@ export default function App() {
               name="ParejaForm"
               component={ParejaForm}
             ></Stack.Screen>
+            {/* <Stack.Screen
+              name="RecursoForm"
+              component={RecursoForm}
+            ></Stack.Screen> */}
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
