@@ -83,10 +83,10 @@ export default function App() {
               name="ParejaForm"
               component={ParejaForm}
             ></Stack.Screen>
-            {/* <Stack.Screen
+            <Stack.Screen
               name="RecursoForm"
               component={RecursoForm}
-            ></Stack.Screen> */}
+            ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

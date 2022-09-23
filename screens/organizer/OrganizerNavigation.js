@@ -4,8 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import OrganizerHomeScreen from "./OrganizerHomeScreen";
 
-import RecursoForm from "./RecursoForm";
-
 import { colores } from "../../colors";
 
 const OrganizerNavigation = () => {
@@ -13,32 +11,28 @@ const OrganizerNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false
+        headerShown: false,
       }}
     >
-    <Tab.Screen
-      name="RecursoForm"
-      component={RecursoForm}
-    ></Tab.Screen>
-    <Tab.Screen
-      name="INICIO"
-      component={OrganizerHomeScreen}
-      options={{
-        tabBarIcon: ({ focused }) => (
-          <View>
-            <Image
-              style={[
-                { resizeMode: "contain", width: 20 },
-                focused ? { tintColor: colores.blue } : { tintColor: "gray" },
-              ]}
-              source={require("../../assets/images/icons/home.png")}
-            />
-          </View>
-        ),
-        tabBarActiveTintColor: colores.blue,
-        tabBarInactiveTintColor: "black",
-      }}
-    ></Tab.Screen>
+      <Tab.Screen
+        name="INICIO"
+        component={OrganizerHomeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <Image
+                style={[
+                  { resizeMode: "contain", width: 20 },
+                  focused ? { tintColor: colores.blue } : { tintColor: "gray" },
+                ]}
+                source={require("../../assets/images/icons/home.png")}
+              />
+            </View>
+          ),
+          tabBarActiveTintColor: colores.blue,
+          tabBarInactiveTintColor: "black",
+        }}
+      ></Tab.Screen>
     </Tab.Navigator>
   );
 };

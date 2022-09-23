@@ -20,7 +20,7 @@ import { colores } from "../../colors";
 import { createRecursos } from "../../api";
 import { useNavigation } from "@react-navigation/core";
 
-const RecursoForm = () => {
+const RecursoForm = ({ route }) => {
   const navigation = useNavigation();
   const [nombre, setNombre] = useState("");
 
@@ -67,31 +67,37 @@ const RecursoForm = () => {
 
   // Función para hacer el guardado de la info en la base de datos y mostrar mensaje de aviso
   const handleStore = async () => {
-    const res = await createRecursos(horarios)
-    //   .then(() => {
-    //     Alert.alert(
-    //       "¡Torneo creado!",
-    //       "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
-    //       [
-    //         {
-    //           text: "¡OK!",
-    //           onPress: () => navigation.pop(),
-    //         },
-    //       ]
-    //     );
-    //   })
-    //   .catch(() => {
-    //     Alert.alert(
-    //       "Error en el guardado",
-    //       "Ha surgido un error y no se ha podido guardar la información. Por favor, revise la información y vuelva a intentarlo.",
-    //       [
-    //         {
-    //           text: "Vale",
-    //           style: "cancel",
-    //         },
-    //       ]
-    //     );
-    //   });
+    let data = {
+      torneo: route.params.id,
+      cancha: nombre,
+      horarios: horarios
+    }
+
+    const res = await createRecursos(data)
+      .then(() => {
+        Alert.alert(
+          "¡Torneo creado!",
+          "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
+          [
+            {
+              text: "¡OK!",
+              onPress: () => navigation.pop(),
+            },
+          ]
+        );
+      })
+      .catch(() => {
+        Alert.alert(
+          "Error en el guardado",
+          "Ha surgido un error y no se ha podido guardar la información. Por favor, revise la información y vuelva a intentarlo.",
+          [
+            {
+              text: "Vale",
+              style: "cancel",
+            },
+          ]
+        );
+      });
   };
 
   const goBack = () => {

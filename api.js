@@ -51,12 +51,10 @@ export const getJugadores = async (query) => {
 };
 
 export const getInscripciones = async (torneo) => {
-  // let data = await axios.get(`${api}getInscripciones/` + torneo);
-  // console.log(data.data);
   return await axios.get(`${api}getInscripciones/` + torneo);
 }
 
 export const createRecursos = async (recursos) => {
   console.log(recursos);
-  // return await axios.post(`${api}createRecurso`, recursos);
+  return await axios.post(`${api}createRecurso`, recursos);
 }

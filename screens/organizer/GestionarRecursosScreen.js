@@ -37,7 +37,7 @@ const GestionarRecursosScreen = ({ route }) => {
       <TouchableOpacity
         style={[styles.gestionarButton, styles.shadow]}
         onPress={() => {
-          navigation.navigate("RecursoForm");
+          navigation.navigate("RecursoForm", { id: torneo.id });
         }}
       >
         <View style={styles.imageContainer}>
