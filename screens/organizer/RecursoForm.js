@@ -9,10 +9,9 @@ import {
   Alert,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { Picker } from "@react-native-picker/picker";
 import Checkbox from "expo-checkbox";
 
 import SupNavbar from "../../components/supNavbar";
@@ -68,10 +67,11 @@ const RecursoForm = ({ route }) => {
   // Función para hacer el guardado de la info en la base de datos y mostrar mensaje de aviso
   const handleStore = async () => {
     let data = {
-      torneo: route.params.id,
+      torneo: 1,
+      // torneo: route.params.id,
       cancha: nombre,
-      horarios: horarios
-    }
+      horarios: horarios,
+    };
 
     const res = await createRecursos(data)
       .then(() => {
@@ -104,6 +104,12 @@ const RecursoForm = ({ route }) => {
     navigation.pop();
   };
 
+  const borrarHorario = (index) => {
+    const reducedArr = [...horarios];
+    reducedArr.splice(index, 1);
+    setHorarios(reducedArr);
+  };
+
   const handleAgregarHorario = () => {
     let horario = {
       inicio: moment(inicio).format("HH:mm"),
@@ -131,6 +137,9 @@ const RecursoForm = ({ route }) => {
     setSabado(false);
     setDomingo(false);
   };
+
+  // useEffect(() => {
+  // }, [horarios]);
 
   return (
     <SafeAreaView>
@@ -280,8 +289,39 @@ const RecursoForm = ({ route }) => {
 
         <View style={styles.underline}></View>
 
-        <View>
-          <Text style={styles.title}>Horarios creados</Text>
+        <View style={{ alignItems: "center", width: "90%" }}>
+          <Text style={styles.title}>Horarios añadidos</Text>
+          {horarios.map((h, index) => {
+            return (
+              <View style={styles.horario} key={index}>
+                <View
+                  style={{}}
+                >
+                  <Text>
+                    {h.lunes && "L"}
+                    {h.martes && "M"}
+                    {h.miercoles && "X"}
+                    {h.jueves && "J"}
+                    {h.viernes && "V"}
+                    {h.sabado && "S"}
+                    {h.domingo && "D"}
+                  </Text>
+                  <Text>
+                    | {h.inicio} - {h.fin} |
+                  </Text>
+                  <Text>{h.turnos} turnos</Text>
+                </View>
+                <View style={{}}>
+                  <TouchableOpacity
+                    style={styles.borrarButton}
+                    onPress={() => borrarHorario(index)}
+                  >
+                    <Text style={{ color: "white" }}>Borrar</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })}
         </View>
 
         <View style={styles.buttonContainer}>
@@ -373,7 +413,6 @@ const styles = StyleSheet.create({
   },
   disponibilidadText: {
     marginLeft: 10,
-    // fontWeight: "bold",
   },
   button: {
     backgroundColor: colores.darkblue,
@@ -403,5 +442,19 @@ const styles = StyleSheet.create({
   },
   checkDia: {
     marginTop: 5,
+  },
+  horario: {
+    backgroundColor: "lightgray",
+    flexDirection: "row",
+    // justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    width: "100%",
+    marginVertical: 5,
+  },
+  borrarButton: {
+    backgroundColor: "black",
+    borderRadius: 5,
+    padding: 2,
   },
 });

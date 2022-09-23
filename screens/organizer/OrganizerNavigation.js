@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import RecursoForm from "./RecursoForm";
 import OrganizerHomeScreen from "./OrganizerHomeScreen";
 
 import { colores } from "../../colors";
@@ -14,6 +15,7 @@ const OrganizerNavigation = () => {
         headerShown: false,
       }}
     >
+      <Tab.Screen name="RecursoForm" component={RecursoForm}></Tab.Screen>
       <Tab.Screen
         name="INICIO"
         component={OrganizerHomeScreen}
