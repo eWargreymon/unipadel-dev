@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 
 import TournamentBar from "../../components/TournamentBar";
 import SupNavbar from "../../components/supNavbar";
-import { getTorneos } from "../../api";
+import { getTorneos, generarCalendario } from "../../api";
 import { colores } from "../../colors";
 
 const GestionarTorneoScreen = ({ route }) => {
@@ -21,6 +21,24 @@ const GestionarTorneoScreen = ({ route }) => {
       Math.round((new Date(data.data.fecha_inicio) - new Date()) / 86400000)
     );
   };
+
+  const generateFixtures = async () => { 
+    let request = {
+      "torneo" : torneo.id
+    }
+    const data = await generarCalendario(request).then(() => {
+      Alert.alert(
+        "¡Calendario generado!",
+        "Se ha generado un caledario de partidos para el torneo en base a las inscripciones y los recursos creados hasta la fecha",
+        [
+          {
+            text: "¡OK!"
+          },
+        ]
+      );
+    });
+    
+  }
 
   useEffect(() => {
     getTorneo();
@@ -77,7 +95,7 @@ const GestionarTorneoScreen = ({ route }) => {
             <Text style={styles.timerText}>Empieza en: {dias} días</Text>
           </View>
 
-          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]} onPress={() => generateFixtures()}>
             <Text style={styles.calendarText}>Generar Calendario</Text>
             <View style={styles.imageContainer}>
               <Image

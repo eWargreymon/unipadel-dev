@@ -124,6 +124,8 @@ const RecursoForm = ({ route }) => {
       domingo: domingo,
     };
 
+    console.log(horario);
+
     setHorarios((horarios) => [...horarios, horario]);
 
     setInicio("");

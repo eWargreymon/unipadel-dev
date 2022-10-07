@@ -55,6 +55,9 @@ export const getInscripciones = async (torneo) => {
 }
 
 export const createRecursos = async (recursos) => {
-  console.log(recursos);
   return await axios.post(`${api}createRecurso`, recursos);
+}
+
+export const generarCalendario = async (torneo) => {
+  return await axios.post(`${api}generateCalendario`, torneo);
 }
