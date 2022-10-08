@@ -118,8 +118,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   buttonText: {
+    textAlign: "center",
+    fontSize: 18,
     fontWeight: "bold",
-    fontSize: 24,
     textTransform: "uppercase",
   },
   user: {
