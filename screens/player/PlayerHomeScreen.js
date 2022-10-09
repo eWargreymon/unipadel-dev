@@ -11,23 +11,27 @@ import SupNavbar from "../../components/supNavbar";
 import { useNavigation } from "@react-navigation/native";
 import UserBar from "../../components/UserBar";
 import { colores } from "../../colors";
+import { getPartidos } from "../../api";
+import { UserContext } from "../../context/UserDataContext";
 
 const PlayerHomeScreen = () => {
   const navigation = useNavigation();
+  const usercontext = useContext(UserContext);
 
   const [partido, setPartido] = useState("");
   const [competiciones, setCompeticiones] = useState("");
 
+  const loadProximoPartido = async () => {
+    let request = {
+      user: usercontext.user.id,
+      proximo: true
+    };
+    const data = await getPartidos(request);
+    setPartido(data.data);
+  };
+
   useEffect(() => {
-    setPartido({
-      fecha: "10/07/2022",
-      id: "1",
-      hora: "10:30",
-      cancha: "Cancha 15",
-      pareja1: "Los panchos",
-      pareja2: "Las mariconchis",
-      torneo: "Torneo de Verano de la ULPGC",
-    });
+    loadProximoPartido();
     setCompeticiones([
       {
         id: "1",
@@ -41,18 +45,6 @@ const PlayerHomeScreen = () => {
         jugados: 1,
         victorias: 0,
       },
-      // {
-      //   id: "3",
-      //   nombre: "Torneo de Verano de la ULPGC",
-      //   jugados: 5,
-      //   victorias: 3,
-      // },
-      // {
-      //   id: "4",
-      //   nombre: "Trofeo Toyota",
-      //   jugados: 1,
-      //   victorias: 0,
-      // },
     ]);
   }, []);
 
@@ -125,7 +117,7 @@ const PlayerHomeScreen = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.push("PartidosUsuario");
+            navigation.push("PartidosScreen");
           }}
         >
           <Text style={styles.buttonText}>Mis partidos</Text>
@@ -155,9 +147,7 @@ export default PlayerHomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "center",
-    // backgroundColor: "white",
   },
   containerTitle: {
     textAlign: "center",

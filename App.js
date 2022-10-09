@@ -23,6 +23,7 @@ import GestionarRecursosScreen from "./screens/organizer/GestionarRecursosScreen
 import GestionarInscripcionesScreen from "./screens/organizer/GestionarInscripciones";
 
 import ParejaForm from "./screens/player/ParejaForm";
+import PartidosScreen from "./screens/player/PartidosScreen";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs([
@@ -86,6 +87,10 @@ export default function App() {
             <Stack.Screen
               name="RecursoForm"
               component={RecursoForm}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="PartidosScreen"
+              component={PartidosScreen}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

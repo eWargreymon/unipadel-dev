@@ -4,7 +4,7 @@ import axios from "axios";
 // const api = "http://192.168.0.30:8000/api/"
 // const api = "http://192.168.0.102/unipadel-api/api/"
 // const api = "http://192.168.1.118/unipadel-api/api/";
-const api = "http://192.168.0.26/unipadel-api/api/";
+const api = "http://192.168.0.25/unipadel-api/api/";
 
 export const getTorneos = async (id) => {
   if (id) {
@@ -60,4 +60,8 @@ export const createRecursos = async (recursos) => {
 
 export const generarCalendario = async (torneo) => {
   return await axios.post(`${api}generateCalendario`, torneo);
+}
+
+export const getPartidos = async (data) => {
+  return await axios.post(`${api}getPartidos`, data);
 }
