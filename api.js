@@ -14,6 +14,10 @@ export const getTorneos = async (id) => {
   }
 };
 
+export const getTorneosJugador = async (id) => {
+  return await axios.get(`${api}getTorneosJugador/` + id);
+};
+
 export const getTorneosOrg = async (email) => {
   return await axios.get(`${api}getTorneosOrganizador/` + email);
 };
@@ -60,6 +64,10 @@ export const createRecursos = async (recursos) => {
 
 export const generarCalendario = async (torneo) => {
   return await axios.post(`${api}generateCalendario`, torneo);
+}
+
+export const getPartido = async (data) => {
+  return await axios.get(`${api}getPartido/${data}`);
 }
 
 export const getPartidos = async (data) => {

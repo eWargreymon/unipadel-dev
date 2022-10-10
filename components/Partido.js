@@ -78,5 +78,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textTransform: "uppercase",
     color: colores.darkblue,
+    backgroundColor: "lightgrey",
+    padding: 5,
+    borderRadius: 5
   },
 });

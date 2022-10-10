@@ -11,7 +11,8 @@ import SupNavbar from "../../components/supNavbar";
 import { useNavigation } from "@react-navigation/native";
 import UserBar from "../../components/UserBar";
 import { colores } from "../../colors";
-import { getPartidos } from "../../api";
+import { getPartido, getTorneosJugador } from "../../api";
+import Partido from "../../components/Partido";
 import { UserContext } from "../../context/UserDataContext";
 
 const PlayerHomeScreen = () => {
@@ -22,30 +23,18 @@ const PlayerHomeScreen = () => {
   const [competiciones, setCompeticiones] = useState("");
 
   const loadProximoPartido = async () => {
-    let request = {
-      user: usercontext.user.id,
-      proximo: true
-    };
-    const data = await getPartidos(request);
+    const data = await getPartido(usercontext.user.id);
     setPartido(data.data);
+  };
+
+  const loadTorneos = async () => {
+    const data = await getTorneosJugador(usercontext.user.id);
+    setCompeticiones(data.data);
   };
 
   useEffect(() => {
     loadProximoPartido();
-    setCompeticiones([
-      {
-        id: "1",
-        nombre: "Torneo de Verano de la ULPGC",
-        jugados: 5,
-        victorias: 3,
-      },
-      {
-        id: "2",
-        nombre: "Trofeo Toyota",
-        jugados: 1,
-        victorias: 0,
-      },
-    ]);
+    loadTorneos();
   }, []);
 
   return (
@@ -63,28 +52,7 @@ const PlayerHomeScreen = () => {
               En este momento no tiene ningún partido programado
             </Text>
           ) : (
-            <View style={styles.partidoInfoContainer}>
-              <View>
-                <Text style={styles.partidoInfoTorneoText}>
-                  {partido.torneo}
-                </Text>
-              </View>
-              <View style={styles.partidoInfoHora}>
-                <Text style={styles.partidoInfoText}>{partido.fecha}</Text>
-                <Text style={styles.partidoInfoText}>{partido.hora}</Text>
-                <Text style={styles.partidoInfoText}>{partido.cancha}</Text>
-              </View>
-              <View style={styles.partidoInfoParejas}>
-                <Text style={styles.partidoParejaText}>{partido.pareja1}</Text>
-                <View style={{ width: "20%", alignItems: "center" }}>
-                  <Image
-                    style={[{ resizeMode: "contain" }]}
-                    source={require("../../assets/images/icons/home.png")}
-                  />
-                </View>
-                <Text style={styles.partidoParejaText}>{partido.pareja2}</Text>
-              </View>
-            </View>
+            <Partido partido={partido} state={true}></Partido>
           )}
         </View>
         <View style={styles.competicionContainer}>
@@ -156,44 +124,9 @@ const styles = StyleSheet.create({
   },
   partidoContainer: {
     marginVertical: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 25,
-    backgroundColor: colores.lightyellow,
-    width: "95%",
+    padding: 10,
+    backgroundColor: colores.yellow,
     borderRadius: 10,
-  },
-  partidoInfoContainer: {
-    marginVertical: 10,
-    borderTopWidth: 1,
-    paddingTop: 10,
-  },
-  partidoInfoTorneoText: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  partidoInfoText: {
-    textAlign: "center",
-    width: "33%",
-    fontWeight: "bold",
-  },
-  partidoInfoHora: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 15,
-  },
-  partidoInfoParejas: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  partidoParejaText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    width: "40%",
-    textAlign: "center",
-    textTransform: "uppercase",
-    color: colores.darkblue,
   },
   competicionContainer: {
     marginVertical: 10,
