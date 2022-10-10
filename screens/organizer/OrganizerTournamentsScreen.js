@@ -5,7 +5,7 @@ import {
   FlatList,
   RefreshControl,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { colores } from "../../colors";
 import { auth } from "../../firebase";
 
@@ -13,8 +13,12 @@ import SupNavbar from "../../components/supNavbar";
 import { getTorneosOrg } from "../../api";
 import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../../components/Torneo";
+import { UserContext } from "../../context/UserDataContext";
 
 const TorneosOrganizadorScreen = () => {
+
+  const usercontext = useContext(UserContext);
+
   const renderItem = ({ item }) => {
     return <Torneo torneo={item} state={false}/>;
   };
@@ -24,7 +28,7 @@ const TorneosOrganizadorScreen = () => {
   const isFocusing = useIsFocused();
 
   const loadTorneos = async () => {
-    const data = await getTorneosOrg(auth.currentUser.email);
+    const data = await getTorneosOrg(usercontext.user.id);
     setTorneos(data.data);
   };
 

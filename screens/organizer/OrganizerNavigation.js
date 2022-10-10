@@ -15,7 +15,7 @@ const OrganizerNavigation = () => {
         headerShown: false,
       }}
     >
-      <Tab.Screen name="RecursoForm" component={RecursoForm}></Tab.Screen>
+      {/* <Tab.Screen name="RecursoForm" component={RecursoForm}></Tab.Screen> */}
       <Tab.Screen
         name="INICIO"
         component={OrganizerHomeScreen}

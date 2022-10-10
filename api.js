@@ -18,8 +18,12 @@ export const getTorneosJugador = async (id) => {
   return await axios.get(`${api}getTorneosJugador/` + id);
 };
 
-export const getTorneosOrg = async (email) => {
-  return await axios.get(`${api}getTorneosOrganizador/` + email);
+export const getTorneosOrg = async (id, estado) => {
+  if(estado != null){
+    return await axios.get(`${api}getTorneosOrganizador/` + id + `/` + estado);
+  } else {
+    return await axios.get(`${api}getTorneosOrganizador/` + id);
+  }
 };
 
 export const attemptLogin = async (email) => {

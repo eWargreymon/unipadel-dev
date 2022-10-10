@@ -6,15 +6,36 @@ import {
   View,
   Image,
 } from "react-native";
-import React from "react";
-
+import React, { useState, useEffect, useContext } from "react";
 import SupNavbar from "../../components/supNavbar";
 import UserBar from "../../components/UserBar";
 import { useNavigation } from "@react-navigation/core";
 import { colores } from "../../colors";
+import { getTorneosOrg } from "../../api";
+import { UserContext } from "../../context/UserDataContext";
 
 const OrganizerHomeScreen = () => {
   const navigation = useNavigation();
+  const usercontext = useContext(UserContext);
+
+  const [torneosJuego, setTorneosJuego] = useState("");
+  const [torneosOrg, setTorneosOrg] = useState("");
+
+  const loadTorneosJuego = async () => {
+    const data = await getTorneosOrg(usercontext.user.id, 1);
+    setTorneosJuego(data.data);
+  };
+
+  const loadTorneosOrg = async () => {
+    const data = await getTorneosOrg(usercontext.user.id, 0);
+    setTorneosOrg(data.data);
+  };
+
+  useEffect(() => {
+    loadTorneosJuego();
+    loadTorneosOrg();
+  }, []);
+
   return (
     <View style={styles.container}>
       <SupNavbar></SupNavbar>
@@ -26,51 +47,29 @@ const OrganizerHomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}
         >
-          <TouchableOpacity style={styles.competicion}>
-            <Text style={styles.nombreComp}>Nombre competicion</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/trofeo.png")}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.competicion}>
-            <Text style={styles.nombreComp}>Nombre del torneo</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/medalla.png")}
-              />
-            </View>
-          </TouchableOpacity>
-          {/* <View style={styles.competicion}>
-            <Text style={styles.nombreComp}>Nombre competicion</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/trofeo.png")}
-              />
-            </View>
-          </View>
-          <View style={styles.competicion}>
-            <Text style={styles.nombreComp}>Nombre competicion</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/trofeo.png")}
-              />
-            </View>
-          </View>
-          <View style={styles.competicion}>
-            <Text style={styles.nombreComp}>Nombre competicion</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/trofeo.png")}
-              />
-            </View>
-          </View> */}
+          {torneosJuego.length === 0 ? (
+            <Text>No hay competiciones en juego...</Text>
+          ) : (
+            torneosJuego.map((item, key) => (
+              <TouchableOpacity
+                style={[styles.competicion, styles.backBlue]}
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate("GestionarTorneo", { id: item.id })
+                }
+              >
+                <Text style={[styles.nombreComp, styles.textWhite]}>
+                  {item.nombre}
+                </Text>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={{ resizeMode: "contain", width: 50, height: 50 }}
+                    source={require("../../assets/images/icons/trofeo.png")}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))
+          )}
         </ScrollView>
       </View>
       <View style={[styles.compContainer, styles.organizadas]}>
@@ -80,33 +79,29 @@ const OrganizerHomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}
         >
-          <TouchableOpacity style={[styles.competicion, styles.backBlue]}>
-            <Text style={[styles.nombreComp, styles.textWhite]}>Nombre competicion</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/trofeo.png")}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.competicion, styles.backBlue]}>
-            <Text style={[styles.nombreComp, styles.textWhite]}>Nombre del torneo</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/medalla.png")}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.competicion, styles.backBlue]}>
-            <Text style={[styles.nombreComp, styles.textWhite]}>Nombre competicion</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/trofeo.png")}
-              />
-            </View>
-          </TouchableOpacity>
+          {torneosOrg.length === 0 ? (
+            <Text>No se encuentran competiciones...</Text>
+          ) : (
+            torneosOrg.map((item, key) => (
+              <TouchableOpacity
+                style={[styles.competicion, styles.backBlue]}
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate("GestionarTorneo", { id: item.id })
+                }
+              >
+                <Text style={[styles.nombreComp, styles.textWhite]}>
+                  {item.nombre}
+                </Text>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={{ resizeMode: "contain", width: 50, height: 50 }}
+                    source={require("../../assets/images/icons/trofeo.png")}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))
+          )}
         </ScrollView>
       </View>
       <TouchableOpacity
@@ -137,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
   },
-  compContainer:{
+  compContainer: {
     width: "90%",
     borderRadius: 5,
     padding: 10,
@@ -152,17 +147,16 @@ const styles = StyleSheet.create({
   scrollView: {
     marginTop: 10,
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   competicion: {
-    backgroundColor: colores.lightblue,
     padding: 5,
     width: 120,
     marginHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
   },
-  backBlue:{
+  backBlue: {
     backgroundColor: colores.darkblue,
   },
   nombreComp: {
@@ -170,8 +164,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 5,
   },
-  textWhite:{
-    color: "white"
+  textWhite: {
+    color: "white",
   },
   title: {
     fontWeight: "bold",
