@@ -27,30 +27,54 @@ const ProfileScreen = () => {
       <View style={styles.user}>
         <View style={styles.userIcon}>
           <Image
-            style={{ resizeMode: "contain", width: 100 }}
-            source={require("../assets/images/icons/player.png")}
+            style={{ resizeMode: "contain", width: "100%" }}
+            source={
+              usercontext.user.tipo == 1
+                ? require("../assets/images/icons/organizer.png")
+                : require("../assets/images/icons/player.png")
+            }
           />
         </View>
         <Text style={styles.userText}>{usercontext.user.name}</Text>
       </View>
       <View style={styles.estadisticasContainer}>
         <Text style={styles.estadisticasContainerTitle}>Estadísicas</Text>
-        <Text style={styles.estadisticasContainerData}>Partidos jugados:</Text>
-        <View style={styles.estadisticasContainerLine} />
-        <Text style={styles.estadisticasContainerData}>Victorias:</Text>
-        <View style={styles.estadisticasContainerLine} />
-        <Text style={styles.estadisticasContainerData}>% Victorias:</Text>
-        <View style={styles.estadisticasContainerLine} />
-        <Text style={styles.estadisticasContainerData}>Participaciones en torneos:</Text>
+        {usercontext.user.tipo == 0 ? (
+          <View>
+            <View style={styles.estadisticasContainerLine} />
+            <Text style={styles.estadisticasContainerData}>
+              Partidos jugados:
+            </Text>
+            <View style={styles.estadisticasContainerLine} />
+            <Text style={styles.estadisticasContainerData}>Victorias:</Text>
+            <View style={styles.estadisticasContainerLine} />
+            <Text style={styles.estadisticasContainerData}>% Victorias:</Text>
+            <View style={styles.estadisticasContainerLine} />
+            <Text style={styles.estadisticasContainerData}>
+              Participaciones en torneos:
+            </Text>
+          </View>
+        ) : (
+          <View>
+            <View style={styles.estadisticasContainerLine} />
+            <Text style={styles.estadisticasContainerData}>
+              Nº de torneos creados:
+            </Text>
+          </View>
+        )}
       </View>
-      <TouchableOpacity
-        style={[styles.button, styles.customButton]}
-        onPress={() => {
-          navigation.push("ParejaForm");
-        }}
-      >
-        <Text style={[styles.buttonText, styles.customText]}>Crear pareja</Text>
-      </TouchableOpacity>
+      {usercontext.user.tipo == 0 && (
+        <TouchableOpacity
+          style={[styles.button, styles.customButton]}
+          onPress={() => {
+            navigation.push("ParejaForm");
+          }}
+        >
+          <Text style={[styles.buttonText, styles.customText]}>
+            Crear pareja
+          </Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity
         style={[styles.button, styles.logout]}
         onPress={handleLogOut}
@@ -89,10 +113,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 1,
   },
-  estadisticasContainerData:{
+  estadisticasContainerData: {
     fontWeight: "bold",
     fontSize: 16,
-    marginVertical: 5
+    marginVertical: 5,
   },
   button: {
     width: "90%",
@@ -128,17 +152,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "lightgray",
-    padding: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 10,
     width: "90%",
   },
   userIcon: {
-    width: "30%",
+    width: "20%",
   },
   userText: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: "bold",
-    width: "70%",
+    width: "80%",
     textAlign: "center",
   },
 });

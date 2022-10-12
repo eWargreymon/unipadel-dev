@@ -30,7 +30,7 @@ const TorneoForm = () => {
   const [jugadores, setJugadores] = useState("");
   const [precio, setPrecio] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [activo, setActivo] = useState(false);
+  // const [activo, setActivo] = useState(false);
 
   const [showI, setShowI] = useState(false);
   const [showF, setShowF] = useState(false);
@@ -47,7 +47,7 @@ const TorneoForm = () => {
     max_jugadores: jugadores,
     precio: precio,
     descripcion: descripcion,
-    activo: activo,
+    // activo: activo,
     fecha_inicio: inicio.toString(),
     fecha_fin: fin.toString(),
     fecha_limite: limite.toString(),
@@ -267,7 +267,7 @@ const TorneoForm = () => {
         </View>
 
         {/* ACTIVO */}
-        <View
+        {/* <View
           style={[
             styles.inputContainer,
             { flexDirection: "row", alignItems: "center" },
@@ -281,7 +281,7 @@ const TorneoForm = () => {
             value={activo}
             onValueChange={setActivo}
           />
-        </View>
+        </View> */}
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={() => handleStore()}>

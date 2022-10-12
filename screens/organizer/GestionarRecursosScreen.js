@@ -48,7 +48,12 @@ const GestionarRecursosScreen = ({ route }) => {
         </View>
         <Text style={styles.gestionarText}>Agregar cancha</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}>
+      <TouchableOpacity
+        style={[styles.gestionarButton, styles.shadow]}
+        onPress={() => {
+          navigation.navigate("HorariosTorneoScreen", { torneo: torneo.id });
+        }}
+      >
         <View style={styles.imageContainer}>
           <Image
             style={{ resizeMode: "contain", width: 50, height: 50 }}

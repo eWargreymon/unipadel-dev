@@ -76,8 +76,8 @@ const RecursoForm = ({ route }) => {
     const res = await createRecursos(data)
       .then(() => {
         Alert.alert(
-          "¡Torneo creado!",
-          "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
+          "¡Recurso creado!",
+          "Se ha creado una cancha con los horarios indicados. Podrás gestionarlos en la sección de recursos del torneo.",
           [
             {
               text: "¡OK!",
@@ -124,8 +124,6 @@ const RecursoForm = ({ route }) => {
       domingo: domingo,
     };
 
-    console.log(horario);
-
     setHorarios((horarios) => [...horarios, horario]);
 
     setInicio("");
@@ -139,9 +137,6 @@ const RecursoForm = ({ route }) => {
     setSabado(false);
     setDomingo(false);
   };
-
-  // useEffect(() => {
-  // }, [horarios]);
 
   return (
     <SafeAreaView>
@@ -227,8 +222,10 @@ const RecursoForm = ({ route }) => {
           />
         </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>¿Qué días contarán con este horario?</Text>
+        <View style={[styles.inputContainer, { alignItems: "center" }]}>
+          <Text style={[styles.label, { alignSelf: "flex-start" }]}>
+            ¿Qué días contarán con este horario?
+          </Text>
           <ScrollView horizontal contentContainerStyle={{ padding: 5 }}>
             <View style={styles.dia}>
               <Text style={styles.checkLabel}>L</Text>
@@ -293,37 +290,45 @@ const RecursoForm = ({ route }) => {
 
         <View style={{ alignItems: "center", width: "90%" }}>
           <Text style={styles.title}>Horarios añadidos</Text>
-          {horarios.map((h, index) => {
-            return (
-              <View style={styles.horario} key={index}>
-                <View
-                  style={{}}
-                >
-                  <Text>
-                    {h.lunes && "L"}
-                    {h.martes && "M"}
-                    {h.miercoles && "X"}
-                    {h.jueves && "J"}
-                    {h.viernes && "V"}
-                    {h.sabado && "S"}
-                    {h.domingo && "D"}
-                  </Text>
-                  <Text>
-                    | {h.inicio} - {h.fin} |
-                  </Text>
-                  <Text>{h.turnos} turnos</Text>
+          {horarios.length == 0 ? (
+            <View style={{backgroundColor: "lightgray", width: "90%", padding: 10}}>
+              <Text style={{textAlign: "center"}}>No hay horarios añadidos todavía</Text>
+            </View>
+          ) : (
+            horarios.map((h, index) => {
+              return (
+                <View style={styles.horario} key={index}>
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={styles.horarioText}>
+                      {h.lunes && "L"}
+                      {h.martes && "M"}
+                      {h.miercoles && "X"}
+                      {h.jueves && "J"}
+                      {h.viernes && "V"}
+                      {h.sabado && "S"}
+                      {h.domingo && "D"}
+                    </Text>
+                    <Text style={{ marginHorizontal: 4 }}>|</Text>
+                    <Text style={styles.horarioText}>
+                      {h.inicio} - {h.fin}
+                    </Text>
+                    <Text style={{ marginHorizontal: 4 }}>|</Text>
+                    <Text style={styles.horarioText}>{h.turnos} turnos</Text>
+                  </View>
+                  <View style={{}}>
+                    <TouchableOpacity
+                      style={styles.borrarButton}
+                      onPress={() => borrarHorario(index)}
+                    >
+                      <Text style={{ color: "white", fontWeight: "bold" }}>
+                        Borrar
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={{}}>
-                  <TouchableOpacity
-                    style={styles.borrarButton}
-                    onPress={() => borrarHorario(index)}
-                  >
-                    <Text style={{ color: "white" }}>Borrar</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            );
-          })}
+              );
+            })
+          )}
         </View>
 
         <View style={styles.buttonContainer}>
@@ -448,15 +453,18 @@ const styles = StyleSheet.create({
   horario: {
     backgroundColor: "lightgray",
     flexDirection: "row",
-    // justifyContent: "space-between",
+    justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
     width: "100%",
     marginVertical: 5,
   },
+  horarioText: {
+    fontWeight: "bold",
+  },
   borrarButton: {
-    backgroundColor: "black",
+    backgroundColor: "darkred",
     borderRadius: 5,
-    padding: 2,
+    padding: 5,
   },
 });

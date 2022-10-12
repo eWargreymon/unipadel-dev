@@ -66,7 +66,7 @@ const Torneo = ({ torneo, state }) => {
   };
 
   return (
-    <View style={[styles.torneo, torneo.activo == 0 && styles.backCerrado]}>
+    <View style={[styles.torneo, torneo.estado == 0 ? styles.no_empezado : torneo.estado == 1 ? styles.empezado : styles.finalizado]}>
       {auth.currentUser && user.user.tipo == 0 && (
         <SelectorPareja
           modalVisible={modalVisible}
@@ -87,7 +87,7 @@ const Torneo = ({ torneo, state }) => {
         Nº participantes: {torneo.max_parejas} parejas
       </Text>
       <View style={styles.botones}>
-        {torneo.activo == 1 && state && (
+        {torneo.estado == 1 && state && (
           <TouchableOpacity
             style={styles.boton}
             onPress={() => {
@@ -115,10 +115,10 @@ const Torneo = ({ torneo, state }) => {
         )}
       </View>
       <TouchableOpacity
-        style={torneo.activo ? styles.estAbierto : styles.estCerrado}
+        style={[styles.estado, torneo.estado == 0 ? styles.no_empezadoEst : torneo.estado == 1 ? styles.empezadoEst : styles.finalizadoEst]}
       >
         <Text style={styles.estText}>
-          {torneo.activo ? "Abierto" : "Cerrado"}
+          {torneo.estado == 0 ? "No empezado" : torneo.estado == 1 ? "En juego" : "Finalizado"}
         </Text>
       </TouchableOpacity>
     </View>
@@ -129,15 +129,20 @@ export default Torneo;
 
 const styles = StyleSheet.create({
   torneo: {
-    backgroundColor: colores.lightyellow,
     borderRadius: 10,
     padding: 15,
     marginTop: 25,
     width: 400,
     maxWidth: "90%",
   },
-  backCerrado: {
+  no_empezado: {
+    backgroundColor: colores.lightyellow,
+  },
+  empezado: {
     backgroundColor: colores.lightblue,
+  },
+  finalizado: {
+    backgroundColor: "lightgreen",
   },
   nombre: {
     textAlign: "center",
@@ -172,8 +177,7 @@ const styles = StyleSheet.create({
   botonText2: {
     color: colores.darkblue,
   },
-  estAbierto: {
-    backgroundColor: colores.green,
+  estado:{
     borderRadius: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -182,15 +186,14 @@ const styles = StyleSheet.create({
     left: -15,
     elevation: 10,
   },
-  estCerrado: {
-    backgroundColor: "darkred",
-    borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    position: "absolute",
-    top: -15,
-    left: -15,
-    elevation: 10,
+  no_empezadoEst: {
+    backgroundColor: colores.darkblue,
+  },
+  empezadoEst: {
+    backgroundColor: colores.green,
+  },
+  finalizadoEst: {
+    backgroundColor: colores.orange,
   },
   estText: {
     color: "white",

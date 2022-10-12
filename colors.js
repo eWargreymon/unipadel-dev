@@ -4,5 +4,6 @@ export const colores = {
     lightblue: '#bee1f4',
     yellow: '#F8D776',
     lightyellow: '#fbeab6',
-    green: '#119D38'
+    green: '#119D38',
+    orange: '#ff3300'
 }

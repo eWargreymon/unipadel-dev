@@ -24,7 +24,7 @@ const Partido = ({ partido, state }) => {
       </View>
       <View style={styles.partidoInfoHora}>
         <Text style={styles.partidoInfoText}>{moment(partido.horario.inicio).format("DD-MM-YYYY")}</Text>
-        <Text style={styles.partidoInfoText}>{moment(partido.horario.inicio).format("HH:MM")}</Text>
+        <Text style={styles.partidoInfoText}>{moment(partido.horario.inicio).format("HH:mm")}</Text>
         <Text style={styles.partidoInfoText}>{partido.horario.cancha.nombre}</Text>
       </View>
       <View style={styles.partidoInfoParejas}>

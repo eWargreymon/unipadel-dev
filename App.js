@@ -21,6 +21,7 @@ import TorneosOrganizadorScreen from "./screens/organizer/OrganizerTournamentsSc
 import GestionarTorneoScreen from "./screens/organizer/GestionarTorneoScreen";
 import GestionarRecursosScreen from "./screens/organizer/GestionarRecursosScreen";
 import GestionarInscripcionesScreen from "./screens/organizer/GestionarInscripciones";
+import HorariosTorneoScreen from "./screens/organizer/HorariosTorneoScreen";
 
 import ParejaForm from "./screens/player/ParejaForm";
 import PartidosScreen from "./screens/player/PartidosScreen";
@@ -91,6 +92,10 @@ export default function App() {
             <Stack.Screen
               name="PartidosScreen"
               component={PartidosScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="HorariosTorneoScreen"
+              component={HorariosTorneoScreen}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

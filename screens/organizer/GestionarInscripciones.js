@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import { StyleSheet, Text, View, Image, FlatList, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import SupNavbar from "../../components/supNavbar";
@@ -7,6 +7,8 @@ import { colores } from "../../colors";
 
 import { getInscripciones } from "../../api";
 import Equipo from "../../components/Equipo";
+
+import { validatePareja } from "../../api";
 
 const GestionarInscripcionesScreen = ({ route }) => {
   const torneo = route.params.torneo;
@@ -23,8 +25,36 @@ const GestionarInscripcionesScreen = ({ route }) => {
     loadEquipos();
   }, []);
 
+  const validateEquipo = (pareja, validate) => {
+    validatePareja({
+      torneo: torneo.id,
+      pareja: pareja,
+      validate: validate,
+    })
+      .then(() => {
+        let title = validate ? "¡Pareja validada!" : "¡Pareja rechazada!";
+        let subtitle = validate
+          ? "Se ha validado a la pareja para el torneo. Se confirma su participaciión y tendrán acceso al mismo."
+          : "Se ha rechazado la inscripción de la pareja en el torneo";
+        Alert.alert(title, subtitle, [
+          {
+            text: "¡OK!",
+          },
+        ]);
+        loadEquipos();
+      })
+      .catch((error) => {
+        Alert.alert("Error en la inscripción", error.response.data.message, [
+          {
+            text: "Vale",
+            style: "cancel",
+          },
+        ]);
+      });
+  };
+
   const renderItem = ({ item }) => {
-    return <Equipo equipo={item}></Equipo>;
+    return <Equipo equipo={item} validateEquipo={validateEquipo}></Equipo>;
   };
 
   return (
@@ -60,7 +90,9 @@ const GestionarInscripcionesScreen = ({ route }) => {
         />
       ) : (
         <View style={styles.noInscritos}>
-          <Text style={styles.noInscritosText}>Todavía no se ha inscrito ningún equipo</Text>
+          <Text style={styles.noInscritosText}>
+            Todavía no se ha inscrito ningún equipo
+          </Text>
         </View>
       )}
     </View>
