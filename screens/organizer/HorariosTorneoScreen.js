@@ -4,7 +4,7 @@ import {
   View,
   FlatList,
   RefreshControl,
-  Alert
+  Alert,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { colores } from "../../colors";
@@ -17,39 +17,45 @@ import Horario from "../../components/Horario";
 import { UserContext } from "../../context/UserDataContext";
 
 const HorariosTorneoScreen = ({ route }) => {
+  let request;
+  if (route.params.isTorneo) {
+    request = route.params.torneo;
+  } else {
+    request = route.params.cancha;
+  }
 
-  let torneo = route.params.torneo;
   const usercontext = useContext(UserContext);
-  
+
   const liberarHorario = async (id) => {
-    await deleteHorario(id).then(() => {
-      Alert.alert(
-        "¡Horario liberado!",
-        "Se ha eliminado ese horario, por lo que ningún partido podrá ser asignado en ese horario y la cancha quedará libre",
-        [
-          {
-            text: "¡OK!",
-            onPress: () => loadHorarios(),
-          },
-        ]
-      );
-    })
-    .catch(() => {
-      Alert.alert(
-        "Error",
-        "Ha surgido un error y no se ha podido eliminar el horario. Por favor, revise la información y vuelva a intentarlo.",
-        [
-          {
-            text: "Vale",
-            style: "cancel",
-          },
-        ]
-      );
-    });
+    await deleteHorario(id)
+      .then(() => {
+        Alert.alert(
+          "¡Horario liberado!",
+          "Se ha eliminado ese horario, por lo que ningún partido podrá ser asignado en ese horario y la cancha quedará libre",
+          [
+            {
+              text: "¡OK!",
+              onPress: () => loadHorarios(),
+            },
+          ]
+        );
+      })
+      .catch(() => {
+        Alert.alert(
+          "Error",
+          "Ha surgido un error y no se ha podido eliminar el horario. Por favor, revise la información y vuelva a intentarlo.",
+          [
+            {
+              text: "Vale",
+              style: "cancel",
+            },
+          ]
+        );
+      });
   };
 
   const renderItem = ({ item }) => {
-    return <Horario horario={item} liberarHorario={liberarHorario}/>;
+    return <Horario horario={item} liberarHorario={liberarHorario} />;
   };
 
   const [horarios, setHorarios] = useState([]);
@@ -57,7 +63,7 @@ const HorariosTorneoScreen = ({ route }) => {
   const isFocusing = useIsFocused();
 
   const loadHorarios = async () => {
-    const data = await getHorariosTorneo(torneo);
+    const data = await getHorariosTorneo(request, route.params.isTorneo);
     setHorarios(data.data);
   };
 
@@ -76,16 +82,32 @@ const HorariosTorneoScreen = ({ route }) => {
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Horarios creados</Text>
       <View style={styles.titleUnderline}></View>
-      <FlatList
-        data={horarios}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-        }
-        style={styles.listado}
-        contentContainerStyle={{alignItems: 'center'}}
-      />
+      {horarios.length == 0 ? (
+        <View
+          style={{
+            backgroundColor: "lightgray",
+            width: "90%",
+            marginTop: 20,
+            padding: 20,
+            borderRadius: 10,
+          }}
+        >
+          <Text style={{ fontSize: 20, textAlign: "center" }}>
+            No se han encontrado horarios
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={horarios}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+          style={styles.listado}
+          contentContainerStyle={{ alignItems: "center" }}
+        />
+      )}
     </View>
   );
 };
@@ -96,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    width: "100%"
+    width: "100%",
   },
   title: {
     color: colores.darkblue,
@@ -110,8 +132,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     width: "25%",
   },
-  listado:{
+  listado: {
     width: "100%",
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
 });

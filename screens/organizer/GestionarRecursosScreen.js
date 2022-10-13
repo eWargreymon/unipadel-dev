@@ -6,16 +6,29 @@ import {
   View,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 
 import SupNavbar from "../../components/supNavbar";
 import TournamentBar from "../../components/TournamentBar";
 import { colores } from "../../colors";
 
+import { getCanchaTorneo } from "../../api";
+
 const GestionarRecursosScreen = ({ route }) => {
   const torneo = route.params.torneo;
   const navigation = useNavigation();
+
+  const [canchas, setCanchas] = useState("");
+
+  const loadCanchas = async () => {
+    const data = await getCanchaTorneo(torneo.id);
+    setCanchas(data.data);
+  };
+
+  useEffect(() => {
+    loadCanchas();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -26,12 +39,39 @@ const GestionarRecursosScreen = ({ route }) => {
       ></TournamentBar>
       <View style={styles.asignados}>
         <Text style={styles.title}>Recursos asignados</Text>
-        <View style={styles.noRecursos}>
-          <Text style={styles.noRecursosText}>
-            No hay recursos asignados todavía
-          </Text>
-        </View>
-        <ScrollView></ScrollView>
+        {canchas.length == 0 ? (
+          <View style={styles.noRecursos}>
+            <Text style={styles.noRecursosText}>
+              No hay recursos asignados todavía
+            </Text>
+          </View>
+        ) : (
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollView}
+          >
+            {canchas.map((item, key) => (
+              <TouchableOpacity
+                style={[styles.competicion, styles.backBlue]}
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate("HorariosTorneoScreen", { cancha: item.id, isTorneo: false })
+                }
+              >
+                <Text style={{textTransform: "uppercase", fontWeight: "bold"}}>
+                  {item.nombre}
+                </Text>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={{ resizeMode: "contain", width: 50, height: 50 }}
+                    source={require("../../assets/images/icons/field.png")}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
       </View>
       <View style={styles.spacer}></View>
       <TouchableOpacity
@@ -51,7 +91,7 @@ const GestionarRecursosScreen = ({ route }) => {
       <TouchableOpacity
         style={[styles.gestionarButton, styles.shadow]}
         onPress={() => {
-          navigation.navigate("HorariosTorneoScreen", { torneo: torneo.id });
+          navigation.navigate("HorariosTorneoScreen", { torneo: torneo.id, isTorneo: true });
         }}
       >
         <View style={styles.imageContainer}>
@@ -111,5 +151,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  scrollView: {
+    marginTop: 10,
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  competicion: {
+    padding: 5,
+    width: 120,
+    marginHorizontal: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  backBlue: {
+    backgroundColor: colores.yellow,
   },
 });
