@@ -4,13 +4,14 @@ import {
   View,
   FlatList,
   RefreshControl,
+  Alert
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { colores } from "../../colors";
 import { useNavigation } from "@react-navigation/core";
 
 import SupNavbar from "../../components/supNavbar";
-import { getHorariosTorneo } from "../../api";
+import { getHorariosTorneo, deleteHorario } from "../../api";
 import { useIsFocused } from "@react-navigation/native";
 import Horario from "../../components/Horario";
 import { UserContext } from "../../context/UserDataContext";
@@ -19,9 +20,36 @@ const HorariosTorneoScreen = ({ route }) => {
 
   let torneo = route.params.torneo;
   const usercontext = useContext(UserContext);
+  
+  const liberarHorario = async (id) => {
+    await deleteHorario(id).then(() => {
+      Alert.alert(
+        "¡Horario liberado!",
+        "Se ha eliminado ese horario, por lo que ningún partido podrá ser asignado en ese horario y la cancha quedará libre",
+        [
+          {
+            text: "¡OK!",
+            onPress: () => loadHorarios(),
+          },
+        ]
+      );
+    })
+    .catch(() => {
+      Alert.alert(
+        "Error",
+        "Ha surgido un error y no se ha podido eliminar el horario. Por favor, revise la información y vuelva a intentarlo.",
+        [
+          {
+            text: "Vale",
+            style: "cancel",
+          },
+        ]
+      );
+    });
+  };
 
   const renderItem = ({ item }) => {
-    return <Horario horario={item}/>;
+    return <Horario horario={item} liberarHorario={liberarHorario}/>;
   };
 
   const [horarios, setHorarios] = useState([]);
