@@ -39,7 +39,7 @@ const GestionarRecursosScreen = ({ route }) => {
       <SupNavbar></SupNavbar>
       <TournamentBar
         nombre={torneo.nombre}
-        en_juego={torneo.en_juego}
+        en_juego={torneo.estado}
       ></TournamentBar>
       <View style={styles.asignados}>
         <Text style={styles.title}>Recursos asignados</Text>

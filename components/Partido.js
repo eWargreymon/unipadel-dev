@@ -2,26 +2,19 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  Alert,
-  Modal,
   Image,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React from "react";
 import { colores } from "../colors";
 import moment from "moment";
-import { useNavigation } from "@react-navigation/core";
 
-import { UserContext } from "../context/UserDataContext";
-
-const Partido = ({ partido, state }) => {
-  const user = useContext(UserContext);
+const Partido = ({ partido }) => {
 
   return (
     <View style={styles.partidoInfoContainer}>
       <View>
         <Text style={styles.partidoInfoTorneoText}>
-          {partido.torneo.nombre}
+          {partido.torneo.nombre} - Jornada {partido.jornada.numero}
         </Text>
       </View>
       <View style={styles.partidoInfoHora}>

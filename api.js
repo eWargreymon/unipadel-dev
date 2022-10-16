@@ -78,6 +78,14 @@ export const getPartidos = async (data) => {
   return await axios.post(`${api}getPartidos`, data);
 }
 
+export const getPartidosTorneo = async (data) => {
+  return await axios.post(`${api}getPartidosTorneo`, data);
+}
+
+export const getJornadas = async (torneo) => {
+  return await axios.get(`${api}getJornadasTorneo/${torneo}`);
+}
+
 export const validatePareja = async (data) => {
   return await axios.post(`${api}validatePareja`, data);
 }

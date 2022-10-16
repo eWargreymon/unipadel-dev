@@ -6,12 +6,12 @@ const TournamentBar = ({ nombre, en_juego }) => {
     <View style={styles.torneoBar}>
       <View style={styles.torneoBarBack}>
         <View
-          style={[styles.circle, en_juego ? styles.green : styles.yellow]}
+          style={[styles.circle, en_juego == 1 ? styles.green : styles.yellow]}
         ></View>
         <Text style={styles.text}>{nombre}</Text>
       </View>
       <View
-        style={[styles.torneoStatus, en_juego ? styles.green : styles.yellow]}
+        style={[styles.torneoStatus, en_juego == 1 ? styles.green : styles.yellow]}
       >
         <Text style={[styles.text, styles.textCenter]}>
           {en_juego ? "En juego" : "Pendiente"}

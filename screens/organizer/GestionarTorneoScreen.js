@@ -1,10 +1,17 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 
 import TournamentBar from "../../components/TournamentBar";
 import SupNavbar from "../../components/supNavbar";
-import { getTorneos, generarCalendario } from "../../api";
+import { getTorneos, generarCalendario, getTorneosOrg } from "../../api";
 import { colores } from "../../colors";
 
 const GestionarTorneoScreen = ({ route }) => {
@@ -22,23 +29,23 @@ const GestionarTorneoScreen = ({ route }) => {
     );
   };
 
-  const generateFixtures = async () => { 
+  const generateFixtures = async () => {
     let request = {
-      "torneo" : torneo.id
-    }
+      torneo: torneo.id,
+    };
     const data = await generarCalendario(request).then(() => {
       Alert.alert(
         "¡Calendario generado!",
         "Se ha generado un caledario de partidos para el torneo en base a las inscripciones y los recursos creados hasta la fecha",
         [
           {
-            text: "¡OK!"
+            text: "¡OK!",
           },
         ]
       );
     });
-    
-  }
+    getTorneo();
+  };
 
   useEffect(() => {
     getTorneo();
@@ -49,9 +56,9 @@ const GestionarTorneoScreen = ({ route }) => {
       <SupNavbar></SupNavbar>
       <TournamentBar
         nombre={torneo.nombre}
-        en_juego={torneo.en_juego}
+        en_juego={torneo.estado}
       ></TournamentBar>
-      {torneo.en_juego ? (
+      {torneo.estado == 1 ? (
         <View style={{ width: "100%", alignItems: "center" }}>
           <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
             <Text style={styles.calendarText}>Gestionar partidos</Text>
@@ -72,16 +79,6 @@ const GestionarTorneoScreen = ({ route }) => {
               />
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
-            <Text style={styles.calendarText}>Gestionar Calendario</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/calendar.png")}
-              />
-            </View>
-          </TouchableOpacity>
         </View>
       ) : (
         <View style={{ width: "100%", alignItems: "center" }}>
@@ -94,17 +91,36 @@ const GestionarTorneoScreen = ({ route }) => {
             </View>
             <Text style={styles.timerText}>Empieza en: {dias} días</Text>
           </View>
-
-          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]} onPress={() => generateFixtures()}>
-            <Text style={styles.calendarText}>Generar Calendario</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 50, height: 50 }}
-                source={require("../../assets/images/icons/calendar.png")}
-              />
-            </View>
-          </TouchableOpacity>
         </View>
+      )}
+      {torneo.calendario_generado ? (
+        <TouchableOpacity
+          style={[styles.calendarContainer, styles.shadow]}
+          onPress={() =>
+            navigation.navigate("TorneoPartidosScreen", { torneo: torneo })
+          }
+        >
+          <Text style={styles.calendarText}>Gestionar Calendario</Text>
+          <View style={styles.imageContainer}>
+            <Image
+              style={{ resizeMode: "contain", width: 50, height: 50 }}
+              source={require("../../assets/images/icons/calendar.png")}
+            />
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={[styles.calendarContainer, styles.shadow]}
+          onPress={() => generateFixtures()}
+        >
+          <Text style={styles.calendarText}>Generar Calendario</Text>
+          <View style={styles.imageContainer}>
+            <Image
+              style={{ resizeMode: "contain", width: 50, height: 50 }}
+              source={require("../../assets/images/icons/calendar.png")}
+            />
+          </View>
+        </TouchableOpacity>
       )}
       <View style={styles.gestionarContainer}>
         <TouchableOpacity
@@ -121,10 +137,12 @@ const GestionarTorneoScreen = ({ route }) => {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.gestionarButton, styles.shadow]}
+        <TouchableOpacity
+          style={[styles.gestionarButton, styles.shadow]}
           onPress={() =>
             navigation.navigate("GestionarInscripciones", { torneo: torneo })
-          }>
+          }
+        >
           <Text style={styles.gestionarText}>Jugadores inscritos</Text>
           <View style={styles.imageContainer}>
             <Image

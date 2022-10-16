@@ -25,6 +25,7 @@ import HorariosTorneoScreen from "./screens/organizer/HorariosTorneoScreen";
 
 import ParejaForm from "./screens/player/ParejaForm";
 import PartidosScreen from "./screens/player/PartidosScreen";
+import TorneoPartidos from "./screens/organizer/TorneoPartidos";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs([
@@ -96,6 +97,10 @@ export default function App() {
             <Stack.Screen
               name="HorariosTorneoScreen"
               component={HorariosTorneoScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="TorneoPartidosScreen"
+              component={TorneoPartidos}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

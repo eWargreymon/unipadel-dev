@@ -62,7 +62,7 @@ const GestionarInscripcionesScreen = ({ route }) => {
       <SupNavbar></SupNavbar>
       <TournamentBar
         nombre={torneo.nombre}
-        en_juego={torneo.en_juego}
+        en_juego={torneo.estado}
       ></TournamentBar>
       <View style={styles.recuadro}>
         <Text style={styles.title}>Equipos inscritos</Text>
