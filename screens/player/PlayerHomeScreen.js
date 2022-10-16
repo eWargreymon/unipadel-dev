@@ -17,9 +17,13 @@ import { UserContext } from "../../context/UserDataContext";
 
 const PlayerHomeScreen = () => {
   const navigation = useNavigation();
+  // const unsubscribe = navigation.addListener('focus', () => {
+  //   loadProximoPartido();
+  //   loadTorneos();
+  // });
   const usercontext = useContext(UserContext);
 
-  const [partido, setPartido] = useState("");
+  const [partido, setPartido] = useState({});
   const [competiciones, setCompeticiones] = useState("");
 
   const loadProximoPartido = async () => {
@@ -47,7 +51,7 @@ const PlayerHomeScreen = () => {
         <UserBar></UserBar>
         <View style={styles.partidoContainer}>
           <Text style={styles.containerTitle}>Próximo partido</Text>
-          {partido.length == 0 ? (
+          {Object.keys(partido).length === 0 ? (
             <Text style={styles.containerWarning}>
               En este momento no tiene ningún partido programado
             </Text>

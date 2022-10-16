@@ -18,6 +18,10 @@ import { getCanchaTorneo } from "../../api";
 const GestionarRecursosScreen = ({ route }) => {
   const torneo = route.params.torneo;
   const navigation = useNavigation();
+  
+  // const unsubscribe = navigation.addListener('focus', () => {
+  //   loadCanchas();
+  // });
 
   const [canchas, setCanchas] = useState("");
 
@@ -60,7 +64,7 @@ const GestionarRecursosScreen = ({ route }) => {
                 }
               >
                 <Text style={{textTransform: "uppercase", fontWeight: "bold"}}>
-                  {item.nombre}
+                  {item.id}
                 </Text>
                 <View style={styles.imageContainer}>
                   <Image

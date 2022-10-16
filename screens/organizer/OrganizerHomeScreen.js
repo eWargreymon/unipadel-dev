@@ -15,8 +15,13 @@ import { getTorneosOrg } from "../../api";
 import { UserContext } from "../../context/UserDataContext";
 
 const OrganizerHomeScreen = () => {
-  const navigation = useNavigation();
   const usercontext = useContext(UserContext);
+  const navigation = useNavigation();
+  
+  // const unsubscribe = navigation.addListener('focus', () => {
+  //   loadTorneosJuego();
+  //   loadTorneosOrg();
+  // });
 
   const [torneosJuego, setTorneosJuego] = useState("");
   const [torneosOrg, setTorneosOrg] = useState("");

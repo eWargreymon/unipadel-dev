@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  Image
+  Image,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { colores } from "../colors";
@@ -16,16 +16,30 @@ import { UserContext } from "../context/UserDataContext";
 
 const Partido = ({ partido, state }) => {
   const user = useContext(UserContext);
-  
+
   return (
     <View style={styles.partidoInfoContainer}>
       <View>
-        <Text style={styles.partidoInfoTorneoText}>{partido.torneo.nombre}</Text>
+        <Text style={styles.partidoInfoTorneoText}>
+          {partido.torneo.nombre}
+        </Text>
       </View>
       <View style={styles.partidoInfoHora}>
-        <Text style={styles.partidoInfoText}>{moment(partido.horario.inicio).format("DD-MM-YYYY")}</Text>
-        <Text style={styles.partidoInfoText}>{moment(partido.horario.inicio).format("HH:mm")}</Text>
-        <Text style={styles.partidoInfoText}>{partido.horario.cancha.nombre}</Text>
+        {partido.horario_id != null && (
+          <Text style={styles.partidoInfoText}>
+            {moment(partido.horario.inicio).format("DD-MM-YYYY")}
+          </Text>
+        )}
+        {partido.horario_id != null && (
+          <Text style={styles.partidoInfoText}>
+            {moment(partido.horario.inicio).format("HH:mm")}
+          </Text>
+        )}
+        {partido.horario_id != null && (
+          <Text style={styles.partidoInfoText}>
+            {partido.horario.cancha.nombre}
+          </Text>
+        )}
       </View>
       <View style={styles.partidoInfoParejas}>
         <Text style={styles.partidoParejaText}>{partido.pareja1.nombre}</Text>
@@ -80,6 +94,6 @@ const styles = StyleSheet.create({
     color: colores.darkblue,
     backgroundColor: "lightgrey",
     padding: 5,
-    borderRadius: 5
+    borderRadius: 5,
   },
 });

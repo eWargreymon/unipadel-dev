@@ -67,8 +67,7 @@ const RecursoForm = ({ route }) => {
   // Función para hacer el guardado de la info en la base de datos y mostrar mensaje de aviso
   const handleStore = async () => {
     let data = {
-      torneo: 1,
-      // torneo: route.params.id,
+      torneo: route.params.id,
       cancha: nombre,
       horarios: horarios,
     };

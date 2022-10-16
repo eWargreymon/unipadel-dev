@@ -87,7 +87,7 @@ const Torneo = ({ torneo, state }) => {
         Nº participantes: {torneo.max_parejas} parejas
       </Text>
       <View style={styles.botones}>
-        {torneo.estado == 1 && state && (
+        {torneo.estado == 0 && state && (
           <TouchableOpacity
             style={styles.boton}
             onPress={() => {
