@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import SupNavbar from "../../components/supNavbar";
+import HorariosJornada from "../../components/HorariosJornada";
 
 import { colores } from "../../colors";
 import { useIsFocused } from "@react-navigation/native";
@@ -23,6 +24,8 @@ const TorneoPartidos = ({ route }) => {
 
   const [refresh, setRefresh] = useState(false);
   const isFocusing = useIsFocused();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const loadPartidos = async () => {
     let request = {
@@ -69,10 +72,16 @@ const TorneoPartidos = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <HorariosJornada
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        jornadas={jornadas}
+        torneo={torneo.id}
+      ></HorariosJornada>
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Partidos de la competición</Text>
       <View style={styles.titleUnderline}></View>
-      <View style={{width: "95%", height: 40, marginTop: 10}}>
+      <View style={{ width: "95%", height: 40, marginTop: 10 }}>
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -114,6 +123,34 @@ const TorneoPartidos = ({ route }) => {
             </TouchableOpacity>
           ))}
         </ScrollView>
+      </View>
+      <View
+        style={{
+          width: "95%",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor: colores.blue,
+            padding: 10,
+            borderRadius: 10,
+            elevation: 5,
+          }}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text
+            style={{
+              textTransform: "uppercase",
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            Asignar horarios a jornada
+          </Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         data={partidos}

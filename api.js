@@ -101,3 +101,7 @@ export const getHorariosTorneo = async (request, isTorneo) => {
 export const deleteHorario = async (id) => {
   return await axios.delete(`${api}deleteHorario/${id}`);
 }
+
+export const asignarHorarios = async (request) => {
+  return await axios.post(`${api}setHorarios`, request);
+}
