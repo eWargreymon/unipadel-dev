@@ -77,6 +77,7 @@ const TorneoPartidos = ({ route }) => {
         setModalVisible={setModalVisible}
         jornadas={jornadas}
         torneo={torneo.id}
+        onRefresh={onRefresh}
       ></HorariosJornada>
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Partidos de la competición</Text>

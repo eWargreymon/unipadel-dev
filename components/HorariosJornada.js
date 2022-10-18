@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Modal, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
@@ -6,7 +13,13 @@ import { Picker } from "@react-native-picker/picker";
 import { colores } from "../colors";
 import { asignarHorarios } from "../api";
 
-const HorariosJornada = ({ modalVisible, setModalVisible, jornadas, torneo }) => {
+const HorariosJornada = ({
+  modalVisible,
+  setModalVisible,
+  jornadas,
+  torneo,
+  onRefresh
+}) => {
   const [jornada, setJornada] = useState(0);
   const [showI, setShowI] = useState(false);
   const [showF, setShowF] = useState(false);
@@ -54,18 +67,25 @@ const HorariosJornada = ({ modalVisible, setModalVisible, jornadas, torneo }) =>
       jornada: jornada,
       fecha_inicio: inicio.toString(),
       fecha_fin: fin.toString(),
-      torneo: torneo
+      torneo: torneo,
     };
     // console.log(request);
     const res = await asignarHorarios(request)
-      .then(() => {
+      .then((response) => {
+        onRefresh();
         Alert.alert(
-          "¡Torneo creado!",
-          "Se ha creado un torneo con los datos proporcionados. Podrás gestionarlo desde tu perfil",
+          response.data.jornada
+            ? "¡Jornada completa!"
+            : "¡Horarios establecidos!",
+          response.data.jornada
+            ? "Todos los partidos de la jornada tienen horarios asignados"
+            : response.data.horarios
+            ? "Agregados horarios a todos los partidos de la jornada"
+            : "Se han asignado horarios a la jornada pero han quedado partidos sin asignar, pues no se disponen de los recursos necesarios. Se requiere una asignación manual por parte del administrador.",
           [
             {
               text: "¡OK!",
-              onPress: () => navigation.pop(),
+              onPress: () => setModalVisible(!modalVisible),
             },
           ]
         );
