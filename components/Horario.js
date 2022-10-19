@@ -5,7 +5,7 @@ import moment from "moment/moment";
 
 import { UserContext } from "../context/UserDataContext";
 
-const Horario = ({ horario, liberarHorario }) => {
+const Horario = ({ horario, liberarHorario, asignarPartido }) => {
   const user = useContext(UserContext);
 
   return (
@@ -43,14 +43,14 @@ const Horario = ({ horario, liberarHorario }) => {
         }}
       >
         <Text style={styles.nombre}>{horario.cancha.nombre}</Text>
-        {horario.ocupado == 0 && (
+        {asignarPartido != null ? (
           <TouchableOpacity
             style={{
               backgroundColor: colores.darkblue,
               padding: 5,
               borderRadius: 5,
             }}
-            onPress={() => liberarHorario(horario.id)}
+            onPress={() => asignarPartido(horario.id)}
           >
             <Text
               style={{
@@ -59,9 +59,30 @@ const Horario = ({ horario, liberarHorario }) => {
                 fontWeight: "bold",
               }}
             >
-              Liberar horario
+              Asignar horario
             </Text>
           </TouchableOpacity>
+        ) : (
+          horario.ocupado == 0 && (
+            <TouchableOpacity
+              style={{
+                backgroundColor: colores.darkblue,
+                padding: 5,
+                borderRadius: 5,
+              }}
+              onPress={() => liberarHorario(horario.id)}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
+                }}
+              >
+                Liberar horario
+              </Text>
+            </TouchableOpacity>
+          )
         )}
       </View>
     </View>

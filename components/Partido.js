@@ -3,12 +3,13 @@ import {
   Text,
   View,
   Image,
+  TouchableOpacity
 } from "react-native";
 import React from "react";
 import { colores } from "../colors";
 import moment from "moment";
 
-const Partido = ({ partido }) => {
+const Partido = ({ partido, handleHorario }) => {
 
   return (
     <View style={styles.partidoInfoContainer}>
@@ -43,6 +44,14 @@ const Partido = ({ partido }) => {
           />
         </View>
         <Text style={styles.partidoParejaText}>{partido.pareja2.nombre}</Text>
+      </View>
+      <View style={styles.accionesPartido}>
+          <TouchableOpacity style={[styles.accionesButton, {backgroundColor: colores.darkblue,}]} onPress={() => handleHorario(partido.id)}>
+            <Text style={styles.accionesButtonText}>Asignar horario</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.accionesButton, {backgroundColor: colores.green,}]}>
+            <Text style={styles.accionesButtonText}>Asignar resultado</Text>
+          </TouchableOpacity>
       </View>
     </View>
   );
@@ -89,4 +98,20 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
+  accionesPartido:{
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20
+  },
+  accionesButton:{
+    marginHorizontal: 20,
+    width: "40%",
+    padding: 5,
+    borderRadius: 10
+  },
+  accionesButtonText:{
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold"
+  }
 });

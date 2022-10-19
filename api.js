@@ -98,6 +98,14 @@ export const getHorariosTorneo = async (request, isTorneo) => {
   return await axios.get(`${api}getHorariosTorneo/${request}/${isTorneo}`);
 }
 
+export const getHorariosDisponibles = async (torneo) => {
+  return await axios.get(`${api}getHorariosDisponibles/${torneo}`);
+}
+
+export const setHorarioPartido = async (request) => {
+  return await axios.post(`${api}setHorarioPartido`, request);
+}
+
 export const deleteHorario = async (id) => {
   return await axios.delete(`${api}deleteHorario/${id}`);
 }

@@ -8,13 +8,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { colores } from "../../colors";
+
+import { getPartidosTorneo, getJornadas } from "../../api";
+
 import SupNavbar from "../../components/supNavbar";
 import HorariosJornada from "../../components/HorariosJornada";
-
-import { colores } from "../../colors";
-import { useIsFocused } from "@react-navigation/native";
 import Partido from "../../components/Partido";
-import { getPartidosTorneo, getJornadas } from "../../api";
+import SelectorHorario from "../../components/SelectorHorario";
 
 const TorneoPartidos = ({ route }) => {
   const torneo = route.params.torneo;
@@ -26,6 +28,9 @@ const TorneoPartidos = ({ route }) => {
   const isFocusing = useIsFocused();
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [modalVisibleHorario, setModalVisibleHorario] = useState(false);
+  const [partidoSelected, setPartidoSelected] = useState("");
 
   const loadPartidos = async () => {
     let request = {
@@ -66,8 +71,13 @@ const TorneoPartidos = ({ route }) => {
     loadPartidos();
   }, [isFocusing]);
 
+  const handleHorario = (id) => {
+    setPartidoSelected(id);
+    setModalVisibleHorario(true);
+  }
+
   const renderItem = ({ item }) => {
-    return <Partido partido={item} state={true}></Partido>;
+    return <Partido partido={item} handleHorario={handleHorario}></Partido>;
   };
 
   return (
@@ -79,6 +89,13 @@ const TorneoPartidos = ({ route }) => {
         torneo={torneo.id}
         onRefresh={onRefresh}
       ></HorariosJornada>
+      <SelectorHorario
+        modalVisible={modalVisibleHorario}
+        setModalVisible={setModalVisibleHorario}
+        partido={partidoSelected}
+        torneo={torneo.id}
+        onRefresh={onRefresh}
+      ></SelectorHorario>
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Partidos de la competición</Text>
       <View style={styles.titleUnderline}></View>
