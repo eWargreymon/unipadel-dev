@@ -1,18 +1,11 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { colores } from "../colors";
 import moment from "moment";
 
-const Partido = ({ partido, handleHorario }) => {
-
+const Partido = ({ partido, handleHorario, hasActions, isPlayer }) => {
   return (
-    <View style={styles.partidoInfoContainer}>
+    <View style={[styles.partidoInfoContainer, isPlayer && partido.propio && styles.partidoPropioColor]}>
       <View>
         <Text style={styles.partidoInfoTorneoText}>
           {partido.torneo.nombre} - Jornada {partido.jornada.numero}
@@ -45,14 +38,56 @@ const Partido = ({ partido, handleHorario }) => {
         </View>
         <Text style={styles.partidoParejaText}>{partido.pareja2.nombre}</Text>
       </View>
-      <View style={styles.accionesPartido}>
-          <TouchableOpacity style={[styles.accionesButton, {backgroundColor: colores.darkblue,}]} onPress={() => handleHorario(partido.id)}>
-            <Text style={styles.accionesButtonText}>Asignar horario</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.accionesButton, {backgroundColor: colores.green,}]}>
-            <Text style={styles.accionesButtonText}>Asignar resultado</Text>
-          </TouchableOpacity>
-      </View>
+      {hasActions && (
+        <View style={styles.accionesPartido}>
+          {isPlayer ? (
+            partido.propio && (
+              <TouchableOpacity
+                style={[
+                  styles.accionesButton,
+                  { backgroundColor: colores.darkblue },
+                ]}
+                onPress={() => handleHorario(partido.id)}
+              >
+                <Text style={styles.accionesButtonText}>Proponer horario</Text>
+              </TouchableOpacity>
+            )
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.accionesButton,
+                { backgroundColor: colores.darkblue },
+              ]}
+              onPress={() => handleHorario(partido.id)}
+            >
+              <Text style={styles.accionesButtonText}>Asignar horario</Text>
+            </TouchableOpacity>
+          )}
+          {isPlayer ? (
+            partido.propio && (
+              <TouchableOpacity
+                style={[
+                  styles.accionesButton,
+                  { backgroundColor: colores.green },
+                ]}
+              >
+                <Text style={styles.accionesButtonText}>
+                  Proponer resultado
+                </Text>
+              </TouchableOpacity>
+            )
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.accionesButton,
+                { backgroundColor: colores.green },
+              ]}
+            >
+              <Text style={styles.accionesButtonText}>Asignar resultado</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
     </View>
   );
 };
@@ -66,6 +101,9 @@ const styles = StyleSheet.create({
     backgroundColor: colores.lightyellow,
     width: "95%",
     borderRadius: 10,
+  },
+  partidoPropioColor:{
+    backgroundColor: colores.lightblue
   },
   partidoInfoTorneoText: {
     textAlign: "center",
@@ -98,20 +136,20 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  accionesPartido:{
+  accionesPartido: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 20,
   },
-  accionesButton:{
-    marginHorizontal: 20,
-    width: "40%",
+  accionesButton: {
+    width: 150,
     padding: 5,
-    borderRadius: 10
+    borderRadius: 10,
   },
-  accionesButtonText:{
+  accionesButtonText: {
     color: "white",
     textAlign: "center",
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });

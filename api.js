@@ -70,8 +70,12 @@ export const generarCalendario = async (torneo) => {
   return await axios.post(`${api}generateCalendario`, torneo);
 }
 
-export const getPartido = async (data) => {
-  return await axios.get(`${api}getPartido/${data}`);
+export const getPartido = async (jugador, torneo) => {
+  if(torneo){
+    return await axios.get(`${api}getPartido/${jugador}/${torneo}`);
+  } else {
+    return await axios.get(`${api}getPartido/${jugador}`);
+  }
 }
 
 export const getPartidos = async (data) => {
@@ -80,6 +84,10 @@ export const getPartidos = async (data) => {
 
 export const getPartidosTorneo = async (data) => {
   return await axios.post(`${api}getPartidosTorneo`, data);
+}
+
+export const getPartidosTorneoPlayer = async (data) => {
+  return await axios.post(`${api}getPartidosTorneoPlayer`, data);
 }
 
 export const getJornadas = async (torneo) => {
@@ -104,6 +112,10 @@ export const getHorariosDisponibles = async (torneo) => {
 
 export const setHorarioPartido = async (request) => {
   return await axios.post(`${api}setHorarioPartido`, request);
+}
+
+export const proponerHorarioPartido = async (request) => {
+  return await axios.post(`${api}proponerHorarioPartido`, request);
 }
 
 export const deleteHorario = async (id) => {

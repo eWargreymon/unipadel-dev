@@ -17,10 +17,6 @@ import { UserContext } from "../../context/UserDataContext";
 
 const PlayerHomeScreen = () => {
   const navigation = useNavigation();
-  // const unsubscribe = navigation.addListener('focus', () => {
-  //   loadProximoPartido();
-  //   loadTorneos();
-  // });
   const usercontext = useContext(UserContext);
 
   const [partido, setPartido] = useState({});
@@ -56,7 +52,7 @@ const PlayerHomeScreen = () => {
               En este momento no tiene ningún partido programado
             </Text>
           ) : (
-            <Partido partido={partido} state={true}></Partido>
+            <Partido partido={partido} hasActions={false}></Partido>
           )}
         </View>
         <View style={styles.competicionContainer}>
@@ -73,7 +69,7 @@ const PlayerHomeScreen = () => {
               contentContainerStyle={styles.scrollView}
             >
               {competiciones.map((data) => (
-                <TouchableOpacity style={styles.competicion} key={data.id}>
+                <TouchableOpacity style={styles.competicion} key={data.id} onPress={() => navigation.navigate("PlayerTorneoScreen", { id: data.id })}>
                   <Text style={styles.nombreComp} numberOfLines={2}>{data.nombre}</Text>
                   <View style={styles.imageContainer}>
                     <Image

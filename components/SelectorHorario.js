@@ -2,14 +2,15 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity, FlatList, Alert } from
 import React, { useState, useEffect } from "react";
 import { colores } from "../colors";
 import Horario from "./Horario";
-import { getHorariosDisponibles, setHorarioPartido } from "../api";
+import { getHorariosDisponibles, setHorarioPartido, proponerHorarioPartido } from "../api";
 
 const SelectorHorario = ({
   modalVisible,
   setModalVisible,
   partido,
   torneo,
-  onRefresh
+  onRefresh,
+  user
 }) => {
   const [horarios, setHorarios] = useState([]);
 
@@ -17,6 +18,41 @@ const SelectorHorario = ({
     const data = await getHorariosDisponibles(torneo);
     setHorarios(data.data);
   };
+
+  const proponerPartido = async (horario) => {
+    const request = {
+      horario: horario,
+      partido: partido,
+      user: user
+    }
+    const data = await proponerHorarioPartido(request)
+    .then(() => {
+      onRefresh();
+      setModalVisible(!modalVisible)
+      Alert.alert(
+        "¡Horario propuesto!",
+        "Se ha propuesto a la pareja rival un nuevo horario",
+        [
+          {
+            text: "¡OK!",
+            onPress: () => loadHorarios(),
+          },
+        ]
+      );
+    })
+    .catch(() => {
+      Alert.alert(
+        "Error en el guardado",
+        "Ha surgido un error y no se ha podido guardar la información. Por favor, revise la información y vuelva a intentarlo.",
+        [
+          {
+            text: "Vale",
+            style: "cancel",
+          },
+        ]
+      );
+    });
+  }
 
   const asignarPartido = async (horario) => {
     const request = {
@@ -28,8 +64,8 @@ const SelectorHorario = ({
       onRefresh();
       setModalVisible(!modalVisible)
       Alert.alert(
-        "¡Horarios establecidos!",
-        "Se han asignado horarios a la jornada pero han quedado partidos sin asignar, pues no se disponen de los recursos necesarios. Se requiere una asignación manual por parte del administrador.",
+        "¡Horario establecido!",
+        "Se ha asignado al partido el horario seleccionado.",
         [
           {
             text: "¡OK!",
@@ -119,7 +155,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   modalView: {
-    padding: 30,
+    padding: 10,
     backgroundColor: "white",
     justifyContent: "space-between",
     borderRadius: 10,

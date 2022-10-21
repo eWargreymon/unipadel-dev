@@ -59,7 +59,7 @@ const Horario = ({ horario, liberarHorario, asignarPartido }) => {
                 fontWeight: "bold",
               }}
             >
-              Asignar horario
+              Asignar
             </Text>
           </TouchableOpacity>
         ) : (

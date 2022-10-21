@@ -22,10 +22,12 @@ import GestionarTorneoScreen from "./screens/organizer/GestionarTorneoScreen";
 import GestionarRecursosScreen from "./screens/organizer/GestionarRecursosScreen";
 import GestionarInscripcionesScreen from "./screens/organizer/GestionarInscripciones";
 import HorariosTorneoScreen from "./screens/organizer/HorariosTorneoScreen";
+import TorneoPartidos from "./screens/organizer/TorneoPartidos";
 
 import ParejaForm from "./screens/player/ParejaForm";
 import PartidosScreen from "./screens/player/PartidosScreen";
-import TorneoPartidos from "./screens/organizer/TorneoPartidos";
+import PlayerTorneoScreen from "./screens/player/PlayerTournamentsScreen";
+import TorneoPartidosUsuario from "./screens/player/TorneoPartidosUsuario";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs([
@@ -101,6 +103,14 @@ export default function App() {
             <Stack.Screen
               name="TorneoPartidosScreen"
               component={TorneoPartidos}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="PlayerTorneoScreen"
+              component={PlayerTorneoScreen}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="TorneoPartidosUsuario"
+              component={TorneoPartidosUsuario}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

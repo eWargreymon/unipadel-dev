@@ -35,7 +35,7 @@ const PartidosScreen = () => {
   }, [isFocusing]);
 
   const renderItem = ({ item }) => {
-    return <Partido partido={item} state={true}></Partido>;
+    return <Partido partido={item} hasActions={false}></Partido>;
   };
 
   return (
