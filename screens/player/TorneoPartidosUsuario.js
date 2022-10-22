@@ -17,11 +17,12 @@ import { UserContext } from "../../context/UserDataContext";
 import SupNavbar from "../../components/supNavbar";
 import Partido from "../../components/Partido";
 import SelectorHorario from "../../components/SelectorHorario";
+import SelectorHorarioPropuesto from "../../components/SelectorHorarioPropuesto";
 
 const TorneoPartidosUsuario = ({ route }) => {
   const torneo = route.params.torneo;
   const usercontext = useContext(UserContext);
-  
+
   const [partidos, setPartidos] = useState([]);
   const [jornadas, setJornadas] = useState([]);
   const [jornadaPulsada, setJornadaPulsada] = useState(0);
@@ -30,12 +31,15 @@ const TorneoPartidosUsuario = ({ route }) => {
   const isFocusing = useIsFocused();
 
   const [modalVisibleHorario, setModalVisibleHorario] = useState(false);
+  const [modalVisibleHorarioPropuesto, setModalVisibleHorarioPropuesto] =
+    useState(false);
+
   const [partidoSelected, setPartidoSelected] = useState("");
 
   const loadPartidos = async () => {
     let request = {
       torneo: torneo.id,
-      jugador: usercontext.id
+      jugador: usercontext.user.id,
     };
     const data = await getPartidosTorneoPlayer(request);
     setPartidos(data.data);
@@ -47,11 +51,11 @@ const TorneoPartidosUsuario = ({ route }) => {
       jornada.numero == 0
         ? {
             torneo: torneo.id,
-            jugador: usercontext.id
+            jugador: usercontext.user.id,
           }
         : {
             jornada: jornada.id,
-            jugador: usercontext.id
+            jugador: usercontext.user.id,
           };
     const data = await getPartidosTorneoPlayer(request);
     setPartidos(data.data);
@@ -77,10 +81,23 @@ const TorneoPartidosUsuario = ({ route }) => {
   const handleHorario = (id) => {
     setPartidoSelected(id);
     setModalVisibleHorario(true);
-  }
+  };
+
+  const handleHorarioPropuesto = (id) => {
+    setPartidoSelected(id);
+    setModalVisibleHorarioPropuesto(true);
+  };
 
   const renderItem = ({ item }) => {
-    return <Partido partido={item} handleHorario={handleHorario} hasActions={true} isPlayer={true}></Partido>;
+    return (
+      <Partido
+        partido={item}
+        handleHorario={handleHorario}
+        handleHorarioPropuesto={handleHorarioPropuesto}
+        hasActions={true}
+        isPlayer={true}
+      ></Partido>
+    );
   };
 
   return (
@@ -90,9 +107,16 @@ const TorneoPartidosUsuario = ({ route }) => {
         setModalVisible={setModalVisibleHorario}
         partido={partidoSelected}
         torneo={torneo.id}
-        user={usercontext.id}
         onRefresh={onRefresh}
       ></SelectorHorario>
+      <SelectorHorarioPropuesto
+        modalVisible={modalVisibleHorarioPropuesto}
+        setModalVisible={setModalVisibleHorarioPropuesto}
+        partido={partidoSelected}
+        torneo={torneo.id}
+        user={usercontext.user.id}
+        onRefresh={onRefresh}
+      ></SelectorHorarioPropuesto>
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Partidos de la competición</Text>
       <View style={styles.titleUnderline}></View>

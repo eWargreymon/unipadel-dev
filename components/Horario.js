@@ -5,7 +5,12 @@ import moment from "moment/moment";
 
 import { UserContext } from "../context/UserDataContext";
 
-const Horario = ({ horario, liberarHorario, asignarPartido }) => {
+const Horario = ({
+  horario,
+  liberarHorario,
+  asignarPartido,
+  proponerPartido,
+}) => {
   const user = useContext(UserContext);
 
   return (
@@ -60,6 +65,25 @@ const Horario = ({ horario, liberarHorario, asignarPartido }) => {
               }}
             >
               Asignar
+            </Text>
+          </TouchableOpacity>
+        ) : proponerPartido != null ? (
+          <TouchableOpacity
+            style={{
+              backgroundColor: colores.darkblue,
+              padding: 5,
+              borderRadius: 5,
+            }}
+            onPress={() => proponerPartido(horario.id)}
+          >
+            <Text
+              style={{
+                color: "white",
+                textTransform: "uppercase",
+                fontWeight: "bold",
+              }}
+            >
+              Proponer
             </Text>
           </TouchableOpacity>
         ) : (

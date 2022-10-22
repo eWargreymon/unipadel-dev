@@ -2,14 +2,15 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity, FlatList, Alert } from
 import React, { useState, useEffect } from "react";
 import { colores } from "../colors";
 import Horario from "./Horario";
-import { getHorariosDisponibles, setHorarioPartido } from "../api";
+import { getHorariosDisponibles, proponerHorarioPartido } from "../api";
 
-const SelectorHorario = ({
+const SelectorHorarioPropuesto = ({
   modalVisible,
   setModalVisible,
   partido,
   torneo,
-  onRefresh
+  onRefresh,
+  user
 }) => {
   const [horarios, setHorarios] = useState([]);
 
@@ -18,18 +19,20 @@ const SelectorHorario = ({
     setHorarios(data.data);
   };
 
-  const asignarPartido = async (horario) => {
+  const proponerPartido = async (horario) => {
     const request = {
       horario: horario,
-      partido: partido
+      partido: partido,
+      user: user
     }
-    const data = await setHorarioPartido(request)
+    console.log(request);
+    const data = await proponerHorarioPartido(request)
     .then(() => {
       onRefresh();
       setModalVisible(!modalVisible)
       Alert.alert(
-        "¡Horario establecido!",
-        "Se ha asignado al partido el horario seleccionado.",
+        "¡Horario propuesto!",
+        "Se ha propuesto a la pareja rival un nuevo horario",
         [
           {
             text: "¡OK!",
@@ -53,7 +56,7 @@ const SelectorHorario = ({
   }
 
   const renderItem = ({ item }) => {
-    return <Horario horario={item} asignarPartido={asignarPartido}/>;
+    return <Horario horario={item} proponerPartido={proponerPartido}/>;
   };
 
   useEffect(() => {
@@ -109,7 +112,7 @@ const SelectorHorario = ({
   );
 };
 
-export default SelectorHorario;
+export default SelectorHorarioPropuesto;
 
 const styles = StyleSheet.create({
   centeredView: {

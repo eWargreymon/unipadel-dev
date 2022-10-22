@@ -3,7 +3,7 @@ import React from "react";
 import { colores } from "../colors";
 import moment from "moment";
 
-const Partido = ({ partido, handleHorario, hasActions, isPlayer }) => {
+const Partido = ({ partido, handleHorario, handleHorarioPropuesto, hasActions, isPlayer }) => {
   return (
     <View style={[styles.partidoInfoContainer, isPlayer && partido.propio && styles.partidoPropioColor]}>
       <View>
@@ -47,7 +47,7 @@ const Partido = ({ partido, handleHorario, hasActions, isPlayer }) => {
                   styles.accionesButton,
                   { backgroundColor: colores.darkblue },
                 ]}
-                onPress={() => handleHorario(partido.id)}
+                onPress={() => handleHorarioPropuesto(partido.id)}
               >
                 <Text style={styles.accionesButtonText}>Proponer horario</Text>
               </TouchableOpacity>
