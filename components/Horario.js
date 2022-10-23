@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     maxWidth: "90%",
   },
   libre: {
-    backgroundColor: "lightgreen",
+    backgroundColor: "#c2f0c2",
   },
   ocupado: {
     backgroundColor: colores.lightblue,

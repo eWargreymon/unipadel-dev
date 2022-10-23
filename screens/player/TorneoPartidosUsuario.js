@@ -24,6 +24,8 @@ const TorneoPartidosUsuario = ({ route }) => {
   const usercontext = useContext(UserContext);
 
   const [partidos, setPartidos] = useState([]);
+  const [partidosConflicto, setPartidosConflicto] = useState([]);
+
   const [jornadas, setJornadas] = useState([]);
   const [jornadaPulsada, setJornadaPulsada] = useState(0);
 
@@ -43,6 +45,12 @@ const TorneoPartidosUsuario = ({ route }) => {
     };
     const data = await getPartidosTorneoPlayer(request);
     setPartidos(data.data);
+    setPartidosConflicto([]);
+    data.data.forEach(element => {
+      if(element.propio && element.horario_propuesto != null){
+        setPartidosConflicto([...partidosConflicto, element])
+      }
+    });
   };
 
   const loadPartidosJornada = async (jornada) => {
@@ -72,6 +80,10 @@ const TorneoPartidosUsuario = ({ route }) => {
     setJornadaPulsada(0);
     setRefresh(false);
   });
+
+  const showConflictos = () => {
+    setPartidos(partidosConflicto);
+  }
 
   useEffect(() => {
     loadJornadas();
@@ -163,6 +175,14 @@ const TorneoPartidosUsuario = ({ route }) => {
           ))}
         </ScrollView>
       </View>
+      {
+        partidosConflicto.length > 0 &&
+        (
+          <TouchableOpacity style={{backgroundColor: "#ff6600", padding: 5, marginTop: 10, borderRadius: 5}} onPress={()=>showConflictos()}>
+            <Text style={{color: "white", textTransform: "uppercase"}}>¡Tienes partidos con conflicto horario!</Text>
+          </TouchableOpacity>
+        )
+      }
       <FlatList
         data={partidos}
         keyExtractor={(item) => item.id}
