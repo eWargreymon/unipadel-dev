@@ -25,7 +25,7 @@ const SelectorHorarioPropuesto = ({
       partido: partido,
       user: user
     }
-    console.log(request);
+    
     const data = await proponerHorarioPartido(request)
     .then(() => {
       onRefresh();

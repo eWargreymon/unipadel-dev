@@ -3,91 +3,128 @@ import React from "react";
 import { colores } from "../colors";
 import moment from "moment";
 
-const Partido = ({ partido, handleHorario, handleHorarioPropuesto, hasActions, isPlayer }) => {
+const Partido = ({
+  partido,
+  handleHorario,
+  handleHorarioPropuesto,
+  hasActions,
+  isPlayer,
+  aceptarPropuesta,
+  rechazarPropuesta
+}) => {
   return (
-    <View style={[styles.partidoInfoContainer, isPlayer && partido.propio && styles.partidoPropioColor]}>
-      <View>
-        <Text style={styles.partidoInfoTorneoText}>
-          {partido.torneo.nombre} - Jornada {partido.jornada.numero}
-        </Text>
-      </View>
-      <View style={styles.partidoInfoHora}>
-        {partido.horario_id != null && (
-          <Text style={styles.partidoInfoText}>
-            {moment(partido.horario.inicio).format("DD-MM-YYYY")}
-          </Text>
+    <View style={{ width: "100%" }}>
+      {partido.propio &&
+        partido.propuesta != null &&
+        partido.propuesta_externa && (
+          <View>
+            <Text>La pareja rival ha propuesto un horario</Text>
+            <Text>
+              El día {moment(partido.fechor_propuesta).format("DD-MM-YYYY")} a
+              las {moment(partido.fechor_propuesta).format("HH:mm")}
+            </Text>
+            <View style={{flexDirection: "row"}}>
+              <TouchableOpacity style={{backgroundColor: "green"}} onPress={() => aceptarPropuesta(partido.id)}>
+                <Text>Aceptar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{backgroundColor: "red"}} onPress={() => rechazarPropuesta(partido.id)}>
+                <Text>Rechazar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
-        {partido.horario_id != null && (
-          <Text style={styles.partidoInfoText}>
-            {moment(partido.horario.inicio).format("HH:mm")}
+      <View></View>
+      <View
+        style={[
+          styles.partidoInfoContainer,
+          isPlayer && partido.propio && styles.partidoPropioColor,
+        ]}
+      >
+        <View>
+          <Text style={styles.partidoInfoTorneoText}>
+            {partido.torneo.nombre} - Jornada {partido.jornada.numero}
           </Text>
-        )}
-        {partido.horario_id != null && (
-          <Text style={styles.partidoInfoText}>
-            {partido.horario.cancha.nombre}
-          </Text>
-        )}
-      </View>
-      <View style={styles.partidoInfoParejas}>
-        <Text style={styles.partidoParejaText}>{partido.pareja1.nombre}</Text>
-        <View style={{ width: "20%", alignItems: "center" }}>
-          <Image
-            style={[{ resizeMode: "contain" }]}
-            source={require("../assets/images/icons/home.png")}
-          />
         </View>
-        <Text style={styles.partidoParejaText}>{partido.pareja2.nombre}</Text>
-      </View>
-      {hasActions && (
-        <View style={styles.accionesPartido}>
-          {isPlayer ? (
-            partido.propio && (
+        <View style={styles.partidoInfoHora}>
+          {partido.horario_id != null && (
+            <Text style={styles.partidoInfoText}>
+              {moment(partido.horario.inicio).format("DD-MM-YYYY")}
+            </Text>
+          )}
+          {partido.horario_id != null && (
+            <Text style={styles.partidoInfoText}>
+              {moment(partido.horario.inicio).format("HH:mm")}
+            </Text>
+          )}
+          {partido.horario_id != null && (
+            <Text style={styles.partidoInfoText}>
+              {partido.horario.cancha.nombre}
+            </Text>
+          )}
+        </View>
+        <View style={styles.partidoInfoParejas}>
+          <Text style={styles.partidoParejaText}>{partido.pareja1.nombre}</Text>
+          <View style={{ width: "20%", alignItems: "center" }}>
+            <Image
+              style={[{ resizeMode: "contain" }]}
+              source={require("../assets/images/icons/home.png")}
+            />
+          </View>
+          <Text style={styles.partidoParejaText}>{partido.pareja2.nombre}</Text>
+        </View>
+        {hasActions && (
+          <View style={styles.accionesPartido}>
+            {isPlayer ? (
+              partido.propio && (
+                <TouchableOpacity
+                  style={[
+                    styles.accionesButton,
+                    { backgroundColor: colores.darkblue },
+                  ]}
+                  onPress={() => handleHorarioPropuesto(partido.id)}
+                >
+                  <Text style={styles.accionesButtonText}>
+                    Proponer horario
+                  </Text>
+                </TouchableOpacity>
+              )
+            ) : (
               <TouchableOpacity
                 style={[
                   styles.accionesButton,
                   { backgroundColor: colores.darkblue },
                 ]}
-                onPress={() => handleHorarioPropuesto(partido.id)}
+                onPress={() => handleHorario(partido.id)}
               >
-                <Text style={styles.accionesButtonText}>Proponer horario</Text>
+                <Text style={styles.accionesButtonText}>Asignar horario</Text>
               </TouchableOpacity>
-            )
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.accionesButton,
-                { backgroundColor: colores.darkblue },
-              ]}
-              onPress={() => handleHorario(partido.id)}
-            >
-              <Text style={styles.accionesButtonText}>Asignar horario</Text>
-            </TouchableOpacity>
-          )}
-          {isPlayer ? (
-            partido.propio && (
+            )}
+            {isPlayer ? (
+              partido.propio && (
+                <TouchableOpacity
+                  style={[
+                    styles.accionesButton,
+                    { backgroundColor: colores.green },
+                  ]}
+                >
+                  <Text style={styles.accionesButtonText}>
+                    Proponer resultado
+                  </Text>
+                </TouchableOpacity>
+              )
+            ) : (
               <TouchableOpacity
                 style={[
                   styles.accionesButton,
                   { backgroundColor: colores.green },
                 ]}
               >
-                <Text style={styles.accionesButtonText}>
-                  Proponer resultado
-                </Text>
+                <Text style={styles.accionesButtonText}>Asignar resultado</Text>
               </TouchableOpacity>
-            )
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.accionesButton,
-                { backgroundColor: colores.green },
-              ]}
-            >
-              <Text style={styles.accionesButtonText}>Asignar resultado</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
+            )}
+          </View>
+        )}
+      </View>
     </View>
   );
 };
@@ -102,8 +139,8 @@ const styles = StyleSheet.create({
     width: "95%",
     borderRadius: 10,
   },
-  partidoPropioColor:{
-    backgroundColor: colores.lightblue
+  partidoPropioColor: {
+    backgroundColor: colores.lightblue,
   },
   partidoInfoTorneoText: {
     textAlign: "center",

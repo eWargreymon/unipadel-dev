@@ -11,7 +11,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { colores } from "../../colors";
 
-import { getPartidosTorneoPlayer, getJornadas } from "../../api";
+import { getPartidosTorneoPlayer, getJornadas, aceptarPropuestaApi, rechazarPropuestaApi } from "../../api";
 import { UserContext } from "../../context/UserDataContext";
 
 import SupNavbar from "../../components/supNavbar";
@@ -44,13 +44,8 @@ const TorneoPartidosUsuario = ({ route }) => {
       jugador: usercontext.user.id,
     };
     const data = await getPartidosTorneoPlayer(request);
-    setPartidos(data.data);
-    setPartidosConflicto([]);
-    data.data.forEach(element => {
-      if(element.propio && element.horario_propuesto != null){
-        setPartidosConflicto([...partidosConflicto, element])
-      }
-    });
+    setPartidos(data.data.partidos);
+    setPartidosConflicto(data.data.partidos_conflicto);
   };
 
   const loadPartidosJornada = async (jornada) => {
@@ -100,6 +95,16 @@ const TorneoPartidosUsuario = ({ route }) => {
     setModalVisibleHorarioPropuesto(true);
   };
 
+  const aceptarPropuesta = async (id) => {
+    const data = await aceptarPropuestaApi(id);
+    loadPartidos();
+  }
+
+  const rechazarPropuesta = async (id) => {
+    const data = await rechazarPropuestaApi(id);
+    loadPartidos();
+  }
+
   const renderItem = ({ item }) => {
     return (
       <Partido
@@ -108,6 +113,8 @@ const TorneoPartidosUsuario = ({ route }) => {
         handleHorarioPropuesto={handleHorarioPropuesto}
         hasActions={true}
         isPlayer={true}
+        aceptarPropuesta={aceptarPropuesta}
+        rechazarPropuesta={rechazarPropuesta}
       ></Partido>
     );
   };
