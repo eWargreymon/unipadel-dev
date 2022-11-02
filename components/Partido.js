@@ -17,23 +17,29 @@ const Partido = ({
       {partido.propio &&
         partido.propuesta != null &&
         partido.propuesta_externa && (
-          <View>
-            <Text>La pareja rival ha propuesto un horario</Text>
-            <Text>
+          <View style={{borderTopColor: "gray", borderTopWidth: 2, borderBottomColor: "lightgray", borderBottomWidth: 2}}>
+            <Text style={{textAlign: "center", marginTop: 5}}>La pareja rival ha propuesto un horario</Text>
+            <Text style={{textAlign: "center"}}>
               El día {moment(partido.fechor_propuesta).format("DD-MM-YYYY")} a
               las {moment(partido.fechor_propuesta).format("HH:mm")}
             </Text>
-            <View style={{flexDirection: "row"}}>
-              <TouchableOpacity style={{backgroundColor: "green"}} onPress={() => aceptarPropuesta(partido.id)}>
-                <Text>Aceptar</Text>
+            <View style={{flexDirection: "row", justifyContent: "center"}}>
+              <TouchableOpacity style={{borderRadius: 5, marginVertical: 5, backgroundColor: colores.green, marginHorizontal: 10, padding: 5}} onPress={() => aceptarPropuesta(partido.id)}>
+                <Text style={{color: "white"}}>Aceptar</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{backgroundColor: "red"}} onPress={() => rechazarPropuesta(partido.id)}>
-                <Text>Rechazar</Text>
+              <TouchableOpacity style={{borderRadius: 5, marginVertical: 5, backgroundColor: "darkred", marginHorizontal: 10, padding: 5}} onPress={() => rechazarPropuesta(partido.id)}>
+                <Text style={{color: "white"}}>Rechazar</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
-      <View></View>
+        {partido.propio &&
+          partido.propuesta != null &&
+          partido.propuesta_externa == false && (
+            <View>
+              <Text style={{textAlign: "center"}}>Esperando respuesta del rival</Text>
+            </View>
+          )}
       <View
         style={[
           styles.partidoInfoContainer,

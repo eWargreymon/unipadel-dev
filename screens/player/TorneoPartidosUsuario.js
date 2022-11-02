@@ -61,7 +61,8 @@ const TorneoPartidosUsuario = ({ route }) => {
             jugador: usercontext.user.id,
           };
     const data = await getPartidosTorneoPlayer(request);
-    setPartidos(data.data);
+    setPartidos(data.data.partidos);
+    setPartidosConflicto(data.data.partidos_conflicto);
   };
 
   const loadJornadas = async () => {
@@ -186,7 +187,7 @@ const TorneoPartidosUsuario = ({ route }) => {
         partidosConflicto.length > 0 &&
         (
           <TouchableOpacity style={{backgroundColor: "#ff6600", padding: 5, marginTop: 10, borderRadius: 5}} onPress={()=>showConflictos()}>
-            <Text style={{color: "white", textTransform: "uppercase"}}>¡Tienes partidos con conflicto horario!</Text>
+            <Text style={{color: "white", textTransform: "uppercase"}}>Gestionar partidos con conflicto horario</Text>
           </TouchableOpacity>
         )
       }
