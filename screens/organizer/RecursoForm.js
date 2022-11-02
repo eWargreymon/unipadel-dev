@@ -29,6 +29,12 @@ const RecursoForm = ({ route }) => {
   const [fin, setFin] = useState("");
   const [showF, setShowF] = useState(false);
 
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [showFI, setShowFI] = useState(false);
+
+  const [fechaFin, setFechaFin] = useState("");
+  const [showFF, setShowFF] = useState(false);
+
   const [turnos, setTurnos] = useState("");
 
   const [lunes, setLunes] = useState(false);
@@ -51,6 +57,16 @@ const RecursoForm = ({ route }) => {
     setFin(selectedHour);
   };
 
+  const onChangeFI = (event, selectedHour) => {
+    setShowFI(false);
+    setFechaInicio(selectedHour);
+  };
+
+  const onChangeFF = (event, selectedHour) => {
+    setShowFF(false);
+    setFechaFin(selectedHour);
+  };
+
   const showDatepicker = (i) => {
     switch (i) {
       case 0:
@@ -58,6 +74,12 @@ const RecursoForm = ({ route }) => {
         break;
       case 1:
         setShowF(true);
+        break;
+      case 2:
+        setShowFI(true);
+        break;
+      case 3:
+        setShowFF(true);
         break;
       default:
         break;
@@ -113,6 +135,8 @@ const RecursoForm = ({ route }) => {
     let horario = {
       inicio: moment(inicio).format("HH:mm"),
       fin: moment(fin).format("HH:mm"),
+      fechaInicio: moment(fechaInicio).format("Y-MM-DD"),
+      fechaFin: moment(fechaFin).format("Y-MM-DD"),
       turnos: turnos,
       lunes: lunes,
       martes: martes,
@@ -127,6 +151,8 @@ const RecursoForm = ({ route }) => {
 
     setInicio("");
     setFin("");
+    setFechaInicio("");
+    setFechaFin("");
     setTurnos("");
     setLunes(false);
     setMartes(false);
@@ -176,6 +202,43 @@ const RecursoForm = ({ route }) => {
 
         <View style={styles.horas}>
           <View style={styles.horaInput}>
+            <Text style={styles.label}>Fecha inicio</Text>
+            <TouchableOpacity onPress={() => showDatepicker(2)}>
+              <Text style={styles.input}>
+                {fechaInicio
+                  ? moment(fechaInicio).format("DD-MM-Y")
+                  : "Fecha inicio"}
+              </Text>
+            </TouchableOpacity>
+            {showFI && (
+              <DateTimePicker
+                value={fechaInicio ? fechaInicio : new Date()}
+                mode="date"
+                onChange={onChangeFI}
+              />
+            )}
+          </View>
+          <View style={styles.horaInput}>
+            <Text style={styles.label}>Fecha fin</Text>
+            <TouchableOpacity onPress={() => showDatepicker(3)}>
+              <Text style={styles.input}>
+                {fechaFin ? moment(fechaFin).format("DD-MM-Y") : "Fecha fin"}
+              </Text>
+            </TouchableOpacity>
+            {showFF && (
+              <DateTimePicker
+                value={
+                  fechaFin ? fechaFin : fechaInicio ? fechaInicio : new Date()
+                }
+                mode="date"
+                onChange={onChangeFF}
+              />
+            )}
+          </View>
+        </View>
+
+        <View style={styles.horas}>
+          <View style={styles.horaInput}>
             <Text style={styles.label}>Hora inicio</Text>
             <TouchableOpacity onPress={() => showDatepicker(0)}>
               <Text style={styles.input}>
@@ -202,7 +265,6 @@ const RecursoForm = ({ route }) => {
                 value={fin ? fin : inicio ? inicio : new Date()}
                 mode="time"
                 onChange={onChangeF}
-                // minimumDate={inicio ? inicio : new Date()}
               />
             )}
           </View>
@@ -290,8 +352,16 @@ const RecursoForm = ({ route }) => {
         <View style={{ alignItems: "center", width: "90%" }}>
           <Text style={styles.title}>Horarios añadidos</Text>
           {horarios.length == 0 ? (
-            <View style={{backgroundColor: "lightgray", width: "90%", padding: 10}}>
-              <Text style={{textAlign: "center"}}>No hay horarios añadidos todavía</Text>
+            <View
+              style={{
+                backgroundColor: "lightgray",
+                width: "90%",
+                padding: 10,
+              }}
+            >
+              <Text style={{ textAlign: "center" }}>
+                No hay horarios añadidos todavía
+              </Text>
             </View>
           ) : (
             horarios.map((h, index) => {
