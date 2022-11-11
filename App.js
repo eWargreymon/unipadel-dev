@@ -28,6 +28,7 @@ import ParejaForm from "./screens/player/ParejaForm";
 import PartidosScreen from "./screens/player/PartidosScreen";
 import PlayerTorneoScreen from "./screens/player/PlayerTournamentsScreen";
 import TorneoPartidosUsuario from "./screens/player/TorneoPartidosUsuario";
+import InscripcionForm from "./screens/player/InscripcionForm";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs([
@@ -111,6 +112,10 @@ export default function App() {
             <Stack.Screen
               name="TorneoPartidosUsuario"
               component={TorneoPartidosUsuario}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="InscripcionTorneoUsuario"
+              component={InscripcionForm}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

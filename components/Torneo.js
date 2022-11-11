@@ -11,43 +11,15 @@ import { auth } from "../firebase";
 import { colores } from "../colors";
 import { useNavigation } from "@react-navigation/core";
 import { inscripcion } from "../api";
-import SelectorPareja from "./SelectorPareja";
 
 import { UserContext } from "../context/UserDataContext";
 
 const Torneo = ({ torneo, state }) => {
   const user = useContext(UserContext);
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [torneoId, setTorneoId] = useState(0);
 
-  const handleInscripcion = async (parejaId) => {
-    if (auth.currentUser) {
-      const res = await inscripcion({
-        torneo: torneoId,
-        pareja: parejaId,
-      })
-        .then(() => {
-          Alert.alert(
-            "¡Inscripción generada!",
-            "Se ha generado la inscripción para el torneo. Podrás ver desde tu perfil los torneos a los que te has inscrito. Recuerda que el organizador la validará.",
-            [
-              {
-                text: "¡OK!",
-                onPress: () => navigation.push("PlayerHome"),
-              },
-            ]
-          );
-        })
-        .catch((error) => {
-          Alert.alert("Error en la inscripción", error.response.data.message, [
-            {
-              text: "Vale",
-              style: "cancel",
-            },
-          ]);
-        });
-    } else {
+  const handleInscripcion = async () => {
+    if (!auth.currentUser) {
       Alert.alert(
         "¡No estás autenticado!",
         "Para poder inscribirte en una competición, debes tener cuenta en Unipadel y tener la sesión iniciada",
@@ -62,18 +34,13 @@ const Torneo = ({ torneo, state }) => {
           },
         ]
       );
+    } else {
+      navigation.navigate('InscripcionTorneoUsuario', { torneo: torneo })
     }
   };
 
   return (
     <View style={[styles.torneo, torneo.estado == 0 ? styles.no_empezado : torneo.estado == 1 ? styles.empezado : styles.finalizado]}>
-      {auth.currentUser && user.user.tipo == 0 && (
-        <SelectorPareja
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          handleInscripcion={handleInscripcion}
-        ></SelectorPareja>
-      )}
       <Text style={styles.nombre}>{torneo.nombre}</Text>
       <Text style={[styles.contentText, { textAlign: "center" }]}>
         {torneo.fecha_inicio} al {torneo.fecha_fin}
@@ -91,8 +58,7 @@ const Torneo = ({ torneo, state }) => {
           <TouchableOpacity
             style={styles.boton}
             onPress={() => {
-              setTorneoId(torneo.id);
-              setModalVisible(true);
+              handleInscripcion()
             }}
           >
             <Text style={styles.botonText}>Inscripción</Text>

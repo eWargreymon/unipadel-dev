@@ -12,7 +12,6 @@ import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import { Picker } from "@react-native-picker/picker";
-import Checkbox from "expo-checkbox";
 
 import SupNavbar from "../../components/supNavbar";
 import { colores } from "../../colors";
