@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useContext } from "react";
 import SupNavbar from "../components/supNavbar";
 import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
+import { StackActions, useNavigation } from "@react-navigation/core";
 import { colores } from "../colors";
 
 import { UserContext } from "../context/UserDataContext";
@@ -16,7 +16,10 @@ const ProfileScreen = () => {
       .signOut()
       .then(() => {
         usercontext.reset();
-        navigation.replace("Login");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        });
       })
       .catch((err) => alert(err.message));
   };

@@ -48,7 +48,7 @@ const Torneo = ({ torneo, state }) => {
       <Text style={styles.contentText}>Localización: {torneo.ciudad}</Text>
       <Text style={styles.contentText}>Club: {torneo.club}</Text>
       <Text style={styles.contentText}>
-        Formato: {torneo.formato ? "Liga" : "Eliminatorias"}
+        Formato: {torneo.formato == 0 ? "Liga" : "Eliminatorias"}
       </Text>
       <Text style={styles.contentText}>
         Nº participantes: {torneo.max_parejas} parejas

@@ -78,12 +78,6 @@ const RegisterScreen = () => {
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View style={styles.imageContainer}>
-          <Image
-            style={{ resizeMode: "contain", width: 75, height: 75 }}
-            source={require("../assets/images/logo/logo1.png")}
-          />
-        </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Correo electrónico</Text>
           <TextInput

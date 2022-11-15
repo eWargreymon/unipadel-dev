@@ -94,7 +94,11 @@ const TorneoForm = () => {
           [
             {
               text: "¡OK!",
-              onPress: () => navigation.pop(),
+              onPress: () => 
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'OrganizerHome' }],
+              }),
             },
           ]
         );

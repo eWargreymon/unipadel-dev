@@ -109,7 +109,11 @@ const InscripcionForm = ({ route }) => {
           [
             {
               text: "¡OK!",
-              onPress: () => navigation.navigate('PlayerHome'),
+              onPress: () => 
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'PlayerHome' }],
+              }),
             },
           ]
         );
