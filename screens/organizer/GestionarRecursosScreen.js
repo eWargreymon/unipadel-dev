@@ -64,7 +64,7 @@ const GestionarRecursosScreen = ({ route }) => {
                 }
               >
                 <Text style={{textTransform: "uppercase", fontWeight: "bold"}}>
-                  {item.id}
+                  {item.nombre}
                 </Text>
                 <View style={styles.imageContainer}>
                   <Image

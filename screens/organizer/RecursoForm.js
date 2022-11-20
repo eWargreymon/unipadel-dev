@@ -102,7 +102,8 @@ const RecursoForm = ({ route }) => {
           [
             {
               text: "¡OK!",
-              onPress: () => navigation.pop(),
+              onPress: () =>
+                navigation.navigate("GestionarTorneo", { id: route.params.id }),
             },
           ]
         );
