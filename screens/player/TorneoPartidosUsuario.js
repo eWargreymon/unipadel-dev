@@ -11,13 +11,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { colores } from "../../colors";
 
-import { getPartidosTorneoPlayer, getJornadas, aceptarPropuestaApi, rechazarPropuestaApi } from "../../api";
+import { getPartidosTorneoPlayer, getJornadas, aceptarPropuestaApi, rechazarPropuestaApi, aceptarResultadoApi, rechazarResultadoApi } from "../../api";
 import { UserContext } from "../../context/UserDataContext";
 
 import SupNavbar from "../../components/supNavbar";
 import Partido from "../../components/Partido";
 import SelectorHorario from "../../components/SelectorHorario";
 import SelectorHorarioPropuesto from "../../components/SelectorHorarioPropuesto";
+import SelectorResultadoPropuesto from "../../components/SelectorResultadoPropuesto";
 
 const TorneoPartidosUsuario = ({ route }) => {
   const torneo = route.params.torneo;
@@ -35,8 +36,12 @@ const TorneoPartidosUsuario = ({ route }) => {
   const [modalVisibleHorario, setModalVisibleHorario] = useState(false);
   const [modalVisibleHorarioPropuesto, setModalVisibleHorarioPropuesto] =
     useState(false);
+  const [modalVisibleResultadoPropuesto, setModalVisibleResultadoPropuesto] =
+      useState(false);
 
   const [partidoSelected, setPartidoSelected] = useState("");
+  const [p1Selected, setP1Selected] = useState("");
+  const [p2Selected, setP2Selected] = useState("");
 
   const loadPartidos = async () => {
     let request = {
@@ -96,6 +101,13 @@ const TorneoPartidosUsuario = ({ route }) => {
     setModalVisibleHorarioPropuesto(true);
   };
 
+  const handleResultadoPropuesto = (id, p1, p2) => {
+    setPartidoSelected(id);
+    setP1Selected(p1);
+    setP2Selected(p2);
+    setModalVisibleResultadoPropuesto(true);
+  };
+
   const aceptarPropuesta = async (id) => {
     const data = await aceptarPropuestaApi(id);
     loadPartidos();
@@ -106,16 +118,29 @@ const TorneoPartidosUsuario = ({ route }) => {
     loadPartidos();
   }
 
+  const aceptarResultado = async (id) => {
+    const data = await aceptarResultadoApi(id);
+    loadPartidos();
+  }
+
+  const rechazarResultado = async (id) => {
+    const data = await rechazarResultadoApi(id);
+    loadPartidos();
+  }
+
   const renderItem = ({ item }) => {
     return (
       <Partido
         partido={item}
         handleHorario={handleHorario}
         handleHorarioPropuesto={handleHorarioPropuesto}
+        handleResultadoPropuesto={handleResultadoPropuesto}
         hasActions={true}
         isPlayer={true}
         aceptarPropuesta={aceptarPropuesta}
         rechazarPropuesta={rechazarPropuesta}
+        aceptarResultado={aceptarResultado}
+        rechazarResultado={rechazarResultado}
       ></Partido>
     );
   };
@@ -137,6 +162,16 @@ const TorneoPartidosUsuario = ({ route }) => {
         user={usercontext.user.id}
         onRefresh={onRefresh}
       ></SelectorHorarioPropuesto>
+      <SelectorResultadoPropuesto
+        modalVisible={modalVisibleResultadoPropuesto}
+        setModalVisible={setModalVisibleResultadoPropuesto}
+        partido={partidoSelected}
+        p1={p1Selected}
+        p2={p2Selected}
+        torneo={torneo.id}
+        user={usercontext.user.id}
+        onRefresh={onRefresh}
+      ></SelectorResultadoPropuesto>
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Partidos de la competición</Text>
       <View style={styles.titleUnderline}></View>

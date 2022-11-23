@@ -7,37 +7,127 @@ const Partido = ({
   partido,
   handleHorario,
   handleHorarioPropuesto,
+  handleResultadoPropuesto,
   hasActions,
   isPlayer,
   aceptarPropuesta,
-  rechazarPropuesta
+  rechazarPropuesta,
+  aceptarResultado,
+  rechazarResultado,
 }) => {
   return (
     <View style={{ width: "100%" }}>
-      {partido.propio &&
+      {partido.estado == 0 &&
+        partido.propio &&
         partido.propuesta != null &&
         partido.propuesta_externa && (
-          <View style={{borderTopColor: "gray", borderTopWidth: 2, borderBottomColor: "lightgray", borderBottomWidth: 2}}>
-            <Text style={{textAlign: "center", marginTop: 5}}>La pareja rival ha propuesto un horario</Text>
-            <Text style={{textAlign: "center"}}>
+          <View
+            style={{
+              borderTopColor: "gray",
+              borderTopWidth: 2,
+              borderBottomColor: "lightgray",
+              borderBottomWidth: 2,
+            }}
+          >
+            <Text style={{ textAlign: "center", marginTop: 5 }}>
+              La pareja rival ha propuesto un horario
+            </Text>
+            <Text style={{ textAlign: "center" }}>
               El día {moment(partido.fechor_propuesta).format("DD-MM-YYYY")} a
               las {moment(partido.fechor_propuesta).format("HH:mm")}
             </Text>
-            <View style={{flexDirection: "row", justifyContent: "center"}}>
-              <TouchableOpacity style={{borderRadius: 5, marginVertical: 5, backgroundColor: colores.green, marginHorizontal: 10, padding: 5}} onPress={() => aceptarPropuesta(partido.id)}>
-                <Text style={{color: "white"}}>Aceptar</Text>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 5,
+                  marginVertical: 5,
+                  backgroundColor: colores.green,
+                  marginHorizontal: 10,
+                  padding: 5,
+                }}
+                onPress={() => aceptarPropuesta(partido.id)}
+              >
+                <Text style={{ color: "white" }}>Aceptar</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{borderRadius: 5, marginVertical: 5, backgroundColor: "darkred", marginHorizontal: 10, padding: 5}} onPress={() => rechazarPropuesta(partido.id)}>
-                <Text style={{color: "white"}}>Rechazar</Text>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 5,
+                  marginVertical: 5,
+                  backgroundColor: "darkred",
+                  marginHorizontal: 10,
+                  padding: 5,
+                }}
+                onPress={() => rechazarPropuesta(partido.id)}
+              >
+                <Text style={{ color: "white" }}>Rechazar</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
-        {partido.propio &&
-          partido.propuesta != null &&
+      {partido.estado == 0 &&
+        partido.propio &&
+        partido.propuesta != null &&
+        partido.propuesta_externa == false && (
+          <View>
+            <Text style={{ textAlign: "center" }}>
+              Esperando respuesta del rival
+            </Text>
+          </View>
+        )}
+      {partido.estado == 1 &&
+        partido.propio &&
+        partido.pareja_propuesta_resultado != null &&
+        partido.propuesta_externa && (
+          <View
+            style={{
+              borderTopColor: "gray",
+              borderTopWidth: 2,
+              borderBottomColor: "lightgray",
+              borderBottomWidth: 2,
+            }}
+          >
+            <Text style={{ textAlign: "center", marginTop: 5 }}>
+              La pareja rival ha propuesto un resultado
+            </Text>
+            <Text style={{ textAlign: "center" }}>
+              {partido.resultado_propuesto}
+            </Text>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 5,
+                  marginVertical: 5,
+                  backgroundColor: colores.green,
+                  marginHorizontal: 10,
+                  padding: 5,
+                }}
+                onPress={() => aceptarResultado(partido.id)}
+              >
+                <Text style={{ color: "white" }}>Aceptar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 5,
+                  marginVertical: 5,
+                  backgroundColor: "darkred",
+                  marginHorizontal: 10,
+                  padding: 5,
+                }}
+                onPress={() => rechazarResultado(partido.id)}
+              >
+                <Text style={{ color: "white" }}>Rechazar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+        {partido.estado == 1 &&
+          partido.propio &&
+          partido.pareja_propuesta_resultado != null &&
           partido.propuesta_externa == false && (
             <View>
-              <Text style={{textAlign: "center"}}>Esperando respuesta del rival</Text>
+              <Text style={{ textAlign: "center" }}>
+                Esperando respuesta del rival para el resultado
+              </Text>
             </View>
           )}
       <View
@@ -112,6 +202,13 @@ const Partido = ({
                     styles.accionesButton,
                     { backgroundColor: colores.green },
                   ]}
+                  onPress={() =>
+                    handleResultadoPropuesto(
+                      partido.id,
+                      partido.pareja1,
+                      partido.pareja2
+                    )
+                  }
                 >
                   <Text style={styles.accionesButtonText}>
                     Proponer resultado

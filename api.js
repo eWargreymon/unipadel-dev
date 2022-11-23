@@ -114,6 +114,10 @@ export const proponerHorarioPartido = async (request) => {
   return await axios.post(`${api}proponerHorarioPartido`, request);
 }
 
+export const proponerResultadoPartido = async (request) => {
+  return await axios.post(`${api}proponerResultadoPartido`, request);
+}
+
 export const deleteHorario = async (id) => {
   return await axios.delete(`${api}deleteHorario/${id}`);
 }
@@ -128,4 +132,12 @@ export const aceptarPropuestaApi = async (id) => {
 
 export const rechazarPropuestaApi = async (id) => {
   return await axios.get(`${api}rechazarPropuesta/${id}`);
+}
+
+export const aceptarResultadoApi = async (id) => {
+  return await axios.get(`${api}aceptarResultado/${id}`);
+}
+
+export const rechazarResultadoApi = async (id) => {
+  return await axios.get(`${api}rechazarResultado/${id}`);
 }
