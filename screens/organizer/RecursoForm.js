@@ -183,23 +183,11 @@ const RecursoForm = ({ route }) => {
           />
         </View>
 
+        <View style={styles.underline}></View>
+
         <View style={styles.disponibilidadContainer}>
           <Text style={styles.dispLabel}>Disponibilidad de la cancha</Text>
-          <TouchableOpacity
-            style={styles.buttonAgregar}
-            onPress={() => handleAgregarHorario()}
-          >
-            <View style={styles.imageContainer}>
-              <Image
-                style={{ resizeMode: "contain", width: 20, height: 20 }}
-                source={require("../../assets/images/icons/plus.png")}
-              />
-            </View>
-            <Text style={styles.disponibilidadText}>Agregar horario</Text>
-          </TouchableOpacity>
         </View>
-
-        <View style={styles.underline}></View>
 
         <View style={styles.horas}>
           <View style={styles.horaInput}>
@@ -348,6 +336,20 @@ const RecursoForm = ({ route }) => {
           </ScrollView>
         </View>
 
+        <View style={styles.agregarButtonContainer}>
+          <TouchableOpacity
+            style={styles.buttonAgregar}
+            onPress={() => handleAgregarHorario()}
+          >
+            <View style={styles.imageContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: 30, height: 30 }}
+                source={require("../../assets/images/icons/plus.png")}
+              />
+            </View>
+            <Text style={styles.disponibilidadText}>Agregar horario</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.underline}></View>
 
         <View style={{ alignItems: "center", width: "90%" }}>
@@ -368,7 +370,19 @@ const RecursoForm = ({ route }) => {
             horarios.map((h, index) => {
               return (
                 <View style={styles.horario} key={index}>
-                  <View style={{ flexDirection: "row" }}>
+                  <View>
+                    <Text>
+                      Desde el
+                      <Text style={{ fontWeight: "bold" }}>
+                        {" " + moment(h.fechaInicio).format("DD-MM-Y") + " "}
+                      </Text>
+                      hasta el
+                      <Text style={{ fontWeight: "bold" }}>
+                        {" " + moment(h.fechaFin).format("DD-MM-Y")}
+                      </Text>
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={styles.horarioText}>
                       {h.lunes && "L"}
                       {h.martes && "M"}
@@ -470,19 +484,25 @@ const styles = StyleSheet.create({
   dispLabel: {
     color: colores.darkblue,
     fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 10,
-    alignSelf: "flex-start",
+    fontSize: 20,
+    textAlign: "center",
   },
   buttonContainer: {
     marginVertical: 20,
     width: "80%",
   },
+  agregarButtonContainer: {
+    width: "90%",
+    marginVertical: 5,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   buttonAgregar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "lightgrey",
-    width: "50%",
+    justifyContent: "center",
+    backgroundColor: colores.lightblue,
+    width: "80%",
     padding: 10,
     borderRadius: 5,
     elevation: 5,
@@ -490,6 +510,7 @@ const styles = StyleSheet.create({
   },
   disponibilidadText: {
     marginLeft: 10,
+    fontSize: 18,
   },
   button: {
     backgroundColor: colores.darkblue,
@@ -522,7 +543,7 @@ const styles = StyleSheet.create({
   },
   horario: {
     backgroundColor: "lightgray",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
@@ -531,6 +552,8 @@ const styles = StyleSheet.create({
   },
   horarioText: {
     fontWeight: "bold",
+    fontSize: 16,
+    marginVertical: 5,
   },
   borrarButton: {
     backgroundColor: "darkred",

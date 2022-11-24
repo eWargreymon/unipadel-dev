@@ -23,10 +23,9 @@ const Partido = ({
         partido.propuesta_externa && (
           <View
             style={{
-              borderTopColor: "gray",
-              borderTopWidth: 2,
-              borderBottomColor: "lightgray",
-              borderBottomWidth: 2,
+              backgroundColor: "#ffe6cc",
+              padding: 5,
+              borderRadius: 5,
             }}
           >
             <Text style={{ textAlign: "center", marginTop: 5 }}>
@@ -68,7 +67,13 @@ const Partido = ({
         partido.propio &&
         partido.propuesta != null &&
         partido.propuesta_externa == false && (
-          <View>
+          <View
+            style={{
+              backgroundColor: "#ffe6cc",
+              padding: 5,
+              borderRadius: 10,
+            }}
+          >
             <Text style={{ textAlign: "center" }}>
               Esperando respuesta del rival
             </Text>
@@ -84,6 +89,9 @@ const Partido = ({
               borderTopWidth: 2,
               borderBottomColor: "lightgray",
               borderBottomWidth: 2,
+              backgroundColor: "#ffe6cc",
+              padding: 5,
+              borderRadius: 5,
             }}
           >
             <Text style={{ textAlign: "center", marginTop: 5 }}>
@@ -120,16 +128,22 @@ const Partido = ({
             </View>
           </View>
         )}
-        {partido.estado == 1 &&
-          partido.propio &&
-          partido.pareja_propuesta_resultado != null &&
-          partido.propuesta_externa == false && (
-            <View>
-              <Text style={{ textAlign: "center" }}>
-                Esperando respuesta del rival para el resultado
-              </Text>
-            </View>
-          )}
+      {partido.estado == 1 &&
+        partido.propio &&
+        partido.pareja_propuesta_resultado != null &&
+        partido.propuesta_externa == false && (
+          <View
+            style={{
+              backgroundColor: "#ffe6cc",
+              padding: 5,
+              borderRadius: 5,
+            }}
+          >
+            <Text style={{ textAlign: "center" }}>
+              Esperando respuesta del rival para el resultado
+            </Text>
+          </View>
+        )}
       <View
         style={[
           styles.partidoInfoContainer,
@@ -141,23 +155,25 @@ const Partido = ({
             {partido.torneo.nombre} - Jornada {partido.jornada.numero}
           </Text>
         </View>
-        <View style={styles.partidoInfoHora}>
-          {partido.horario_id != null && (
-            <Text style={styles.partidoInfoText}>
-              {moment(partido.horario.inicio).format("DD-MM-YYYY")}
-            </Text>
-          )}
-          {partido.horario_id != null && (
-            <Text style={styles.partidoInfoText}>
-              {moment(partido.horario.inicio).format("HH:mm")}
-            </Text>
-          )}
-          {partido.horario_id != null && (
-            <Text style={styles.partidoInfoText}>
-              {partido.horario.cancha.nombre}
-            </Text>
-          )}
-        </View>
+        {partido.estado != 2 && (
+          <View style={styles.partidoInfoHora}>
+            {partido.horario_id != null && (
+              <Text style={styles.partidoInfoText}>
+                {moment(partido.horario.inicio).format("DD-MM-YYYY")}
+              </Text>
+            )}
+            {partido.horario_id != null && (
+              <Text style={styles.partidoInfoText}>
+                {moment(partido.horario.inicio).format("HH:mm")}
+              </Text>
+            )}
+            {partido.horario_id != null && (
+              <Text style={styles.partidoInfoText}>
+                {partido.horario.cancha.nombre}
+              </Text>
+            )}
+          </View>
+        )}
         <View style={styles.partidoInfoParejas}>
           <Text style={styles.partidoParejaText}>{partido.pareja1.nombre}</Text>
           <View style={{ width: "20%", alignItems: "center" }}>
@@ -168,10 +184,70 @@ const Partido = ({
           </View>
           <Text style={styles.partidoParejaText}>{partido.pareja2.nombre}</Text>
         </View>
+        {partido.estado == 2 && (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 20,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  fontFamily: "monospace",
+                  backgroundColor: "white",
+                  padding: 10,
+                }}
+              >
+                {partido.puntos_p1}
+              </Text>
+            </View>
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 20,
+                marginHorizontal: 50,
+              }}
+            >
+              -
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  fontFamily: "monospace",
+                  backgroundColor: "white",
+                  padding: 10,
+                }}
+              >
+                {partido.puntos_p2}
+              </Text>
+            </View>
+          </View>
+        )}
+
         {hasActions && (
           <View style={styles.accionesPartido}>
             {isPlayer ? (
-              partido.propio && (
+              partido.propio &&
+              partido.estado == 0 && (
                 <TouchableOpacity
                   style={[
                     styles.accionesButton,
@@ -196,7 +272,8 @@ const Partido = ({
               </TouchableOpacity>
             )}
             {isPlayer ? (
-              partido.propio && (
+              partido.propio &&
+              partido.estado != 2 && (
                 <TouchableOpacity
                   style={[
                     styles.accionesButton,
@@ -264,6 +341,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 5,
   },
   partidoParejaText: {
     fontSize: 16,
