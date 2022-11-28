@@ -70,7 +70,12 @@ const GestionarTorneoScreen = ({ route }) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+          <TouchableOpacity
+            style={[styles.calendarContainer, styles.shadow]}
+            onPress={() =>
+              navigation.navigate("ClasificacionTorneo", { torneo: torneo })
+            }
+          >
             <Text style={styles.calendarText}>Resultados / Clasificación</Text>
             <View style={styles.imageContainer}>
               <Image

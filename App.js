@@ -23,6 +23,7 @@ import GestionarRecursosScreen from "./screens/organizer/GestionarRecursosScreen
 import GestionarInscripcionesScreen from "./screens/organizer/GestionarInscripciones";
 import HorariosTorneoScreen from "./screens/organizer/HorariosTorneoScreen";
 import TorneoPartidos from "./screens/organizer/TorneoPartidos";
+import ClasificacionScreen from "./screens/organizer/ClasificacionScreen";
 
 import ParejaForm from "./screens/player/ParejaForm";
 import PartidosScreen from "./screens/player/PartidosScreen";
@@ -116,6 +117,10 @@ export default function App() {
             <Stack.Screen
               name="InscripcionTorneoUsuario"
               component={InscripcionForm}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="ClasificacionTorneo"
+              component={ClasificacionScreen}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

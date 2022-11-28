@@ -141,3 +141,7 @@ export const aceptarResultadoApi = async (id) => {
 export const rechazarResultadoApi = async (id) => {
   return await axios.get(`${api}rechazarResultado/${id}`);
 }
+
+export const getResultadosTorneo = async (id) => {
+  return await axios.get(`${api}getResultados/${id}`);
+}
