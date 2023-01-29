@@ -82,18 +82,18 @@ const InscripcionForm = ({ route }) => {
       return;
     }
 
-    if (horarios.length == 0) {
-      Alert.alert(
-        "¡Error!",
-        "Se debe introducir al menos un rango horario. Puedes añadir que puedes todos los días si no tienes preferencias.",
-        [
-          {
-            text: "¡OK!"
-          },
-        ]
-      );
-      return;
-    }
+    // if (horarios.length == 0) {
+    //   Alert.alert(
+    //     "¡Error!",
+    //     "Se debe introducir al menos un rango horario. Puedes añadir que puedes todos los días si no tienes preferencias.",
+    //     [
+    //       {
+    //         text: "¡OK!"
+    //       },
+    //     ]
+    //   );
+    //   return;
+    // }
 
     let data = {
       torneo: route.params.torneo.id,
@@ -121,7 +121,7 @@ const InscripcionForm = ({ route }) => {
       .catch((error) => {
         let mensaje = error.response.data.message;
         Alert.alert(
-          "Error en el guardado",
+          "Error en la inscripción",
           mensaje,
           [
             {

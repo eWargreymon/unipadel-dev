@@ -36,8 +36,8 @@ const TorneoPartidosUsuario = ({ route }) => {
   const [modalVisibleHorario, setModalVisibleHorario] = useState(false);
   const [modalVisibleHorarioPropuesto, setModalVisibleHorarioPropuesto] =
     useState(false);
-  const [modalVisibleResultadoPropuesto, setModalVisibleResultadoPropuesto] =
-      useState(false);
+    const [modalVisibleResultadoPropuesto, setModalVisibleResultadoPropuesto] =
+        useState(false);
 
   const [partidoSelected, setPartidoSelected] = useState("");
   const [p1Selected, setP1Selected] = useState("");

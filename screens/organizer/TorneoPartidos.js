@@ -17,6 +17,7 @@ import SupNavbar from "../../components/supNavbar";
 import HorariosJornada from "../../components/HorariosJornada";
 import Partido from "../../components/Partido";
 import SelectorHorario from "../../components/SelectorHorario";
+import SelectorResultadoAsignado from "../../components/SelectorResultadoAsignado";
 
 const TorneoPartidos = ({ route }) => {
   const torneo = route.params.torneo;
@@ -28,9 +29,13 @@ const TorneoPartidos = ({ route }) => {
   const isFocusing = useIsFocused();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleResultadoAsignado, setModalVisibleResultadoAsignado] =
+      useState(false);
 
   const [modalVisibleHorario, setModalVisibleHorario] = useState(false);
   const [partidoSelected, setPartidoSelected] = useState("");
+  const [p1Selected, setP1Selected] = useState("");
+  const [p2Selected, setP2Selected] = useState("");
 
   const loadPartidos = async () => {
     let request = {
@@ -76,8 +81,16 @@ const TorneoPartidos = ({ route }) => {
     setModalVisibleHorario(true);
   }
 
+  const handleResultadoAsignado = (id, p1, p2) => {
+    setPartidoSelected(id);
+    setP1Selected(p1);
+    setP2Selected(p2);
+    setModalVisibleResultadoAsignado(true);
+  };
+
   const renderItem = ({ item }) => {
-    return <Partido partido={item} handleHorario={handleHorario}></Partido>;
+    return <Partido partido={item} handleHorario={handleHorario} hasActions={true} isPlayer={false} 
+    handleResultadoAsignado={handleResultadoAsignado}></Partido>;
   };
 
   return (
@@ -96,6 +109,15 @@ const TorneoPartidos = ({ route }) => {
         torneo={torneo.id}
         onRefresh={onRefresh}
       ></SelectorHorario>
+      <SelectorResultadoAsignado
+        modalVisible={modalVisibleResultadoAsignado}
+        setModalVisible={setModalVisibleResultadoAsignado}
+        partido={partidoSelected}
+        p1={p1Selected}
+        p2={p2Selected}
+        torneo={torneo.id}
+        onRefresh={onRefresh}
+      ></SelectorResultadoAsignado>
       <SupNavbar></SupNavbar>
       <Text style={styles.title}>Partidos de la competición</Text>
       <View style={styles.titleUnderline}></View>

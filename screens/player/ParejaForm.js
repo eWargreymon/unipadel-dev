@@ -9,18 +9,19 @@ import {
   Alert,
   FlatList,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Searchbar } from "react-native-paper";
 
 import SupNavbar from "../../components/supNavbar";
 import { colores } from "../../colors";
 import { createPareja, getJugadores } from "../../api";
-import { auth } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 import Jugador from "../../components/Jugador";
+import { UserContext } from "../../context/UserDataContext";
 
 const ParejaForm = () => {
   const navigation = useNavigation();
+  const usuarioContext = useContext(UserContext);
 
   const [nombre, setNombre] = useState("");
   const [jugadores, setJugadores] = useState([]);
@@ -74,10 +75,22 @@ const ParejaForm = () => {
   function addPlayer(player) {
     setJugadoresPareja([...jugadoresPareja, player.id]);
     setJugadoresParejaNombre([...jugadoresParejaNombre, player.name]);
+    setJugadores([]);
   }
+  
+  useEffect(() => {
+    setJugadoresPareja([...jugadoresPareja, usuarioContext.user.id]);
+    setJugadoresParejaNombre([...jugadoresParejaNombre, usuarioContext.user.name]);
+  }, []);
 
   const renderItem = ({ item }) => {
-    return <Jugador jugador={item} jugadoresPareja={jugadoresPareja} addPlayer={addPlayer}></Jugador>;
+    return (
+      <Jugador
+        jugador={item}
+        jugadoresPareja={jugadoresPareja}
+        addPlayer={addPlayer}
+      ></Jugador>
+    );
   };
 
   return (
@@ -86,17 +99,6 @@ const ParejaForm = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Crear Pareja</Text>
         <View style={styles.titleUnderline}></View>
-        <View style={styles.jugadoresAdded}>
-          <Text style={[styles.jugadoresAddedText, {textAlign: 'center', fontSize: 20}]}>Jugadores añadidos
-          </Text>
-            {
-              jugadoresParejaNombre.map((item) => (
-                <Text key={item} style={styles.jugadoresAddedText}>·{item}</Text>
-              )) 
-            }
-        </View>
-
-        {/* Comienzo de los inputs */}
         {/* NOMBRE PAREJA */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Nombre de la pareja</Text>
@@ -106,6 +108,27 @@ const ParejaForm = () => {
             onChangeText={(text) => setNombre(text)}
             style={styles.input}
           />
+        </View>
+        <View style={styles.jugadoresAdded}>
+          <Text
+            style={[
+              styles.jugadoresAddedText,
+              { textAlign: "center", fontSize: 20 },
+            ]}
+          >
+            Jugadores añadidos
+          </Text>
+          {jugadoresParejaNombre.length != 0 && (
+            <View
+              style={{ backgroundColor: "white", marginTop: 5, padding: 5 }}
+            >
+              {jugadoresParejaNombre.map((item) => (
+                <Text key={item} style={styles.jugadoresAddedText}>
+                  ·{item}
+                </Text>
+              ))}
+            </View>
+          )}
         </View>
 
         {/* SEARCHBAR DE JUGADORES */}
@@ -120,7 +143,7 @@ const ParejaForm = () => {
         </View>
 
         {/* RESULTADOS DE BÚSQUEDA DEL SEARCHBAR */}
-        <View style={{width: "90%"}}>
+        <View style={{ width: "90%" }}>
           <FlatList
             data={jugadores}
             keyExtractor={(item) => item.id}
@@ -166,13 +189,14 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     width: "25%",
   },
-  jugadoresAdded:{
-    backgroundColor: "lightgrey",
+  jugadoresAdded: {
+    backgroundColor: colores.yellow,
     padding: 10,
     marginTop: 10,
     width: "90%",
+    borderRadius: 10,
   },
-  jugadoresAddedText:{
+  jugadoresAddedText: {
     fontWeight: "bold",
   },
   inputContainer: {
@@ -198,10 +222,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginVertical: 20,
     width: "80%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   buttonSave: {
     backgroundColor: colores.darkblue,
-    width: "100%",
+    width: "49%",
     padding: 15,
     borderRadius: 2,
     alignItems: "center",
@@ -242,6 +268,6 @@ const styles = StyleSheet.create({
   listado: {
     maxHeight: 200,
     width: "100%",
-    marginTop: 5
+    marginTop: 5,
   },
 });

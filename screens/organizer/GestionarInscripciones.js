@@ -34,7 +34,7 @@ const GestionarInscripcionesScreen = ({ route }) => {
       .then(() => {
         let title = validate ? "¡Pareja validada!" : "¡Pareja rechazada!";
         let subtitle = validate
-          ? "Se ha validado a la pareja para el torneo. Se confirma su participaciión y tendrán acceso al mismo."
+          ? "Se ha validado a la pareja para el torneo. Se confirma su participación y tendrán acceso al mismo."
           : "Se ha rechazado la inscripción de la pareja en el torneo";
         Alert.alert(title, subtitle, [
           {

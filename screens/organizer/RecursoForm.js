@@ -226,52 +226,6 @@ const RecursoForm = ({ route }) => {
           </View>
         </View>
 
-        <View style={styles.horas}>
-          <View style={styles.horaInput}>
-            <Text style={styles.label}>Hora inicio</Text>
-            <TouchableOpacity onPress={() => showDatepicker(0)}>
-              <Text style={styles.input}>
-                {inicio ? moment(inicio).format("HH:mm") : "Hora inicio"}
-              </Text>
-            </TouchableOpacity>
-            {showI && (
-              <DateTimePicker
-                value={inicio ? inicio : new Date()}
-                mode="time"
-                onChange={onChangeI}
-              />
-            )}
-          </View>
-          <View style={styles.horaInput}>
-            <Text style={styles.label}>Hora fin</Text>
-            <TouchableOpacity onPress={() => showDatepicker(1)}>
-              <Text style={styles.input}>
-                {fin ? moment(fin).format("HH:mm") : "Hora fin"}
-              </Text>
-            </TouchableOpacity>
-            {showF && (
-              <DateTimePicker
-                value={fin ? fin : inicio ? inicio : new Date()}
-                mode="time"
-                onChange={onChangeF}
-              />
-            )}
-          </View>
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>
-            ¿Entre cuántos turnos dividimos el horario?
-          </Text>
-          <TextInput
-            placeholder="Nº de turnos"
-            value={turnos}
-            onChangeText={(text) => setTurnos(text)}
-            style={styles.input}
-            keyboardType={"numeric"}
-          />
-        </View>
-
         <View style={[styles.inputContainer, { alignItems: "center" }]}>
           <Text style={[styles.label, { alignSelf: "flex-start" }]}>
             ¿Qué días contarán con este horario?
@@ -334,6 +288,52 @@ const RecursoForm = ({ route }) => {
               />
             </View>
           </ScrollView>
+        </View>
+        
+        <View style={styles.horas}>
+          <View style={styles.horaInput}>
+            <Text style={styles.label}>Hora inicio</Text>
+            <TouchableOpacity onPress={() => showDatepicker(0)}>
+              <Text style={styles.input}>
+                {inicio ? moment(inicio).format("HH:mm") : "Hora inicio"}
+              </Text>
+            </TouchableOpacity>
+            {showI && (
+              <DateTimePicker
+                value={inicio ? inicio : new Date()}
+                mode="time"
+                onChange={onChangeI}
+              />
+            )}
+          </View>
+          <View style={styles.horaInput}>
+            <Text style={styles.label}>Hora fin</Text>
+            <TouchableOpacity onPress={() => showDatepicker(1)}>
+              <Text style={styles.input}>
+                {fin ? moment(fin).format("HH:mm") : "Hora fin"}
+              </Text>
+            </TouchableOpacity>
+            {showF && (
+              <DateTimePicker
+                value={fin ? fin : inicio ? inicio : new Date()}
+                mode="time"
+                onChange={onChangeF}
+              />
+            )}
+          </View>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>
+            ¿Entre cuántos turnos dividimos el horario?
+          </Text>
+          <TextInput
+            placeholder="Nº de turnos"
+            value={turnos}
+            onChangeText={(text) => setTurnos(text)}
+            style={styles.input}
+            keyboardType={"numeric"}
+          />
         </View>
 
         <View style={styles.agregarButtonContainer}>

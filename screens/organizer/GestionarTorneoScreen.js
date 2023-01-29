@@ -60,7 +60,7 @@ const GestionarTorneoScreen = ({ route }) => {
       ></TournamentBar>
       {torneo.estado == 1 ? (
         <View style={{ width: "100%", alignItems: "center" }}>
-          <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
+          {/* <TouchableOpacity style={[styles.calendarContainer, styles.shadow]}>
             <Text style={styles.calendarText}>Gestionar partidos</Text>
             <View style={styles.imageContainer}>
               <Image
@@ -68,7 +68,7 @@ const GestionarTorneoScreen = ({ route }) => {
                 source={require("../../assets/images/icons/parejas.png")}
               />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             style={[styles.calendarContainer, styles.shadow]}

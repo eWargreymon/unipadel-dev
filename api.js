@@ -118,6 +118,10 @@ export const proponerResultadoPartido = async (request) => {
   return await axios.post(`${api}proponerResultadoPartido`, request);
 }
 
+export const asignarResultadoPartido = async (request) => {
+  return await axios.post(`${api}asignarResultadoPartido`, request);
+}
+
 export const deleteHorario = async (id) => {
   return await axios.delete(`${api}deleteHorario/${id}`);
 }

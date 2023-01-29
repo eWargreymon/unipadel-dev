@@ -32,7 +32,7 @@ const RegisterScreen = () => {
   useEffect(() => {
     // PENDIENTE DESARROLLAR
     // Posibilidad de mostrar un icono de loading
-    
+
     const detectUser = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const res = await attemptLogin(user.email);
@@ -56,15 +56,14 @@ const RegisterScreen = () => {
   }, [user]);
 
   const handleSignUp = async () => {
-    const datosRegistro = {
-      email: email.toLowerCase(),
-      name: nombre,
-      tipo: tipo,
-    };
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then(async (userCredentials) => {
-        const res = await storeUserInfo(datosRegistro);
+      .then(async () => {
+        const res = await storeUserInfo({
+          email: email.toLowerCase(),
+          name: nombre,
+          tipo: tipo,
+        });
         setUser(res);
       })
       .catch((err) => {

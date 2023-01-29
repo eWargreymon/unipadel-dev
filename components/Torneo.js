@@ -10,7 +10,7 @@ import React, { useState, useContext } from "react";
 import { auth } from "../firebase";
 import { colores } from "../colors";
 import { useNavigation } from "@react-navigation/core";
-import { inscripcion } from "../api";
+import moment from "moment/moment";
 
 import { UserContext } from "../context/UserDataContext";
 
@@ -22,7 +22,7 @@ const Torneo = ({ torneo, state }) => {
     if (!auth.currentUser) {
       Alert.alert(
         "¡No estás autenticado!",
-        "Para poder inscribirte en una competición, debes tener cuenta en Unipadel y tener la sesión iniciada",
+        "Para poder inscribirte en una competición debes tener cuenta en Unipadel y tener la sesión iniciada",
         [
           {
             text: "Acceso al login",
@@ -35,18 +35,27 @@ const Torneo = ({ torneo, state }) => {
         ]
       );
     } else {
-      navigation.navigate('InscripcionTorneoUsuario', { torneo: torneo })
+      navigation.navigate("InscripcionTorneoUsuario", { torneo: torneo });
     }
   };
 
   return (
-    <View style={[styles.torneo, torneo.estado == 0 ? styles.no_empezado : torneo.estado == 1 ? styles.empezado : styles.finalizado]}>
+    <View
+      style={[
+        styles.torneo,
+        torneo.estado == 0
+          ? styles.no_empezado
+          : torneo.estado == 1
+          ? styles.empezado
+          : styles.finalizado,
+      ]}
+    >
       <Text style={styles.nombre}>{torneo.nombre}</Text>
       <Text style={[styles.contentText, { textAlign: "center" }]}>
-        {torneo.fecha_inicio} al {torneo.fecha_fin}
+        {moment(torneo.fecha_inicio).format("DD-MM-YYYY")} al {moment(torneo.fecha_fin).format("DD-MM-YYYY")}
       </Text>
       <Text style={styles.contentText}>Localización: {torneo.ciudad}</Text>
-      <Text style={styles.contentText}>Club: {torneo.club}</Text>
+      <Text style={styles.contentText}>Lugar: {torneo.club}</Text>
       <Text style={styles.contentText}>
         Formato: {torneo.formato == 0 ? "Liga" : "Eliminatorias"}
       </Text>
@@ -58,7 +67,7 @@ const Torneo = ({ torneo, state }) => {
           <TouchableOpacity
             style={styles.boton}
             onPress={() => {
-              handleInscripcion()
+              handleInscripcion();
             }}
           >
             <Text style={styles.botonText}>Inscripción</Text>
@@ -81,10 +90,21 @@ const Torneo = ({ torneo, state }) => {
         )}
       </View>
       <TouchableOpacity
-        style={[styles.estado, torneo.estado == 0 ? styles.no_empezadoEst : torneo.estado == 1 ? styles.empezadoEst : styles.finalizadoEst]}
+        style={[
+          styles.estado,
+          torneo.estado == 0
+            ? styles.no_empezadoEst
+            : torneo.estado == 1
+            ? styles.empezadoEst
+            : styles.finalizadoEst,
+        ]}
       >
         <Text style={styles.estText}>
-          {torneo.estado == 0 ? "No empezado" : torneo.estado == 1 ? "En juego" : "Finalizado"}
+          {torneo.estado == 0
+            ? "No empezado"
+            : torneo.estado == 1
+            ? "En juego"
+            : "Finalizado"}
         </Text>
       </TouchableOpacity>
     </View>
@@ -143,7 +163,7 @@ const styles = StyleSheet.create({
   botonText2: {
     color: colores.darkblue,
   },
-  estado:{
+  estado: {
     borderRadius: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,

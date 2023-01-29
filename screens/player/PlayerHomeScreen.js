@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 25,
     backgroundColor: colores.lightblue,
-    width: "95%",
+    width: "91%",
     borderRadius: 10,
   },
   containerWarning: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderRadius: 5,
-    fontStyle: "italic",
+    fontStyle: "italic"
   },
   scrollView: {
     flexGrow: 1,

@@ -8,6 +8,7 @@ const Partido = ({
   handleHorario,
   handleHorarioPropuesto,
   handleResultadoPropuesto,
+  handleResultadoAsignado,
   hasActions,
   isPlayer,
   aceptarPropuesta,
@@ -298,6 +299,13 @@ const Partido = ({
                   styles.accionesButton,
                   { backgroundColor: colores.green },
                 ]}
+                onPress={() =>
+                  handleResultadoAsignado(
+                    partido.id,
+                    partido.pareja1,
+                    partido.pareja2
+                  )
+                }
               >
                 <Text style={styles.accionesButtonText}>Asignar resultado</Text>
               </TouchableOpacity>

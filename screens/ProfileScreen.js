@@ -45,7 +45,8 @@ const ProfileScreen = () => {
         {usercontext.user.tipo == 0 ? (
           <View>
             <View style={styles.estadisticasContainerLine} />
-            <Text style={styles.estadisticasContainerData}>
+            <Text style={{textAlign: "center", marginTop: 5}}>No disponibles por el momento</Text>
+            {/* <Text style={styles.estadisticasContainerData}>
               Partidos jugados:
             </Text>
             <View style={styles.estadisticasContainerLine} />
@@ -55,14 +56,15 @@ const ProfileScreen = () => {
             <View style={styles.estadisticasContainerLine} />
             <Text style={styles.estadisticasContainerData}>
               Participaciones en torneos:
-            </Text>
+            </Text> */}
           </View>
         ) : (
           <View>
             <View style={styles.estadisticasContainerLine} />
-            <Text style={styles.estadisticasContainerData}>
-              Nº de torneos creados:
-            </Text>
+            {/* <Text style={styles.estadisticasContainerData}>
+              Nº de torneos creados: -
+            </Text> */}
+            <Text style={{textAlign: "center", marginTop: 5}}>No disponibles por el momento</Text>
           </View>
         )}
       </View>

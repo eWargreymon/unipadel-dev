@@ -65,6 +65,21 @@ const PlayerTorneoScreen = ({ route }) => {
         </View>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={[styles.calendarContainer, styles.shadow]}
+        onPress={() =>
+          navigation.navigate("ClasificacionTorneo", { torneo: torneo })
+        }
+      >
+        <Text style={styles.calendarText}>Resultados / Clasificación</Text>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ resizeMode: "contain", width: 50, height: 50 }}
+            source={require("../../assets/images/icons/trofeo.png")}
+          />
+        </View>
+      </TouchableOpacity>
+
       <TouchableOpacity style={[styles.button, styles.shadow]}>
         <Text style={styles.text}>Datos competición</Text>
         <View style={styles.imageContainer}>
@@ -85,11 +100,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  containerTitle:{
+  containerTitle: {
     fontSize: 18,
-    textAlign : "center",
+    textAlign: "center",
     color: colores.darkblue,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   calendarContainer: {
     width: "90%",

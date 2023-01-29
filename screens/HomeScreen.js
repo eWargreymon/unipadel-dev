@@ -5,20 +5,15 @@ import {
   FlatList,
   RefreshControl,
 } from "react-native";
-import React, { useState, useEffect, useContext } from "react";
-import { colores } from "../colors";
+import React, { useState, useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
+import { colores } from "../colors";
 import SupNavbar from "../components/supNavbar";
 import { getTorneos } from "../api";
-import { useIsFocused } from "@react-navigation/native";
 import Torneo from "../components/Torneo";
 
 const HomeScreen = () => {
-
-  const renderItem = ({ item }) => {
-    return <Torneo torneo={item} state={true}></Torneo>;
-  };
-
   const [torneos, setTorneos] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const isFocusing = useIsFocused();
@@ -33,6 +28,10 @@ const HomeScreen = () => {
     await loadTorneos();
     setRefresh(false);
   });
+  
+  const renderItem = ({ item }) => {
+    return <Torneo torneo={item} state={true}></Torneo>;
+  };
 
   useEffect(() => {
     loadTorneos();

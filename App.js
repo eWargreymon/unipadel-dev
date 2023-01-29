@@ -41,19 +41,25 @@ export default function App() {
     <UserProvider>
       <PaperProvider>
         <NavigationContainer>
-          <StatusBar barStyle={"dark-content"} backgroundColor={"white"}/>
+          <StatusBar barStyle={"dark-content"} backgroundColor={"white"} />
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
               contentStyle: { backgroundColor: "white" },
             }}
           >
-            <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+            <Stack.Screen 
+              name="Login" 
+              component={LoginScreen}>
+            </Stack.Screen>
             <Stack.Screen
               name="Register"
               component={RegisterScreen}
             ></Stack.Screen>
-            <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+            <Stack.Screen 
+              name="Home" 
+              component={HomeScreen}>
+            </Stack.Screen>
             <Stack.Screen
               name="PlayerHome"
               component={PlayerNavigation}
