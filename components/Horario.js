@@ -13,6 +13,46 @@ const Horario = ({
 }) => {
   const user = useContext(UserContext);
 
+  const getActionButton = () => {
+    if (
+      asignarPartido != null ||
+      proponerPartido != null ||
+      horario.ocupado == 0
+    ) {
+      return (
+        <TouchableOpacity
+          style={{
+            backgroundColor: colores.darkblue,
+            padding: 5,
+            borderRadius: 5,
+          }}
+          onPress={() =>
+            asignarPartido != null
+              ? asignarPartido(horario.id)
+              : proponerPartido != null
+              ? proponerPartido(horario.id)
+              : liberarHorario(horario.id)
+          }
+        >
+          <Text
+            style={{
+              color: "white",
+              textTransform: "uppercase",
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            {asignarPartido != null
+              ? "Asignar"
+              : proponerPartido != null
+              ? "Proponer"
+              : "Liberar\nhorario"}
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <View
       style={[styles.horario, horario.ocupado ? styles.ocupado : styles.libre]}
@@ -44,70 +84,14 @@ const Horario = ({
         style={{
           flexDirection: "row",
           marginTop: 5,
+          alignItems: "center",
           justifyContent: horario.ocupado == 1 ? "center" : "space-between",
         }}
       >
-        <Text style={styles.nombre}>{horario.cancha.nombre}</Text>
-        {asignarPartido != null ? (
-          <TouchableOpacity
-            style={{
-              backgroundColor: colores.darkblue,
-              padding: 5,
-              borderRadius: 5,
-            }}
-            onPress={() => asignarPartido(horario.id)}
-          >
-            <Text
-              style={{
-                color: "white",
-                textTransform: "uppercase",
-                fontWeight: "bold",
-              }}
-            >
-              Asignar
-            </Text>
-          </TouchableOpacity>
-        ) : proponerPartido != null ? (
-          <TouchableOpacity
-            style={{
-              backgroundColor: colores.darkblue,
-              padding: 5,
-              borderRadius: 5,
-            }}
-            onPress={() => proponerPartido(horario.id)}
-          >
-            <Text
-              style={{
-                color: "white",
-                textTransform: "uppercase",
-                fontWeight: "bold",
-              }}
-            >
-              Proponer
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          horario.ocupado == 0 && (
-            <TouchableOpacity
-              style={{
-                backgroundColor: colores.darkblue,
-                padding: 5,
-                borderRadius: 5,
-              }}
-              onPress={() => liberarHorario(horario.id)}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                }}
-              >
-                Liberar horario
-              </Text>
-            </TouchableOpacity>
-          )
-        )}
+        <Text style={[styles.nombre, { maxWidth: "70%" }]}>
+          {horario.cancha.nombre}
+        </Text>
+        {getActionButton()}
       </View>
     </View>
   );
